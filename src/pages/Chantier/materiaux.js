@@ -69,7 +69,7 @@ class Materiaux extends React.Component {
 					varQuantite = data.quantite;
 				
 			}
-			
+			return 0;
 		});
 		console.log(varIntitule);
 		

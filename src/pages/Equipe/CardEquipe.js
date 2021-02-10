@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Card, Image, Icon, Form,Input } from 'semantic-ui-react'
-import ReactDOM from "react-dom";
+import { Button, Card, Icon, Form,Input } from 'semantic-ui-react'
 import $ from "jquery";
 class CardEquipe extends Component {
 	
@@ -33,7 +32,7 @@ class CardEquipe extends Component {
 		let currentSize = this.state.size;
 		
 		
-		let useradd =  "<Form.Group widths='equal'><Form.Input fluid label='First name' placeholder='First name'/><Form.Input fluid label='Last name' placeholder='Last name'/></Form.Group>";
+	
 		let strSize1 = currentSize + 1;
 		let tform = $("<Form.Field id = " + strSize1+ "></Form.Field>");
 		

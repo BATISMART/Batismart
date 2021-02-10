@@ -75,6 +75,7 @@ class Equip extends React.Component {
 					varJour = data.jour;
 				
 			}
+			return 0;
 			
 		});
 		

@@ -1,0 +1,13 @@
+
+  .text-input1 {
+    background: white;
+    border: 2px solid gray;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    /*margin-bottom: 0px;*/
+    margin-top: 2px;
+    width: 200px;
+    font-size: 20px;
+  }
+  

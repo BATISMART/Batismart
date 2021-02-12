@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Card, Icon, Form,Input } from 'semantic-ui-react'
+import firebase from "firebase/app";
 import $ from "jquery";
+import { db} from "../config"
 class CardEquipe extends Component {
 	
 	constructor(props){
@@ -11,7 +13,11 @@ class CardEquipe extends Component {
 		this.handleClick3 = this.handleClick3.bind(this);
 		let EquipeList = [];
 		let size = 1;
+		let id = 0;
+		let etat = false;
 		this.state = {
+			etat,
+			id,
 			size,
 			EquipeList,
 			teamValue: false
@@ -19,6 +25,88 @@ class CardEquipe extends Component {
 		};
 		
 	}
+	
+	
+	componentDidMount() {
+	console.log("has mounted");
+	
+	var user = firebase.auth().currentUser;
+
+		
+		
+		
+		
+	let modo = 0;
+	for(modo = 0 ; modo < 5 ; modo++){
+	var myname = user.displayName+"Equipe"+modo;
+	let limit;
+	let limitcheck = 1;
+	let allNotes = [];
+	db.ref(myname).once("value", snapshot => {
+	limit = snapshot.numChildren();
+		// limit = 5;
+	if(snapshot.val() !== null){
+		
+    
+    snapshot.forEach(snap => {
+      allNotes.push(snap.val());
+    });
+		
+	}}).then( ()=>{
+	console.log("limite check "+limitcheck);
+	console.log("limite "+ limit);
+
+	if(limit > 0 ){
+	let nameArray = [];
+	let surnameArray = [];
+	for(let p = 0 ; p < allNotes.length ; p++){
+	console.log("Nombre de personne dans equipe : "+allNotes.length);
+	
+				
+				
+					nameArray.push(allNotes[p].name);
+				
+					surnameArray.push(allNotes[p].surname);
+					
+				
+				
+			
+	}
+	console.log(allNotes[0].name);
+	console.log("contenu de FullData");
+	var FullData = this.state.EquipeList;
+	console.log(FullData);
+	console.log("fin contenu full data");
+	
+	var data = [];
+	for(let k = 0 ; k < nameArray.length ; k++){
+		
+		data.push({
+			name : nameArray[k],
+			surname: surnameArray[k]
+		
+		});
+		
+	}
+	console.log("contenu de data");
+	console.log(data);
+	console.log("fin contenu de data");
+	FullData.push({values : data,
+						   salaire: 20	
+							});
+
+	this.setState({EquipeList:FullData});
+	}
+	
+	})
+  
+	
+	
+	}
+	}	
+		
+		
+	
 	
 	handleClick(){
 			
@@ -57,36 +145,69 @@ class CardEquipe extends Component {
 	
 	
 	handleClick3(){
+			
+			var user = firebase.auth().currentUser;
+		
+			var myname = user.displayName+"Equipe"+this.state.id;
+		
+		
+		
+			var nameArray = [];
+			var surnameArray = [];
 			var data = [];
+			var tmpId = this.state.id;
+		
 			var FullData = this.state.EquipeList;
 			for(let i = 0 ; i < this.state.size ; i+=2){
 				
 				
 				
 				let a = i+1;
+				nameArray.push($("#"+i).find("Input").val());
+				surnameArray.push($("#"+a).find("Input").val());
+				
 				data.push( {
 			name : $("#"+i).find("Input").val(),
 			surname: $("#"+a).find("Input").val()
-		
+			
+		 
 		
 			
 		});
 				
 				
 			}
+			var name ;
+			var surname ;
+			let salaire = $("#salaire").find("Input").val();
+			for(let j = 0 ; j < nameArray.length ; j++){
+					var account = "Personne"+j; 
+					name = nameArray[j];
+					surname = surnameArray[j];
+					db.ref(myname).child(account).set({name,surname,salaire})
+				
+			}
+			
+			
 			FullData.push({values : data,
 						   salaire: $("#salaire").find("Input").val()	
 							});
+							
+			tmpId = tmpId + 1;				
 			this.setState({EquipeList:FullData});
+			this.setState({id:tmpId});
 			this.setState({teamValue:false});
 			this.setState({size:1});
+			this.setState({etat:false});
 		
 		
 	}
 	
 render(){
 if(this.state.teamValue === false){	
+
 if(this.state.EquipeList.length > 0){
+	var user = firebase.auth().currentUser;
 	let team = this.state.EquipeList;
 	let currentIndex = 0;
 	return (
@@ -139,7 +260,7 @@ if(this.state.EquipeList.length > 0){
 
         
         <Card.Description>
-          Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
+          Bonjour {user.displayName} Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
@@ -164,6 +285,7 @@ if(this.state.EquipeList.length > 0){
 	
 	
 }else{
+	user = firebase.auth().currentUser;
 return (
 
   
@@ -173,7 +295,7 @@ return (
 
         
         <Card.Description>
-          Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
+			Bonjour {user.displayName} Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
         </Card.Description>
       </Card.Content>
       <Card.Content extra>

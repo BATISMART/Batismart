@@ -1,0 +1,45 @@
+
+
+#title_support{
+	position: relative;
+   margin-left: 570px;
+   margin-top: 100px;
+   font-size: 60px;
+	overflow: hidden;
+	color: #555B61
+	}
+
+#second_title_support{
+	position: relative;
+   margin-left: 180px;
+   margin-bottom: 50px;
+   overflow: hidden;
+   display: flex;
+   color: #555B61
+}
+
+
+h3{
+	position: relative;
+	left: 50px;
+	border: 2px solid;
+	border-color: #C8702F;
+background-color: #C8702F;
+  border-radius: 10px;
+  border-width: 6px;
+  display: inline-block;
+  overflow: hidden;
+  color: white;
+}
+
+p{
+	position: relative;
+	font-size: 20px;
+	left: 70px;
+	width: 1220px;
+	text-align:justify;
+	overflow: hidden;
+	color: #555B61
+}
+
+

@@ -12,10 +12,11 @@ import { IconContext } from 'react-icons/lib'
 import * as IconName  from "react-icons/io5";
 import firebase from "firebase/app";
 import * as BsIcons from "react-icons/bs";
+import Icone4 from "./lolo_batismart.png";
 
 
 const Nav = styled.div`
-    background: #15171c;
+    background: #555B61;
     height: 80px;
     display: flex;
     justify-content: flex-start;
@@ -46,7 +47,7 @@ const NavIconCon = styled(Link)`
 
 /*SidebarMenu*/
 const SidebarNav = styled.nav`
-    background: #15171c;
+    background: #555B61;
     width: 250px;
     height: 100vh;
     display: flex;
@@ -58,9 +59,9 @@ const SidebarNav = styled.nav`
     z-index: 10;
 `;
 
-const SidebarNavCon = styled.nav`
-    margin-left: auto;
-    background: #15171c;
+const SidebarNavCon = styled.nav` 
+    margin-left: 80%;
+    background: #555B61;
     width: 253px;
     height: auto;
     display: flex;
@@ -162,7 +163,7 @@ class Sidebar extends React.Component  {
                 </NavIcon>
 				
                 <a href="/Accueil" style={{ color: '#FFF', fontSize: '45px', textDecoration: 'none' }}>
-						Batismart
+						<img src={Icone4} alt="ok"  width="300" style={{position: "relative", left: 0, right:0, top: 0}}/>
 				</a>
                 
                 <NavIconCon to="#">

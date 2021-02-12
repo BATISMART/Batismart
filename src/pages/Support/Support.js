@@ -1,17 +1,16 @@
 import React from 'react';
 
-
 import Icone from "./support.png";
 import Icone2 from "./chat.png";
 
 const Support = () => {
     return (
         <div className='support'>
-		 <img src={Icone} alt="ok" width="100" style={{position: "absolute", left: 550, top: 100, alignItems: "center"}}/>
-				<h1 id="title">Support</h1>
+		 <img src={Icone} alt="ok" width="100" style={{position: "absolute", left: 630, top: 100, alignItems: "center"}}/>
+				<h1 id="title_support">Support</h1>
 		
-		<img src={Icone2} alt="ok" width="50" style={{position: "absolute", left: 120, top: 295, alignItems:"center"}}/>
-				<h2 id="second_title"> Q&A</h2>
+		<img src={Icone2} alt="ok" width="50" style={{position: "absolute", left: 120, top: 260, alignItems:"center"}}/>
+				<h2 id="second_title_support"> Q&A</h2>
 					<h3> - Comment créer un chantier ? </h3>
 						<p>
 							Pour créer un chantier, vous devez au préalable avoir un compte Batismart. Si c’est bien le cas, ouvrez la sidebar en cliquant en haut à gauche de l’écran puis cliquez sur « mes chantiers ». Il vous sera ensuite proposé de créer un nouveau chantier en cliquant sur le « + ». Depuis cette page, vous avez également accès à tous vos chantiers crées.

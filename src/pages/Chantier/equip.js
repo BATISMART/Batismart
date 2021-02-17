@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { db} from "../config"
 import './design.css'
 import {Button} from './ButtonElement'
-
+import $ from "jquery";
 class Equip extends React.Component {
 	AddItem = (props) => {
 		this.props.AddItem(props);
@@ -297,6 +297,7 @@ class Equip extends React.Component {
 		}
 		this.NewEquip(false);
 		this.EditingEquip(false);
+		$("#mainfield").show();
 		
 		
 	}

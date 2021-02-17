@@ -1,6 +1,6 @@
 
 
-#title_support{
+#title{
 	position: relative;
    margin-left: 570px;
    margin-top: 100px;
@@ -9,7 +9,7 @@
 	color: #555B61
 	}
 
-#second_title_support{
+#second_title{
 	position: relative;
    margin-left: 180px;
    margin-bottom: 50px;
@@ -19,20 +19,21 @@
 }
 
 
-h3{
+.classh3{
 	position: relative;
 	left: 50px;
 	border: 2px solid;
-	border-color: #C8702F;
-background-color: #C8702F;
+	border-color: #767F9B;
+	background-color: #767F9B;
+	color: white;
   border-radius: 10px;
   border-width: 6px;
   display: inline-block;
   overflow: hidden;
-  color: white;
+  color: #555B61
 }
 
-p{
+.classP{
 	position: relative;
 	font-size: 20px;
 	left: 70px;

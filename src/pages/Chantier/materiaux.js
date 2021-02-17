@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { db} from "../config"
 import './design.css'
 import {Button} from './ButtonElement'
+import $ from "jquery";
 
 class Materiaux extends React.Component {
 	AddMaterial = (props) => {
@@ -177,7 +178,7 @@ class Materiaux extends React.Component {
 		
 		this.NewMaterial(false);
 		this.EditingMat(false);
-		
+		$("#mainfield").show();
 	}
 	
 		changeHandler = (event) => {
@@ -206,7 +207,7 @@ class Materiaux extends React.Component {
 	
 		render() {
 		// console.log("value of bool " + this.props.bool);
-		if(this.props.bool === true && this.props.next === true) {
+		if(this.props.bool === true) {
 			if(this.props.mod2 === false){
 		return (
 		<div>

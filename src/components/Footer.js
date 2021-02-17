@@ -27,7 +27,7 @@ const Footer = () => {
 					</div>
 					
 					<div className="col">
-						<h4>Acces Clients</h4>
+						<h4>Accès Clients</h4>
 						<ul className="list-unstyled">
 						<a href=" /Connexion" style={{ color: '#FFF' }}>
 						<li>Connexion</li>
@@ -41,9 +41,9 @@ const Footer = () => {
 
 				
 					<div className="col">
-						<h4>Contactez nous</h4>
+						<h4>Contactez-nous</h4>
 						<ul className="list-unstyled">
-						<li>Tel : 0610893461</li>
+						<li>Tel : 06.10.89.34.61</li>
 						<li>Email : batismart@support.com </li>
 						<li>Fax : fax.com </li>
 						</ul>

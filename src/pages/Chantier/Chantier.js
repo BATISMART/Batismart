@@ -6,8 +6,10 @@ import Equip from './equip';
 import Materiaux from './materiaux';
 import MesChantier from './mesChantier';
 import Indirect from './indirect';
+import Team from './team';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Display from './displayChantier';
+import { Container} from "semantic-ui-react";
 class Chantier extends Component {
 	constructor(props){
 		super(props);
@@ -24,14 +26,21 @@ class Chantier extends Component {
 		this.NewEquip = this.NewEquip.bind(this);
 		this.NewMaterial = this.NewMaterial.bind(this);
 		this.DidWePressNext = this.DidWePressNext.bind(this);
+		this.DisplayTeam = this.DisplayTeam.bind(this);
 		this.indirectPress = this.indirectPress.bind(this);
 		this.Next2 = this.Next2.bind(this);
 		this.CheckId = this.CheckId.bind(this);
 		this.CalculateTotal = this.CalculateTotal.bind(this);
+		this.SetDays = this.SetDays.bind(this);
+		this.MountingTeam = this.MountingTeam.bind(this);
+		this.SelectedAndDays = this.SelectedAndDays.bind(this);
 		let itemList = [];
 		let materialList = [];
+		let SelectedList = [];
+		let DaysList = [];
 		let teamList = [];
 		let newValue = false;
+		let DisplayButton = false;
 		let matValue = false;
 		let nextButton = false;
 		let chantierName = "";
@@ -43,7 +52,9 @@ class Chantier extends Component {
 		let currentId = 0;
 		let total = 0;
 		let pdv = 0;
+		let days = 0;
 		let idcheck = false;
+		let teamMounted = false;
 		this.state = { itemList,
 						newValue,
 						materialList,
@@ -59,10 +70,38 @@ class Chantier extends Component {
 						chantierName,
 						indirectButton,
 						pdv,
-						idcheck
+						idcheck,
+						DisplayButton,
+						days,
+						teamMounted,
+						SelectedList,
+						DaysList
 						};
 
-	}		
+	}
+	
+	SelectedAndDays(props1,props2){
+		this.setState({SelectedList: props1});
+		this.setState({DaysList: props2});
+		
+		
+	}
+	MountingTeam(props){
+		
+		this.setState({teamMounted: props});
+		
+	}
+	DisplayTeam(props){
+		
+		this.setState({DisplayButton: props});
+		
+	}
+	
+	SetDays(props){
+		
+		this.setState({days: props});		
+		
+	}
 	AddItem(props){
 		
 		this.setState({itemList: props})		
@@ -181,7 +220,12 @@ class Chantier extends Component {
 							chantierName:this.state.chantierName,
 							indirectButton:this.state.indirectButton,
 							pdv : this.state.pdv,
-							idcheck: this.state.idcheck
+							idcheck: this.state.idcheck,
+							DisplayButton: this.state.DisplayButton,
+							days: this.state.days,
+							teamMounted: this.state.teamMounted,
+							SelectedList: this.state.SelectedList,
+							DaysList: this.state.DaysList
 						
 							
 						})
@@ -197,19 +241,18 @@ class Chantier extends Component {
 	
 	render() {
 		// console.log("test");
-		
+		console.log(this.state.SelectedList, "master the blaster");
+
 		return (
-			<div className="Chantier">
-				<MesChantier pdv={this.state.pdv} teamButton={this.state.teamButton} NewTeam={this.NewTeam} AddTeam={this.AddTeam} a={this.state.teamList} chantierval={this.state.chantierval}  total={this.state.total} chantierName={this.state.chantierName} />
-				<Equip idcheck={this.state.idcheck} CheckId={this.CheckId} chantierName={this.state.chantierName} EditingId={this.EditingId} EditingEquip={this.EditingEquip} CalculateTotal={this.CalculateTotal} AddItem={this.AddItem} NewEquip={this.NewEquip} a={this.state.itemList} bool={this.state.newValue} total={this.state.total}  mod={this.state.mod} currentId={this.state.currentId}/>
+			<Container style={{ margin: 20 }}>
+				<Team SelectedAndDays={this.SelectedAndDays} MountingTeam={this.MountingTeam} teamMounted={this.state.teamMounted} days={this.state.days} DisplayTeam={this.DisplayTeam} DisplayButton={this.state.DisplayButton} />
 				<Materiaux idcheck={this.state.idcheck} CheckId={this.CheckId} chantierName={this.state.chantierName} EditingId={this.EditingId} EditingMat={this.EditingMat} CalculateTotal={this.CalculateTotal} AddMaterial={this.AddMaterial} NewMaterial={this.NewMaterial} matlist={this.state.materialList} bool={this.state.matValue} next={this.state.nextButton} total={this.state.total} mod2={this.state.mod2}  currentId={this.state.currentId}/>
-                <Indirect AllSet={this.AllSet} indirectButton={this.state.indirectButton} CalculatePdv={this.CalculatePdv} CalculateTotal={this.CalculateTotal} total={this.state.total}/>
-				<Sentry  CheckId={this.CheckId} indirectPress={this.indirectPress} indirectButton={this.state.indirectButton} ChooseChantier={this.ChooseChantier} teamButton={this.state.teamButton} Next2={this.Next2} NewTeam={this.NewTeam} teamList={this.state.teamList} chantierval={this.state.chantierval} CalculateTotal={this.CalculateTotal} EditingId={this.EditingId} EditingMat={this.EditingMat} EditingEquip={this.EditingEquip} DidWePressNext={this.DidWePressNext} total={this.state.total} NewEquip={this.NewEquip} NewMaterial={this.NewMaterial} matList={this.state.materialList} somProp={this.state.itemList} bool={this.state.newValue} bool2={this.state.matValue} nextButton={this.state.nextButton}/>
-				
+				<Equip idcheck={this.state.idcheck} CheckId={this.CheckId} chantierName={this.state.chantierName} EditingId={this.EditingId} EditingEquip={this.EditingEquip} CalculateTotal={this.CalculateTotal} AddItem={this.AddItem} NewEquip={this.NewEquip} a={this.state.itemList} bool={this.state.newValue} total={this.state.total}  mod={this.state.mod} currentId={this.state.currentId}/>
+				<Display  selectedList={this.state.SelectedList} daysList={this.state.DaysList}  SetDays={this.SetDays} DisplayTeam={this.DisplayTeam} matlist={this.state.materialList} ChooseChantier={this.ChooseChantier} pdv={this.state.pdv}  AddTeam={this.AddTeam} a={this.state.teamList} equipement={this.state.itemList} total={this.state.total} NewEquip={this.NewEquip} NewMaterial={this.NewMaterial} />
 				
 					
 				
-			</div>
+			 </Container>
 		);
 		
 	}

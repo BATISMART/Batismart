@@ -37,7 +37,7 @@ class CardEquipe extends Component {
 		
 		
 	let modo = 0;
-	for(modo = 0 ; modo < 5 ; modo++){
+	for(modo = 0 ; modo < 10 ; modo++){
 	var myname = user.displayName+"Equipe"+modo;
 	let limit;
 	let limitcheck = 1;
@@ -73,11 +73,11 @@ class CardEquipe extends Component {
 			
 	}
 	console.log(allNotes[0].name);
-	console.log("contenu de FullData");
+	console.log(allNotes,"contenu full equipe");
 	var FullData = this.state.EquipeList;
 	console.log(FullData);
 	console.log("fin contenu full data");
-	
+	let salaireNow = allNotes[0].salaire;
 	var data = [];
 	for(let k = 0 ; k < nameArray.length ; k++){
 		
@@ -87,15 +87,18 @@ class CardEquipe extends Component {
 		
 		});
 		
+		
 	}
 	console.log("contenu de data");
 	console.log(data);
 	console.log("fin contenu de data");
 	FullData.push({values : data,
-						   salaire: 20	
+						   salaire: salaireNow	
 							});
 
 	this.setState({EquipeList:FullData});
+	let tmpId = FullData.length;
+	this.setState({id:tmpId});
 	}
 	
 	})
@@ -103,6 +106,7 @@ class CardEquipe extends Component {
 	
 	
 	}
+	
 	}	
 		
 		
@@ -228,7 +232,7 @@ if(this.state.EquipeList.length > 0){
 							
 							<ul>
 									
-									<p>Prenom: {item.name}</p>
+									<p>Prénom: {item.name}</p>
 									<p>Nom : {item.surname}</p>
 										
 									
@@ -240,7 +244,7 @@ if(this.state.EquipeList.length > 0){
 							
 								<ul>
 									
-									<p>Salaire ( Pourcentage sur les couts du chantiers ) : {data.salaire} %</p>
+									<p>Prix journalier : {data.salaire} €/jour</p>
 									
 										
 									
@@ -260,7 +264,7 @@ if(this.state.EquipeList.length > 0){
 
         
         <Card.Description>
-          Bonjour {user.displayName} Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
+          Bonjour {user.displayName} voulez-vous ajouter une nouvelle équipe  <strong> ? </strong>
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
@@ -295,7 +299,7 @@ return (
 
         
         <Card.Description>
-			Bonjour {user.displayName} Voulez vous ajouter une nouvelle equipe  <strong> ? </strong>
+			Bonjour {user.displayName} voulez-vous ajouter une nouvelle équipe  <strong> ? </strong>
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
@@ -323,7 +327,7 @@ else{
 
 		<Form>
 			<Form.Field inline id="salaire">
-				<label>Salaire ( Pourcentage sur les couts du chantiers )</label>
+				<label>Prix journalier</label>
 				<Input placeholder='Salaire' />
 			</Form.Field>
 			<div id="namefield">

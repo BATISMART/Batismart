@@ -32,7 +32,7 @@ const Accueil = () => {
 			
 			<a href=" /Inscription" style={{ color: '#FFF', textDecoration: 'none' }}>
 
-			<button style={{backgroundColor:"#555B61", color: "#FFF", width: 400, fontSize: 14, justifyContent: 'flex-start', position: "relative", left: -730, top: 0}}className= 'but'> Inscrivez vous maintenant !</button>
+			<button style={{backgroundColor:"#555B61", color: "#FFF", width: 400, fontSize: 14, justifyContent: 'flex-start', position: "relative", left: -730, top: 0}}className= 'but'> Inscrivez-vous maintenant !</button>
 			
 			</a>
 			

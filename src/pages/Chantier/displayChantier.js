@@ -12,7 +12,11 @@ class Display extends Component {
 		this.props.SetDays(props);
 		
 	}
-	
+	SetDisplayVar = (props) => {
+		
+		this.props.SetDisplayVar(props);
+		
+	}
 	DisplayTeam = (props) => {
 		
 			this.props.DisplayTeam(props);
@@ -52,9 +56,8 @@ class Display extends Component {
 		this.addMateriaux = this.addMateriaux.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleTeam = this.handleTeam.bind(this);
-		let FullData = [];
+		this.handleTotal = this.handleTotal.bind(this);
 		this.state = {
-			FullData,
 			debut : "",
 			Fin: "",
 			indirect : 0,
@@ -81,6 +84,71 @@ class Display extends Component {
       this.setState({ [name]: value });
     }
   };
+  
+	handleTotal(){
+		
+	
+	
+		
+		
+		
+		let team = this.props.selectedList;
+		let b = this.props.matlist;
+		let days = this.props.daysList;
+		let a = this.props.equipement;
+		console.log(team,"Selected List");
+		console.log(b,"materiaux List");
+		console.log(days," Days List");
+		console.log(a,"Equipement List");
+		let total = 0;
+		let i = 0;
+		for( i = 0 ; i < a.length ; i++){
+			
+			total += a[i].jour * a[i].prix_par_jour;
+			
+			
+		}
+		for( i = 0 ; i < b.length ; i++){
+			
+			total += b[i].quantite * b[i].montant_unite;
+			
+			
+		}
+		 for(i = 0 ; i < team.length ; i++){
+			
+			
+			total += team[i].salaire * days[i]
+		 
+		 
+		 
+		}
+		let dateDebut = this.state.debut;
+		let dateFin = this.state.Fin;
+		let chantierName = $("#chantierTest").val();
+		var account = ""+chantierName;
+		
+		var user = firebase.auth().currentUser;
+		
+		var myname = user.displayName+"Chantier/";
+		var intitule = chantierName;
+		var pdv = this.props.pdv;
+		
+		var ct;
+		
+		var tmpIndirect = ( this.state.indirect * total ) / 100 ;
+		
+		ct = total + tmpIndirect;
+		pdv = ct + (( this.state.alea * ct )/100);
+		pdv = pdv + ((this.state.marge * pdv) /100);
+		total = ct;
+		
+		
+		console.log(total);
+		db.ref(myname).child(account).set({intitule,total,pdv,dateDebut,dateFin}); 
+		this.SetDisplayVar(false);
+		
+		
+	}
 	handleIndirect(){
 		let matos = false;
 		let teamcheck = false;
@@ -139,7 +207,7 @@ class Display extends Component {
 		
 		var days_diff = time_diff / (1000 * 60 * 60 * 24);
 		console.log("days diff : "+days_diff);
-	
+		days_diff = Math.ceil(days_diff);
 		this.SetDays(days_diff);
 		let chantierName = $("#chantierTest").val();
 		var item = this.props.a;
@@ -264,19 +332,8 @@ class Display extends Component {
 	addTeam(){
 	 let team = this.props.selectedList;
 	 let days = this.props.daysList;
-	 let fullTeam = []
-	 let i = 0;
-	 for(i = 0 ; i < team.length ; i++){
-			
-			fullTeam.push({values: team[i],
-						   jour: days[i],
-						   journalier: team[i].salaire,
-			total: team[i].salaire * days[i]});
-		 
-		 
-		 
-	}
-	this.setState({FullData: fullTeam});
+	
+
 
 	 
 	 return (
@@ -661,6 +718,7 @@ class Display extends Component {
 				
 				<Button
 					id="ButtonIndirect"
+					onClick={this.handleTotal}
 					positive>Click Here</Button>
 			
 				</div>

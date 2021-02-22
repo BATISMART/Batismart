@@ -16,6 +16,7 @@ class CardEquipe extends Component {
 		let id = 0;
 		let etat = false;
 		this.state = {
+			currUser: null,
 			etat,
 			id,
 			size,
@@ -31,7 +32,8 @@ class CardEquipe extends Component {
 	console.log("has mounted");
 	
 	var user = firebase.auth().currentUser;
-
+	this.setState({currUser: user})
+	if(user !== null){
 		
 		
 		
@@ -106,7 +108,7 @@ class CardEquipe extends Component {
 	
 	
 	}
-	
+	}
 	}	
 		
 		
@@ -208,6 +210,9 @@ class CardEquipe extends Component {
 	}
 	
 render(){
+if(this.state.currUser !== null ){
+	
+	
 if(this.state.teamValue === false){	
 
 if(this.state.EquipeList.length > 0){
@@ -354,6 +359,15 @@ else{
 		</Form>
 			
 	);
+	
+	
+}
+}else{
+	
+	return (
+			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Acceuil ensuite sur mes Equipes dans la sidebar de gauche si vous êtes déjà connecté </div>
+			
+			);
 	
 	
 }

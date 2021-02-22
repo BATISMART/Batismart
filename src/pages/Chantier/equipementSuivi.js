@@ -40,7 +40,7 @@ class EquipementSuivi extends Component {
 		
 		if(this.props.semaine !== prevProps.semaine){
 			var user = firebase.auth().currentUser;
-			var myname = user.displayName+this.props.team[0].intitule+"Equipement"+this.props.semaine+"/";
+			var myname = user.displayName+this.props.chantierName+"Equipement"+this.props.semaine+"/";
 			db.ref(myname).on("value", snapshot => {
     let allNotes = [];
     snapshot.forEach(snap => {
@@ -110,7 +110,7 @@ class EquipementSuivi extends Component {
 		
 		var user = firebase.auth().currentUser;
 		
-		var myname = user.displayName+this.props.team[0].intitule+"Equipement"+this.props.semaine+"/";
+		var myname = user.displayName+this.props.chantierName+"Equipement"+this.props.semaine+"/";
 		console.log(myname,"suivi myname");
 		
 		db.ref(myname).child(account).set({idnumber,intitule,fournisseur,prix_par_jour,jour});

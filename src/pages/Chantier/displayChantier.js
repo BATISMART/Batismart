@@ -68,6 +68,7 @@ class Display extends Component {
 		
 	}
 	
+
 	componentDidMount(){
 		$("#ekip").prop("disabled",true);
 		$("#mat").prop("disabled",true);
@@ -144,6 +145,23 @@ class Display extends Component {
 		
 		
 		console.log(total);
+		
+		var myname2 = user.displayName+intitule+"Equipe/";	
+		
+		let pushValueIndex = this.props.ValueIndex;
+		for(let z = 0 ; z < team.length ; z++){
+			var account2 = "Equipe"+z; 
+			var jour = pushValueIndex[z];
+			var cout = pushValueIndex[z] * team[z].salaire;
+			db.ref(myname2).child(account2).set({jour,cout});
+			
+			
+		}
+		
+		
+		
+		
+		
 		db.ref(myname).child(account).set({intitule,total,pdv,dateDebut,dateFin}); 
 		this.SetDisplayVar(false);
 		
@@ -339,30 +357,6 @@ class Display extends Component {
 	 return (
 	 
 								<Card.Group>
-							<Card>
-								<Card.Content>
-									<Card.Description>
-										Ajouter mes Equipes
-									</Card.Description>
-								</Card.Content>
-								<Card.Content extra>
-									<div>
-										<Button
-											id="team"
-											onClick={this.handleTeam}
-											circular
-											animated
-											positive>
-											<Button.Content visible>
-												<Icon name='plus circle'/>
-											</Button.Content>
-											<Button.Content hidden>
-												<Icon name='arrow circle right' />
-											</Button.Content>
-										</Button>
-									</div>
-								</Card.Content>
-							</Card>
 		{team.map((data,index) => (
 			
 				<Card>
@@ -503,7 +497,8 @@ class Display extends Component {
 
 	
 	render() {
-			
+		
+		console.log(this.props.equipement,"OMG");
 		return (
 		
 		<Segment textAlign = 'center' basic id="mainfield">

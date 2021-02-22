@@ -145,6 +145,13 @@ class Team extends React.Component {
 			
 		}
 		handleDays(index,ind){
+			
+			
+			for(let i = 0 ; i < this.state.EquipeList.length ; i++){
+			let desact = "#ButtonTeam"+i;
+			$(desact).prop("disabled",true);
+			
+			}
 			let id = "#daysattribute"+index;
 			console.log("majudays : "+index);
 			let checkid = "#Check"+index;
@@ -199,7 +206,7 @@ class Team extends React.Component {
 		
 		
 		
-		
+	if( user !== null){	
 	let modo = 0;
 	for(modo = 0 ; modo < 10 ; modo++){
 	var myname = user.displayName+"Equipe"+modo;
@@ -274,7 +281,7 @@ class Team extends React.Component {
 	
 			
 	
-	
+	}
 	
 	}
 	handleClick(){
@@ -314,7 +321,12 @@ class Team extends React.Component {
 	let team = this.state.EquipeList;
 	let selected = this.state.SelectList;
 	let selectIndex = this.state.SelectIndex;
-
+	     /*<Button
+		  id={"ButtonSelect"+selectIndex[index]}
+		  onClick={() => this.handleDeselected(index, selectIndex[index])}
+		  basic color='red'>
+            Deselectionner
+          </Button>*/
 	console.log("selected");
 	console.log(selected);
 	let currentIndex = 0;
@@ -435,12 +447,6 @@ class Team extends React.Component {
 						icon>
 						<Icon name='check' />
 					</Button>
-          <Button
-		  id={"ButtonSelect"+selectIndex[index]}
-		  onClick={() => this.handleDeselected(index, selectIndex[index])}
-		  basic color='red'>
-            Deselectionner
-          </Button>
       </Card.Content>						
 				</Card>			
 					 

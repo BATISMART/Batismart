@@ -19,23 +19,6 @@ export const SidebarData = [
         icon: <IoIcons.IoIosPaper />,
         iconClosed: <RiIcons.RiArrowDownSFill />,
         iconOpened: <RiIcons.RiArrowUpSFill />,
-        subNav: [
-            {
-                title: 'Dashboard 1',
-                path: '/dashboard/dashboard1',
-                icon: <IoIcons.IoIosPaper />,
-            },
-            {
-                title: 'Dashboard 2',
-                path: '/dashboard/dashboard2',
-                icon: <IoIcons.IoIosPaper />,
-            },
-            {
-                title: 'Dashboard 3',
-                path: '/dashboard/dashboard3',
-                icon: <IoIcons.IoIosPaper />,
-            },
-        ]
     },
     {
         title: 'Mes Chantiers',

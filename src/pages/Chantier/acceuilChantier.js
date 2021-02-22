@@ -3,13 +3,17 @@ import React, {Component} from 'react';
 
 
 import { Card, Form, Input, Icon, Button, Segment, Divider, Grid,Menu,Dropdown} from 'semantic-ui-react'
-
+import  { Redirect } from 'react-router-dom'
 import firebase from "firebase/app";
 import { db} from "../config";
 import $ from "jquery";
 class AcceuilChantier extends Component {
 	
-	
+	SelectedAndDays = (props1,props2) => {
+		
+			this.props.SelectedAndDays(props1,props2);
+		
+	}	
 	DisplayTeamSuivi = (props) => {
 		
 			this.props.DisplayTeamSuivi(props);
@@ -17,6 +21,18 @@ class AcceuilChantier extends Component {
 	}
 	AddTeam = (props) => {
 		this.props.AddTeam(props);
+		
+	}
+	AddTeamWeek = (props) => {
+		this.props.AddTeamWeek(props);
+		
+	}
+	AddItem = (props) => {
+		this.props.AddItem(props);
+		
+	}
+	AddMaterial = (props) => {
+		this.props.AddMaterial(props);
 		
 	}
 	SetDisplayVar = (props) => {
@@ -29,6 +45,16 @@ class AcceuilChantier extends Component {
 		this.props.NewEquipSuivi(props);
 		
 	}
+	AddItemSuivi = (props) => {
+		
+		this.props.AddItemSuivi(props);
+		
+	}
+	AddMaterialSuivi = (props) => {
+		
+		this.props.AddMaterialSuivi(props);
+		
+	}
 	SetSemaine = (props) => {
 		
 		this.props.SetSemaine(props);
@@ -39,10 +65,16 @@ class AcceuilChantier extends Component {
 		this.props.NewMaterialSuivi(props);
 		
 	}
+	ChooseChantier = (props) => {
+		
+		this.props.ChooseChantier(props);
+		
+	}
 	constructor(props){
 		
 		super(props);
 		let suiviCheck = false;
+		let indValue = 0;
 		this.handleEnter = this.handleEnter.bind(this);
 		this.handleSuivi = this.handleSuivi.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
@@ -52,15 +84,19 @@ class AcceuilChantier extends Component {
 		this.handleTeam = this.handleTeam.bind(this);
 		this.suiviChantier = this.suiviChantier.bind(this);
 		let activeItem;
-		this.state = { suiviCheck,
-						activeItem: "Semaine 1"
+		this.state = { 	
+						currUser: null,
+						suiviCheck,
+						activeItem: "Cliquer ici",
+						indValue: 0
 						}
 		
 	}
 	componentDidMount() {
 
 		var user = firebase.auth().currentUser;
-		
+		this.setState({currUser: user})
+		if(user !== null){
 		var myname = user.displayName+"Chantier";
 	db.ref(myname).on("value", snapshot => {
     let allNotes = [];
@@ -78,12 +114,21 @@ class AcceuilChantier extends Component {
 	
 	}
   });
+		}
 		
 		
 }
 
 	handleEnter(){
+	let emptyList = [];
+	let emptyList2 = [];
+	let emptyList3 = [];
+	let emptyList4 = [];
+		this.AddMaterial(emptyList);
+		// this.AddTeam(emptyList);
 		
+		this.SelectedAndDays(emptyList3,emptyList4);
+		this.AddItem(emptyList2);
 		this.SetDisplayVar(true);
 		
 		
@@ -105,10 +150,11 @@ class AcceuilChantier extends Component {
 		$("#mainfield2").hide();
 		
 	}
-	suiviChantier(props){
+	suiviChantier(){
 		let item = this.props.itemSuiviList;
 		let matos = this.props.matlistSuivi;
 		let teamWeek = this.props.teamWeek;
+		console.log(item,"wsh pk");
 		return (
 		
 		<Segment textAlign = 'center' basic id="mainfield2">
@@ -241,6 +287,8 @@ class AcceuilChantier extends Component {
 					<Form.Field id = "2">
 					
 						<Card.Group>
+						{teamWeek.length === 0 &&
+						 (
 							<Card>
 								<Card.Content>
 									<Card.Description>
@@ -265,6 +313,7 @@ class AcceuilChantier extends Component {
 									</div>
 								</Card.Content>
 							</Card>
+						)}
 						{teamWeek.map((data,index) => (
 				
 				<Card>
@@ -307,15 +356,24 @@ class AcceuilChantier extends Component {
 		
 		
 	}
-	handleSuivi(){
+	handleSuivi(index){
 		
-	
+		this.setState({indValue: index});
 		this.setState({suiviCheck: true});
+		this.ChooseChantier(this.props.team[index].intitule);
 		
 		
 	}
 	handleValidate(){
-		
+		let empty = [];
+		let empty2 = [];
+		let empty3 = [];
+		this.AddItemSuivi(empty);
+		this.AddMaterialSuivi(empty2);
+		this.AddTeamWeek(empty3);
+		let name = "Cliquer ici";
+		this.SetSemaine("Semaine0");
+		this.setState({ activeItem: name })
 		this.setState({suiviCheck: false});
 		
 	}
@@ -328,8 +386,9 @@ class AcceuilChantier extends Component {
 	
 	addWeeks(){
 		let team = this.props.team;
-		let dateDebut = team[0].dateDebut;
-		let dateFin = team[0].dateFin;
+		let indValue = this.state.indValue;
+		let dateDebut = team[indValue].dateDebut;
+		let dateFin = team[indValue].dateFin;
 		let debut = dateDebut.split('-');
 		let fin = dateFin.split('-');
 		let subdate1 = debut[1]+"/"+debut[0]+"/"+debut[2];
@@ -345,6 +404,7 @@ class AcceuilChantier extends Component {
 		days_diff = Math.ceil(days_diff);
 		let nbrSem = Math.ceil(days_diff/7);
 		let tempTab = [];
+		tempTab.push("Cliquer ici");
 		for( let i = 0 ; i < nbrSem ; i++){
 			let a = i + 1;
 			let semaine = "Semaine "+a;
@@ -356,7 +416,7 @@ class AcceuilChantier extends Component {
         <Grid.Column width={tempTab.length} >
 		
           <Menu>
-		  <Dropdown item text='Semaine'>
+		  <Dropdown item text='Cliquer ici'>
 			<Dropdown.Menu>
 		  {tempTab.map((data) => ( 
             <Dropdown.Item
@@ -376,12 +436,14 @@ class AcceuilChantier extends Component {
         </Grid.Column>
 
         <Grid.Column stretched width={12}>
-			{this.state.activeItem === this.state.activeItem &&
+			
+			
+			{this.state.activeItem !== "Cliquer ici" && 
 			
 		
           <Segment>
 		    <Divider horizontal>{this.state.activeItem}</Divider>	
-		  {this.suiviChantier(this.state.activeItem)}
+		  {this.suiviChantier()}
 			
           </Segment>
 			}
@@ -402,6 +464,7 @@ class AcceuilChantier extends Component {
 
 		let team = this.props.team;
 		console.log(team,"teamz");
+		if(this.state.currUser !== null){
 		return (
 		<div>
 		{this.state.suiviCheck === false ?
@@ -446,7 +509,7 @@ class AcceuilChantier extends Component {
 									<Card.Content extra>
 									
 										<Button
-											onClick={this.handleSuivi}
+											onClick={() => this.handleSuivi(index)}
 											positive>
 											Faire le suivi
 										</Button>
@@ -469,6 +532,13 @@ class AcceuilChantier extends Component {
 		</div>
 		
 			);
+		}else{
+			
+			return (
+			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Acceuil ensuite sur chantier dans la sidebar de gauche si vous êtes déjà connecté </div>
+			
+			);
+		}
 		
 		
 		

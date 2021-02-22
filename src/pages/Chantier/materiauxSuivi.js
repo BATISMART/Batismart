@@ -41,7 +41,7 @@ class MateriauxSuivi extends Component {
 			console.log(this.props.semaine,"Did update semaine atm");
 			console.log(prevProps.semaine,"Did update old");
 			var user = firebase.auth().currentUser;
-			var myname = user.displayName+this.props.team[0].intitule+"Materiel"+this.props.semaine+"/";
+			var myname = user.displayName+this.props.chantierName+"Materiel"+this.props.semaine+"/";
 			console.log(myname,"Did update myname");
 			db.ref(myname).on("value", snapshot => {
     let allNotes = [];
@@ -87,7 +87,7 @@ class MateriauxSuivi extends Component {
 		
 		var user = firebase.auth().currentUser;
 		
-		var myname = user.displayName+this.props.team[0].intitule+"Materiel"+this.props.semaine+"/";
+		var myname = user.displayName+this.props.chantierName+"Materiel"+this.props.semaine+"/";
 		
 		db.ref(myname).child(account).set({idnumber,intitule,fournisseur,montant_unite,quantite});
 		

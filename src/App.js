@@ -3,7 +3,7 @@ import React from 'react';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Accueil from './pages/Accueil';
-import {Dashboard, DashboardOne, DashboardTwo, DashboardThree} from './pages/Dashboard'
+import Dashboard from './pages/Dashboard/Dashboard'
 import Equipe from './pages/Equipe/Equipe'
 import Chantier from './pages/Chantier/Chantier'
 import Contacter from './pages/Contacter'
@@ -64,9 +64,6 @@ class App extends React.Component{
           <Switch>
           <Route path='/accueil' exact component={Accueil}/>
           <Route path='/dashboard' exact component={Dashboard}/>
-          <Route path='/dashboard/dashboard1' exact component={DashboardOne}/>
-          <Route path='/dashboard/dashboard2' exact component={DashboardTwo}/>
-          <Route path='/dashboard/dashboard3' exact component={DashboardThree}/>  
           <Route path='/equipe' exact component={Equipe}/>    
           <Route path='/chantier' exact component={Chantier}/> 
           <Route path='/contacter' exact component={Contacter}/> 
@@ -97,9 +94,6 @@ class App extends React.Component{
           <Switch>
           <Route path='/accueil' exact component={Accueil}/>
           <Route path='/dashboard' exact component={Dashboard}/>
-          <Route path='/dashboard/dashboard1' exact component={DashboardOne}/>
-          <Route path='/dashboard/dashboard2' exact component={DashboardTwo}/>
-          <Route path='/dashboard/dashboard3' exact component={DashboardThree}/>  
           <Route path='/equipe' exact component={Equipe}/>    
           <Route path='/chantier' exact component={Chantier}/> 
           <Route path='/contacter' exact component={Contacter}/> 

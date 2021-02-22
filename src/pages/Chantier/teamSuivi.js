@@ -150,6 +150,11 @@ class TeamSuivi extends React.Component {
 			
 		}
 		handleDays(index,ind){
+			for(let i = 0 ; i < this.state.EquipeList.length ; i++){
+			let desact = "#ButtonTeam"+i;
+			$(desact).prop("disabled",true);
+			
+			}
 			let id = "#daysattribute"+index;
 			console.log("majudays : "+index);
 			let checkid = "#Check"+index;
@@ -202,7 +207,7 @@ class TeamSuivi extends React.Component {
 		
 		if(this.props.semaine !== prevProps.semaine){
 			var user = firebase.auth().currentUser;
-			var myname = user.displayName+this.props.team[0].intitule+"Equipe"+this.props.semaine+"/";
+			var myname = user.displayName+this.props.chantierName+"Equipe"+this.props.semaine+"/";
 			db.ref(myname).on("value", snapshot => {
     let allNotes = [];
     snapshot.forEach(snap => {
@@ -232,7 +237,7 @@ class TeamSuivi extends React.Component {
 		
 		
 		
-		
+	if(user !== null){	
 	let modo = 0;
 	for(modo = 0 ; modo < 10 ; modo++){
 	var myname = user.displayName+"Equipe"+modo;
@@ -308,7 +313,7 @@ class TeamSuivi extends React.Component {
 			
 	
 	
-	
+	}
 	}
 	handleClick(){
 		let selectIndex = this.state.SelectIndex;
@@ -331,7 +336,7 @@ class TeamSuivi extends React.Component {
 		
 		
 		var user = firebase.auth().currentUser;
-		let teamName = this.props.team[0].intitule;
+		let teamName = this.props.chantierName;
 		var myname = user.displayName+teamName+"Equipe"+this.props.semaine+"/";	
 		this.SelectedAndDaysSuivi(this.state.SelectList,this.state.ValueIndex);
 		let pushSelectList = this.state.SelectList;
@@ -367,7 +372,12 @@ class TeamSuivi extends React.Component {
 	console.log("selected");
 	console.log(selected);
 	let currentIndex = 0;
-	
+	       /* <Button
+		  id={"ButtonSelect"+selectIndex[index]}
+		  onClick={() => this.handleDeselected(index, selectIndex[index])}
+		  basic color='red'>
+            Deselectionner
+          </Button>*/
 	 if(this.props.DisplayButton === true ){
 	return (
 	
@@ -484,12 +494,7 @@ class TeamSuivi extends React.Component {
 						icon>
 						<Icon name='check' />
 					</Button>
-          <Button
-		  id={"ButtonSelect"+selectIndex[index]}
-		  onClick={() => this.handleDeselected(index, selectIndex[index])}
-		  basic color='red'>
-            Deselectionner
-          </Button>
+  
       </Card.Content>						
 				</Card>			
 					 

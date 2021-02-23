@@ -365,7 +365,7 @@ else{
 }else{
 	
 	return (
-			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Acceuil ensuite sur mes Equipes dans la sidebar de gauche si vous êtes déjà connecté </div>
+			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Accueil ensuite sur mes Equipes dans la sidebar de gauche si vous êtes déjà connecté </div>
 			
 			);
 	

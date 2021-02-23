@@ -285,11 +285,11 @@ class Dashboard extends Component {
 		
 const data = [
   {
-    name: 'Equipe',
+    name: 'Equipes',
     Coût: EquipeTotal
   },
   {
-    name: 'Equipement',
+    name: 'Equipements',
     Coût: EquipementTotal
   },
   {
@@ -348,7 +348,7 @@ const data = [
 		(
 		<p>Attention vous avez dépassé les dépenses prévues pour votre chantier ! Vous êtes dans le rouge </p>
 		):(
-		<p>Vous n'avez pas encore dépassé les déprenses prévues pour votre chantier ! Bravo vous êtes dans le vert </p>
+		<p>Vous n'avez pas encore dépassé les dépenses prévues pour votre chantier ! Bravo vous êtes dans le vert </p>
 		)}
 		<Button
 			onClick={() => this.handleRetour()}
@@ -410,7 +410,7 @@ const data = [
 		}else{
 			
 			return (
-			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Acceuil ensuite sur Dashboard dans la sidebar de gauche si vous êtes déjà connecté </div>
+			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Accueil ensuite sur Dashboard dans la sidebar de gauche si vous êtes déjà connecté </div>
 			
 			);
 			

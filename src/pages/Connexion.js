@@ -41,7 +41,7 @@ class Connexion extends React.Component {
     // ...
   })
   .catch((error) => {
-	  err = <strong>Erreur: Mot de passe ou nom de compte incorrect</strong>
+	  let err = <strong>Erreur: Mot de passe ou nom de compte incorrect</strong>
 	  this.setState({error: err});
 
   });

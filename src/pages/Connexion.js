@@ -10,7 +10,8 @@ class Connexion extends React.Component {
 		this.checkUser = this.checkUser.bind(this);
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			error: ''
 			
 		}
 
@@ -40,8 +41,8 @@ class Connexion extends React.Component {
     // ...
   })
   .catch((error) => {
-	  
-	  alert("ERROR");
+	  err = <strong>Erreur: Mot de passe ou nom de compte incorrect</strong>
+	  this.setState({error: err});
 
   });
 		
@@ -92,6 +93,7 @@ if (user) {
             >
                 Connexion
             </button>
+			{this.state.error}
 	</div>
 	)
 }

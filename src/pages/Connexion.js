@@ -40,6 +40,8 @@ class Connexion extends React.Component {
     // ...
   })
   .catch((error) => {
+	  
+	  alert("ERROR");
 
   });
 		

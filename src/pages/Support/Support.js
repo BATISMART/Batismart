@@ -15,12 +15,13 @@ const Support = () => {
 					<h3 class="classh3"> - Comment créer un chantier ? </h3>
 						<p class="classP">
 							Pour créer un chantier, vous devez au préalable avoir un compte Batismart. Si c’est bien le cas, ouvrez la sidebar en cliquant en haut à gauche de l’écran puis cliquez sur « mes chantiers ». Il vous sera ensuite proposé de créer un nouveau chantier en cliquant sur le « + ». Depuis cette page, vous avez également accès à tous vos chantiers crées.
+							Attention n'oubliez pas de créer vos équipes avant dans la partie mes Equipes.
 						</p>
 					<h3 class="classh3"> - Comment ajouter un équipement dans mes éléments de chantier ? </h3>
 						<p class="classP">
 							Pour ajouter un équipement, il suffit d’activer la sidebar en haut à gauche de l’écran, cliquer sur « mes chantier », sélectionner le chantier concerné (créer un chantier si ce n’est pas déjà fait), cliquer sur « ajouter un équipement », remplir les champs de renseignement sur l’équipement et enfin cliquer sur « valider ».
 						</p>
-					<h3 class="classh3"> - Comment modifier les informations d’un équipement ? </h3>
+					<h3 class="classh3"> - Comment modifier les informations d’un équipement ? ( Fonctionnalité en attente de correction de bug ) </h3>
 						<p class="classP">
 							Pour modifier les informations d’un équipement, cliquez sur « modifier » en dessous de l’équipement à modifier dans l’onglet « équipements » de « mes chantiers », puis modifier les informations dans les champs de renseignements qui apparaissent à l’écran.
 						</p>

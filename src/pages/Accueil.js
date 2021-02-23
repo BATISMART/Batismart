@@ -4,7 +4,7 @@ import Icone from "./intuitif.jpg";
 import Icone2 from "./gain.jpg";
 import Icone3 from "./Sablier.jpg";
 import './Accueil.css'
-
+import { Container} from "semantic-ui-react";
 
 
 
@@ -12,8 +12,13 @@ import './Accueil.css'
 
 const Accueil = () => {
     return (
+		<Container style={{ margin: 20 }}>
+   
+			<iframe width="860" height="615" src="https://www.youtube.com/embed/hSMIQbEOnZI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"  allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"  oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+
+		</Container>
         <div className='home'>
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/hSMIQbEOnZI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				
 				<h1 style={{postion:"relative", marginLeft: 100, marginBottom: 300, fontSize: 26, fontWeight: "bold", color: "#555B61"}}> Faciliter la gestion de vos chantiers</h1>
        				<h1 style={{postion:"relative", marginLeft: -400, marginRight:-50, left:-60, marginBottom:100, fontSize: 15, color: "#555B61"}}> Maximiser vos bénéfices grâce à notre application</h1>
 					       				<h1 style={{position:"relative", marginLeft: -290, marginRight: -120, right:-20, marginBottom: 175, fontSize: 15, color: "#555B61"}}> Réaliser des devis/simulations précis </h1>

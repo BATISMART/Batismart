@@ -13,7 +13,7 @@ import * as IconName  from "react-icons/io5";
 import firebase from "firebase/app";
 import * as BsIcons from "react-icons/bs";
 import Icone4 from "./lolo_batismart.png";
-
+import './Sidebar_style.css'
 
 const Nav = styled.div`
     background: #555B61;
@@ -164,7 +164,7 @@ class Sidebar extends React.Component  {
                 </NavIcon>
 				
                 <a href="/Accueil" style={{ color: '#FFF', fontSize: '45px', textDecoration: 'none' }}>
-						<img src={Icone4} alt="ok"  width="300" style={{position: "relative", left: 0, right:0, top: 0}}/>
+						<img class='logo_batismart' src={Icone4} />
 				</a>
                 
                 <NavIconCon to="#">

@@ -190,7 +190,7 @@
 	}
 }
 /* ECRAN DE TABLETTES ET TELEPHONES EN HORIZONTAL DE TAILLE SUPP A 730 */
-@media screen and (min-width: 730px) and (max-width: 1025px){
+@media screen and (min-width: 730px) and (max-width: 1279px){
 	
 	#title_support{
 		position: relative;

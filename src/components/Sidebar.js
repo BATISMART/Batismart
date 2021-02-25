@@ -13,7 +13,7 @@ import * as IconName  from "react-icons/io5";
 import firebase from "firebase/app";
 import * as BsIcons from "react-icons/bs";
 import Icone4 from "./lolo_batismart.png";
-import $ from "jquery";
+
 
 const Nav = styled.div`
     background: #555B61;
@@ -118,8 +118,6 @@ class Sidebar extends React.Component  {
 		super(props);
 		this.showSidebar = this.showSidebar.bind(this);
 		this.showSidebar2 = this.showSidebar2.bind(this);
-		this.hideSidebar = this.hideSidebar.bind(this);
-		this.hideSidebar2 = this.hideSidebar2.bind(this);
 		this.state = {
 			sidebar: false,
 			sidebar2: false
@@ -150,24 +148,11 @@ class Sidebar extends React.Component  {
 		
 	}
 	
-	hideSidebar(){
-		this.setState({sidebar: false});
-		
-		
-	}
-	hideSidebar2(){
-		
-		this.setState({sidebar2: false});
-		
-	}
-	
+
 
 
 	render() {
-		$(document).click(function() {
-            this.hideSidebar();
-			this.hideSidebar2();
-        });
+
     return (
         <>
 		

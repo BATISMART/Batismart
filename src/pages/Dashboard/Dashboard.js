@@ -368,7 +368,10 @@ const data = [
 		if(this.state.currUser !== null){
     return (
 	
-		<Container style={{ margin: 20 }}>
+		<Segment>
+		
+		<Grid columns={2} relaxed='very' stackable>
+		<Grid.Column>
 		{this.state.GraphCheck === false ?
 		(
         <Card.Group>
@@ -403,7 +406,9 @@ const data = [
 							
 		</Card.Group>
 		): this.addGraph() }
-		</Container>
+		</Grid.Column>
+		</Grid>
+	</Segment>
 						
 		
     )

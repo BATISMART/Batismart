@@ -16,6 +16,7 @@
     "react-dom": "^17.0.1",
     "react-firebase": "^2.2.8",
     "react-icons": "^4.1.0",
+    "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.4",
     "react-scroll": "^1.8.1",
@@ -27,15 +28,14 @@
     "styled-components": "^5.2.1",
     "web-vitals": "^1.1.0"
   },
-"scripts": {
-"dev": "react-scripts start",
-"start": "serve -s build",
-"build": "react-scripts build",
-"test": "react-scripts test --env=jsdom",
-"eject": "react-scripts eject",
-"heroku-postbuild": "npm run build"
-},
-  
+  "scripts": {
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

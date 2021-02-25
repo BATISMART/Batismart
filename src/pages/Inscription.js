@@ -119,6 +119,7 @@ class Inscription extends React.Component {
 						name='email'
 						placeholder = 'E-mail'
 						onChange={this.changeHandler}
+						maxLength = {8}
 					/>
 						<input
 						className='text-input'
@@ -138,7 +139,7 @@ class Inscription extends React.Component {
 						className='text-input'
 						type='text'
 						name='siret'
-						placeholder = 'N°Siret'
+						placeholder = 'N°Siret (sans espaces)'
 						onChange={this.changeHandler}
 					/>
 				<input

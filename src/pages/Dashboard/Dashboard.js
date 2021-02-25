@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import firebase from "firebase/app";
 import { db} from "../config";
-import { Card, Button, Container, Divider } from 'semantic-ui-react'
+import { Segment, Grid, Card, Button, Container, Divider } from 'semantic-ui-react'
 import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 class Dashboard extends Component {
 	

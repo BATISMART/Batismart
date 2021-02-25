@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import firebase from "firebase/app";
 import { db} from "../config";
-import { Segment, Grid, Card, Button, Container, Divider } from 'semantic-ui-react'
+import { Card, Button, Container, Divider } from 'semantic-ui-react'
 import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 class Dashboard extends Component {
 	
@@ -300,7 +300,7 @@ const data = [
 // console.log(graphData,"data");
 		
 		    return (
-      <div>
+      <Container style={{ margin: 20 }}>
 	  <Divider horizontal>Mes dépenses prévues pour le chantier : {team[indValue].intitule} sans les Coûts indirects et autre(s)</Divider>
         <BarChart
           width={500}
@@ -356,7 +356,7 @@ const data = [
 			Retour
 		</Button>
 		
-      </div>
+      </Container>
     )
 		
 		
@@ -368,10 +368,7 @@ const data = [
 		if(this.state.currUser !== null){
     return (
 	
-		<Segment>
-		
-		<Grid columns={2} relaxed='very' stackable>
-		<Grid.Column>
+		<Container style={{ margin: 20 }}>
 		{this.state.GraphCheck === false ?
 		(
         <Card.Group>
@@ -406,9 +403,7 @@ const data = [
 							
 		</Card.Group>
 		): this.addGraph() }
-		</Grid.Column>
-		</Grid>
-	</Segment>
+		</Container>
 						
 		
     )

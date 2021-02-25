@@ -13,7 +13,7 @@ import * as IconName  from "react-icons/io5";
 import firebase from "firebase/app";
 import * as BsIcons from "react-icons/bs";
 import Icone4 from "./lolo_batismart.png";
-
+import $ from "jquery";
 
 const Nav = styled.div`
     background: #555B61;
@@ -59,17 +59,17 @@ const SidebarNav = styled.nav`
     z-index: 10;
 `;
 
-const SidebarNavCon = styled.nav` 
-    margin-left: 80%;
+const SidebarNavCon = styled.nav`
     background: #555B61;
-    width: 253px;
+    width: auto;
     height: auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: fixed;
+    margin-right: 2px;
     margin-top: 2px;
-    left: ${({ sidebar2 }) => (sidebar2 ? '100' : '-100%')};
-    transition: 350ms;
+    right: ${({ sidebar2 }) => (sidebar2 ? '0' : '-100%')};
+    transition: 0ms;
     z-index: 10;
     border-radius: 30px;
 `;
@@ -118,6 +118,8 @@ class Sidebar extends React.Component  {
 		super(props);
 		this.showSidebar = this.showSidebar.bind(this);
 		this.showSidebar2 = this.showSidebar2.bind(this);
+		this.hideSidebar = this.hideSidebar.bind(this);
+		this.hideSidebar2 = this.hideSidebar2.bind(this);
 		this.state = {
 			sidebar: false,
 			sidebar2: false
@@ -137,7 +139,7 @@ class Sidebar extends React.Component  {
 		
 		
 	}
-
+	
     showSidebar(){
 		console.log("test");
 		this.setState({sidebar: !this.state.sidebar});
@@ -147,11 +149,25 @@ class Sidebar extends React.Component  {
 		this.setState({sidebar2: !this.state.sidebar2});
 		
 	}
-  
+	
+	hideSidebar(){
+		this.setState({sidebar: false});
+		
+		
+	}
+	hideSidebar2(){
+		
+		this.setState({sidebar2: false});
+		
+	}
 	
 
 
 	render() {
+		$(document).click(function() {
+            this.hideSidebar();
+			this.hideSidebar2();
+        });
     return (
         <>
 		

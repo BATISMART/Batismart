@@ -1,46 +1,256 @@
 
-
-#title{
-	position: relative;
-   margin-left: 570px;
-   margin-top: 100px;
-   font-size: 60px;
-	overflow: hidden;
-	color: #555B61
+/* ECRAN DE PC */
+@media screen and (min-width: 1280px) {
+	
+	#title_support{
+		position: relative;
+		margin-left: 570px;
+		margin-top: 100px;
+		font-size: 60px;
+		overflow: hidden;
+		color: #555B61
 	}
 
-#second_title{
-	position: relative;
-   margin-left: 180px;
-   margin-bottom: 50px;
-   overflow: hidden;
-   display: flex;
-   color: #555B61
+	#second_title_support{
+		position: relative;
+		margin-left: 180px;
+		margin-bottom: 50px;
+		overflow: hidden;
+		display: flex;
+		color: #555B61
+	}
+
+	.imagesupport1{
+		width: 100px;
+		position: absolute;
+		left: 630px;
+		top: 100px;
+	}
+	
+	.imagesupport2{
+		width: 50px;
+		position: absolute;
+		left: 120px;
+		top: 280px;
+	}
+
+	.classh3{
+		position: relative;
+		left: 50px;
+		border: 2px solid;
+		border-color: #C8702F;
+		background-color: #C8702F;
+		border-radius: 10px;
+		border-width: 6px;
+		display: inline-block;
+		overflow: hidden;
+		color: white;
+	}
+
+	.classP{
+		position: relative;
+		font-size: 20px;
+		left: 70px;
+		width: 1220px;
+		text-align:justify;
+		overflow: hidden;
+		color: #555B61
+	}
 }
 
+/* ECRAN DE TELEPHONE EN VERTICAL */
+@media screen and (max-width: 639px) {
+	
+	#title_support{
+		position: relative;
+		margin-left: 100px;
+		margin-top: 80px;
+		font-size: 50px;
+		overflow: hidden;
+		color: #555B61
+	}
 
-.classh3{
-	position: relative;
-	left: 50px;
-	border: 2px solid;
-	border-color: #767F9B;
-	background-color: #767F9B;
-	color: white;
-  border-radius: 10px;
-  border-width: 6px;
-  display: inline-block;
-  overflow: hidden;
-  color: #555B61
+	#second_title_support{
+		position: relative;
+		margin-left: 80px;
+		margin-bottom: 50px;
+		overflow: hidden;
+		display: flex;
+		font-size: 40px;
+		color: #555B61
+	}
+
+	.imagesupport1{
+		width: 75px;
+		position: absolute;
+		left: 160px;
+		top: 99px;
+	}
+	
+	.imagesupport2{
+		width: 35px;
+		position: absolute;
+		left: 37px;
+		top: 250px;
+	}
+
+	.classh3{
+		position: relative;
+		font-size: 20px;
+		left: 10px;
+		width: 350px;
+		border: 2px solid;
+		border-color: #C8702F;
+		background-color: #C8702F;
+		border-radius: 10px;
+		border-width: 4px;
+		display: inline-block;
+		overflow: hidden;
+		color: white;
+	}
+
+	.classP{
+		position: relative;
+		font-size: 15px;
+		left: 20px;
+		width: 340px;
+		text-align:justify;
+		display: inline-block;
+		overflow: hidden;
+		
+		white-space: initial;
+		
+		color: #555B61
+	}
 }
 
-.classP{
-	position: relative;
-	font-size: 20px;
-	left: 70px;
-	width: 1220px;
-	text-align:justify;
-	overflow: hidden;
-	color: #555B61
+/* ECRAN DE TELEPHONE EN HORIZONTAL */
+@media screen and (min-width: 640px) and (max-width: 729px) {
+	
+	#title_support{
+		position: relative;
+		margin-left: 200px;
+		margin-top: 80px;
+		font-size: 50px;
+		overflow: hidden;
+		color: #555B61
+	}
+
+	#second_title_support{
+		position: relative;
+		margin-left: 80px;
+		margin-bottom: 50px;
+		overflow: hidden;
+		display: flex;
+		font-size: 40px;
+		color: #555B61
+	}
+
+	.imagesupport1{
+		width: 75px;
+		position: absolute;
+		left: 255px;
+		top: 99px;
+	}
+	
+	.imagesupport2{
+		width: 35px;
+		position: absolute;
+		left: 37px;
+		top: 250px;
+	}
+
+	.classh3{
+		position: relative;
+		font-size: 20px;
+		left: 10px;
+		width: 530px;
+		border: 2px solid;
+		border-color: #C8702F;
+		background-color: #C8702F;
+		border-radius: 10px;
+		border-width: 4px;
+		display: inline-block;
+		overflow: hidden;
+		color: white;
+	}
+
+	.classP{
+		position: relative;
+		font-size: 15px;
+		left: 20px;
+		width: 520px;
+		text-align:justify;
+		display: inline-block;
+		overflow: hidden;
+		
+		white-space: initial;
+		
+		color: #555B61
+	}
 }
+/* ECRAN DE TABLETTES ET TELEPHONES EN HORIZONTAL DE TAILLE SUPP A 730 */
+@media screen and (min-width: 730px) and (max-width: 1025px){
+	
+	#title_support{
+		position: relative;
+		margin-left: 270px;
+		margin-top: 80px;
+		font-size: 50px;
+		overflow: hidden;
+		color: #555B61
+	}
 
+	#second_title_support{
+		position: relative;
+		margin-left: 80px;
+		margin-bottom: 50px;
+		overflow: hidden;
+		display: flex;
+		font-size: 40px;
+		color: #555B61
+	}
 
+	.imagesupport1{
+		width: 75px;
+		position: absolute;
+		left: 325px;
+		top: 99px;
+	}
+	
+	.imagesupport2{
+		width: 35px;
+		position: absolute;
+		left: 37px;
+		top: 250px;
+	}
+
+	.classh3{
+		position: relative;
+		font-size: 25px;
+		left: 10px;
+		width: 700px;
+		border: 2px solid;
+		border-color: #C8702F;
+		background-color: #C8702F;
+		border-radius: 10px;
+		border-width: 4px;
+		display: inline-block;
+		overflow: hidden;
+		color: white;
+	}
+
+	.classP{
+		position: relative;
+		font-size: 18px;
+		left: 20px;
+		width: 690px;
+		text-align:justify;
+		display: inline-block;
+		overflow: hidden;
+		
+		white-space: initial;
+		
+		color: #555B61
+	}
+}

@@ -7,21 +7,20 @@ import Icone2 from "./chat.png";
 const Support = () => {
     return (
         <div className='support'>
-		 <img src={Icone} alt="ok" width="100" style={{position: "absolute", left: 630, top: 100, alignItems: "center"}}/>
-				<h1 id="title">Support</h1>
+		 <img class="imagesupport1" src={Icone} />
+				<h1 id="title_support">Support</h1>
 		
-		<img src={Icone2} alt="ok" width="50" style={{position: "absolute", left: 120, top: 260, alignItems:"center"}}/>
-				<h2 id="second_title"> Q&A</h2>
+		<img class="imagesupport2" src={Icone2} />
+				<h2 id="second_title_support"> Q&A</h2>
 					<h3 class="classh3"> - Comment créer un chantier ? </h3>
 						<p class="classP">
 							Pour créer un chantier, vous devez au préalable avoir un compte Batismart. Si c’est bien le cas, ouvrez la sidebar en cliquant en haut à gauche de l’écran puis cliquez sur « mes chantiers ». Il vous sera ensuite proposé de créer un nouveau chantier en cliquant sur le « + ». Depuis cette page, vous avez également accès à tous vos chantiers crées.
-							Attention n'oubliez pas de créer vos équipes avant dans la partie mes Equipes.
 						</p>
 					<h3 class="classh3"> - Comment ajouter un équipement dans mes éléments de chantier ? </h3>
 						<p class="classP">
 							Pour ajouter un équipement, il suffit d’activer la sidebar en haut à gauche de l’écran, cliquer sur « mes chantier », sélectionner le chantier concerné (créer un chantier si ce n’est pas déjà fait), cliquer sur « ajouter un équipement », remplir les champs de renseignement sur l’équipement et enfin cliquer sur « valider ».
 						</p>
-					<h3 class="classh3"> - Comment modifier les informations d’un équipement ? ( Fonctionnalité en attente de correction de bug ) </h3>
+					<h3 class="classh3"> - Comment modifier les informations d’un équipement ? </h3>
 						<p class="classP">
 							Pour modifier les informations d’un équipement, cliquez sur « modifier » en dessous de l’équipement à modifier dans l’onglet « équipements » de « mes chantiers », puis modifier les informations dans les champs de renseignements qui apparaissent à l’écran.
 						</p>
@@ -31,7 +30,7 @@ const Support = () => {
 						</p>
 					<h3 class="classh3"> - Comment créer un compte ? </h3>
 						<p class="classP">
-							Pour créer un compte, il suffit de se rendre de faire apparaitre la sidebar en cliquant en haut à gauche de l’écran, et de cliquer sur l’onglet « inscription » tout en bas de celle-ci. La page d’inscription apparait alors, il ne vous reste plus qu’à saisir les informations nécessaires à votre inscription (à savoir que vous devrez posséder un numéro Siret pour procéder à votre inscription).
+							Pour créer un compte, il suffit de faire apparaitre la sidebar en cliquant en haut à gauche de l’écran, et de cliquer sur l’onglet « inscription » tout en bas de celle-ci. La page d’inscription apparait alors, il ne vous reste plus qu’à saisir les informations nécessaires à votre inscription (à savoir que vous devrez posséder un numéro Siret pour procéder à votre inscription).
 						</p>
 					<h3 class="classh3"> - Comment puis-je avoir accès au coût direct du chantier ? </h3>
 						<p class="classP">

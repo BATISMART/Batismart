@@ -168,7 +168,7 @@ class Sidebar extends React.Component  {
 				</a>
                 
                 <NavIconCon to="#">
-                    <IconName.IoPersonCircleOutline onMouseEnter={this.showSidebar2} />
+                    <IconName.IoPersonCircleOutline onClick={this.showSidebar2} />
                 </NavIconCon>
 
 

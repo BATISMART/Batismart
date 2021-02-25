@@ -1,0 +1,381 @@
+
+
+/*PC*/
+
+@media screen and (min-width: 1280px) {
+	
+
+	#titre{
+		position: absolute;
+		margin-left: -450px;
+		margin-top: -400px;
+		font-size: 40px;
+		overflow: hidden;
+		color: #555B61;
+	}
+
+
+	.imagen1{
+		width: 100px;
+		position: relative;
+		left: -600px;
+	}
+
+
+	.imagen2{
+		width: 100px;
+		position: relative;
+		left: -250px;
+	}
+
+
+	.imagen3{
+		width: 60px;
+		position: relative;
+		left: 0px;
+	}
+
+
+	.imagen4{
+		width: 70px;
+		position: relative;
+		left: 50px;
+	}
+
+
+
+	.imagen5{
+		width: 60px;
+		position: relative;
+		left: 100px;
+	}
+
+
+
+
+	.imagen6{
+		width: 70px;
+		position: relative;
+		left: 150px;
+	}
+
+
+
+	.adaptn1{
+		position: relative;
+		left: -100px;
+		top: 150px;
+		font-size: 25px;
+		color: #555B61;
+	}
+
+	
+	.adaptn2{
+		position: relative;
+		left: 150px;
+		top: 150px;
+		font-size: 25px;
+		color: #555B61;
+	}
+
+	
+	.adaptn3{
+		position: relative;
+		left: 450px;
+		top: 150px;
+		font-size: 25px;
+		color: #555B61;
+	}
+
+
+}
+
+
+
+/*telephone vertical*/
+
+@media screen and (max-width: 640px) {
+	
+	#titre{
+		position: absolute;
+		margin-left: -50px;
+		margin-top: -500px;
+		font-size: 25px;
+		overflow: hidden;
+		color: #555B61;
+	}
+
+
+	.imagen1{
+		width: 60px;
+		position: relative;
+		left: 0px;
+		top: -180px;
+	}
+
+
+	.imagen2{
+		width: 60px;
+		position: relative;
+		left: -60px;
+		top: -50px;
+	}
+
+
+	.imagen3{
+		width: 45px;
+		position: relative;
+		left: -50px;
+		top: 100px;
+	}
+
+
+	.imagen4{
+		width: 60px;
+		position: relative;
+		left: -200px;
+		top: 100px;
+	}
+
+
+	.imagen5{
+		width: 45px;
+		position: relative;
+		left: -250px;
+		top: 170px;
+	}
+
+
+
+
+	.imagen6{
+		width: 60px;
+		position: relative;
+		left: -210px;
+		top: 170px;
+	}
+
+
+
+	.adaptn1{
+		position: relative;
+		left: 270px;
+		top: -130px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+	
+	.adaptn2{
+		position: relative;
+		left: 150px;
+		top: 20px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+
+	.adaptn3{
+		position: relative;
+		left: 70px;
+		top: 230px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+}
+
+
+
+/*tel horizontal*/
+
+@media screen and (min-width: 640px) and (max-width: 729px) {
+	
+
+	#titre{
+		position: absolute;
+		margin-left: 50px;
+		margin-top: -350px;
+		font-size: 30px;
+		overflow: hidden;
+		color: #555B61;
+	}
+
+
+	.imagen1{
+		width: 75px;
+		position: relative;
+		left: -300px;
+		top: -50px;
+	}
+
+
+	.imagen2{
+		width: 75px;
+		position: relative;
+		left: -200px;
+		top: -50px;
+	}
+
+
+	.imagen3{
+		width: 40px;
+		position: relative;
+		left: -100px;
+		top: -70px;
+	}
+
+
+	.imagen4{
+		width: 50px;
+		position: relative;
+		left: -50px;
+		top: -70px;
+	}
+
+
+
+	.imagen5{
+		width: 40px;
+		position: relative;
+		left: -190px;
+		top: -10px;
+	}
+
+
+
+
+	.imagen6{
+		width: 50px;
+		position: relative;
+		left: -140px;
+		top: -10px;
+	}
+
+
+
+	.adaptn1{
+		position: relative;
+		left: 0px;
+		top: 50px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+	
+	.adaptn2{
+		position: relative;
+		left: 50px;
+		top: 50px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+	
+	.adaptn3{
+		position: relative;
+		left: 150px;
+		top: 50px;
+		font-size: 15px;
+		color: #555B61;
+	}
+
+
+}
+
+
+/*Ecran de tablette et tel horizontal de plus de 730*/
+
+
+@media screen and (min-width: 730px) and (max-width: 1025px) {
+	
+
+	#titre{
+		position: absolute;
+		margin-left: 100px;
+		margin-top: -950px;
+		font-size: 60px;
+		overflow: hidden;
+		color: #555B61;
+	}
+
+
+	.imagen1{
+		width: 150px;
+		position: relative;
+		left: -100px;
+		top: -300px;
+	}
+
+
+	.imagen2{
+		width: 150px;
+		position: relative;
+		left: -250px;
+	}
+
+
+	.imagen3{
+		width: 90px;
+		position: relative;
+		left: -600px;
+		top: 300px;
+	}
+
+
+	.imagen4{
+		width: 100px;
+		position: relative;
+		left: -550px;
+		top: 300px;
+	}
+
+
+
+	.imagen5{
+		width: 90px;
+		position: relative;
+		left: -500px;
+		top: 300px;
+	}
+
+
+
+
+	.imagen6{
+		width: 100px;
+		position: relative;
+		left: -450px;
+		top: 300px;
+	}
+
+
+
+	.adaptn1{
+		position: relative;
+		left: 530px;
+		top: -150px;
+		font-size: 35px;
+		color: #555B61;
+	}
+
+	
+	.adaptn2{
+		position: relative;
+		left: 250px;
+		top: 150px;
+		font-size: 35px;
+		color: #555B61;
+	}
+
+	
+	.adaptn3{
+		position: relative;
+		left: 50px;
+		top: 450px;
+		font-size: 35px;
+		color: #555B61;
+	}
+
+
+}

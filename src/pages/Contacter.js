@@ -5,6 +5,7 @@ import Facebook from "./facebook.jpg"
 import Linkedin from "./linkedin.jpg"
 import Twitter from "./twitter.jpg"
 import Insta from "./instagram.jpg"
+import './contacter_style.css'
 /*import Reseaux from "./reseaux.jpg";
 import * as TiIcons from "react-icons/ti";
 import { Link } from 'react-router-dom';
@@ -19,22 +20,33 @@ import styled from 'styled-components';*/
 
 const Contacter = () => {
 
+   
+
+
     
     return (
+
+        
+         
+
         <div className='home'>
+            
 
-     
-            <h1 style={{position: "absolute", marginLeft: -450, marginTop: -400, fontSize: 40, fontWeight: "bold", color:"#555B61"}}> Comment nous contacter ? </h1>
+            <meta name="viewport" 
+                content="width=device-width, initial-scale=1.0, user-scalable=no"></meta>
+        
 
-            <h1 style={{position: "absolute", marginLeft: -850, marginTop: 250, fontSize: 25, fontWeight: "bold", color:"#555B61"}}> 0610893461 </h1>
-            <h1 style={{position: "absolute", marginLeft: -200, marginTop: 250, fontSize: 25, fontWeight: "bold", color:"#555B61"}}> Batismart@gmail.com </h1>
-            <h1 style={{position: "absolute", marginLeft: 700, marginTop: 250, fontSize: 25, fontWeight: "bold", color:"#555B61"}}> Nos reseaux </h1>
+            <h1 id="titre"> Comment nous contacter ? </h1>
+
+            <h1 class="adaptn1"> 0610893461 </h1>
+            <h1 class="adaptn2"> Batismart@gmail.com </h1>
+            <h1 class="adaptn3"> Nos reseaux </h1>
 
             
 
 
-            <img src={Telephone} alt="vu" width="100" style={{position: "relative", left: -250, right: 0, top: 0, alignItems: "center"}}/>
-            <img src={Email} alt="vu" width="100" style={{position: "relative", left: -50, right: 0, top: 0, alignItems: "center"}}/>
+            <img class="imagen1" src={Telephone} alt="vu"/>
+            <img class="imagen2" src={Email} alt="vu"/>
             
 
           
@@ -42,28 +54,37 @@ const Contacter = () => {
 
 
                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                    <img src={Facebook} alt="vu" width="60" style={{position: "relative", left: 150, right: 0, top: 0, alignItems: "center"}}/>
+                    <img class="imagen3" src={Facebook} alt="vu"/>
                         </a>
 
 
                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                    <img src={Linkedin} alt="vu" width="70" style={{position: "relative", left: 200, right: 0, top: 0, alignItems: "center"}}/>
+                    <img class="imagen4" src={Linkedin} alt="vu"/>
                         </a>
 
 
                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                    <img src={Twitter} alt="vu" width="60" style={{position: "relative", left: 250, right: 0, top: 0, alignItems: "center"}}/>
+                    <img class="imagen5" src={Twitter} alt="vu"/>
                         </a>
 
 
                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                    <img src={Insta} alt="vu" width="70" style={{position: "relative", left: 300, right: 0, top: 0, alignItems: "center"}}/>
+                    <img class="imagen6" src={Insta} alt="vu"/>
                         </a>
+
+
+           
+
+
+
+
         </div>
 
-    );
-};
+    )
+}
+
 
 export default Contacter;
 
 
+ 

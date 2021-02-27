@@ -83,11 +83,6 @@ if (user) {
 			  onChange={this.changeHandler}
             />
             <button
-                className='btnmdpoublie'
-            >
-                Mot de passe oublié
-            </button>
-            <button
                 className='btnconnect'
 				onClick = {this.submitHandler}
             >

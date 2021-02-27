@@ -533,7 +533,7 @@ else{
 
 			</Form.Field>
 			</div>
-			<Button.Group>
+			<Button.Group vertical>
 				<Button
 				onClick={this.handleClick2}>
 					cliquer sur ici pour spécifier un membre de l’équipe

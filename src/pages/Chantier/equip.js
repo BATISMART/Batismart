@@ -54,7 +54,7 @@ class Equip extends React.Component {
 
 	componentDidUpdate(prevProps) {
   // Utilisation classique (pensez bien à comparer les props) :
-	if(this.props.idcheck !== prevProps.idcheck){
+	if(this.props.currentId !== prevProps.currentId){
 		
 		
 		
@@ -235,8 +235,9 @@ class Equip extends React.Component {
 	editList(list){
 		return list.map( item => {
 			var temp = Object.assign({}, item);
-			if(temp.id === this.props.currentId){
-				this.setState({idModif: temp.id});
+			if(temp.idnumber === this.props.currentId){
+				console.log(this.props.currentId,"bubblegum");
+				this.setState({idModif: temp.idnumber});
 				temp.intitule = this.state.intitule;
 				temp.fournisseur = this.state.fournisseur;
 				temp.prix_par_jour = this.state.prix_par_jour;
@@ -247,12 +248,14 @@ class Equip extends React.Component {
 		});
 		
 		
+		
+		
 	}
 	submitHandler = (event) => {
 		event.preventDefault();
 		var item = this.props.a;
 		let idnumber = item.length;
-		console.log("id number is : " + idnumber);
+		
 		if(this.props.mod === false){
 		item.push( {
 			id : idnumber,
@@ -266,7 +269,7 @@ class Equip extends React.Component {
 		}else{
 			
 			item = this.editList(item);
-			console.log(item);
+			console.log(item,"bubblegum");
 			
 			
 		}
@@ -297,6 +300,7 @@ class Equip extends React.Component {
 		}
 		this.NewEquip(false);
 		this.EditingEquip(false);
+		this.EditingId(99);
 		$("#mainfield").show();
 		
 		
@@ -365,7 +369,7 @@ class Equip extends React.Component {
 			  
 			
 		
-			 
+			 console.log(this.props.a,"bubblegum");
 			  return (
 		<div>
 		

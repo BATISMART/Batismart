@@ -48,7 +48,10 @@ class Chantier extends Component {
 		this.AddItemSuivi = this.AddItemSuivi.bind(this);
 		this.SetSemaine = this.SetSemaine.bind(this);
 		this.AddTeamWeek = this.AddTeamWeek.bind(this);
+		this.AddTeamSelected = this.AddTeamSelected.bind(this);
+		this.AddCurrentTeam = this.AddCurrentTeam.bind(this);
 		let teamWeek = [];
+		let currentTeam = [];
 		let itemList = [];
 		let materialList = [];
 		let SelectedList = [];
@@ -68,9 +71,10 @@ class Chantier extends Component {
 		let indirectButton = false;
 		let matValueSuivi = false;
 		let materialListSuivi = [];
+		let teamSelected = [];
 		let mod = false;
 		let mod2 = false;
-		let currentId = 0;
+		let currentId = 99;
 		let total = 0;
 		let pdv = 0;
 		let days = 0;
@@ -81,6 +85,7 @@ class Chantier extends Component {
 		let DisplayButtonSuivi = false;
 		let semaine = "Semaine0"
 		this.state = { itemList,
+						teamSelected,
 						displayVar,
 						newValue,
 						materialList,
@@ -111,7 +116,8 @@ class Chantier extends Component {
 						DisplayButtonSuivi,
 						SelectedListSuivi,
 						DaysListSuivi,
-						teamWeek
+						teamWeek,
+						currentTeam,
 						};
 
 	}
@@ -120,7 +126,10 @@ class Chantier extends Component {
 		this.setState({semaine: props});
 		
 	}
-	
+	AddCurrentTeam(props){
+		
+		this.setState({currentTeam: props});
+	}
 	SelectedAndDays(props1,props2){
 		this.setState({SelectedList: props1});
 		this.setState({DaysList: props2});
@@ -264,6 +273,10 @@ class Chantier extends Component {
 		this.setState({indirectButton: props});
 		
 	}
+	AddTeamSelected(props){
+		this.setState({teamSelected: props});
+		
+	}
 	EditingEquip(props){
 		
 		this.setState({mod:props})
@@ -331,7 +344,9 @@ class Chantier extends Component {
 							DisplayButtonSuivi: this.state.DisplayButtonSuivi,
 							SelectedListSuivi: this.state.SelectedListSuivi,
 							DaysListSuivi: this.state.DaysListSuivi,
-							teamWeek: this.state.teamWeek
+							teamWeek: this.state.teamWeek,
+							teamSelected: this.state.teamSelected,
+							currentTeam: this.state.currentTeam
 							
 						
 							
@@ -352,15 +367,15 @@ class Chantier extends Component {
 
 		return (
 			<Container style={{ margin: 20 }}>
-				<Team SelectedAndDays={this.SelectedAndDays} MountingTeam={this.MountingTeam} teamMounted={this.state.teamMounted} days={this.state.days} DisplayTeam={this.DisplayTeam} DisplayButton={this.state.DisplayButton} />
+				<Team AddCurrentTeam={this.AddCurrentTeam} chantierName={this.state.chantierName} AddTeamSelected={this.AddTeamSelected} SelectedAndDays={this.SelectedAndDays} MountingTeam={this.MountingTeam} teamMounted={this.state.teamMounted} days={this.state.days} DisplayTeam={this.DisplayTeam} DisplayButton={this.state.DisplayButton} />
 				<Materiaux idcheck={this.state.idcheck} CheckId={this.CheckId} chantierName={this.state.chantierName} EditingId={this.EditingId} EditingMat={this.EditingMat} CalculateTotal={this.CalculateTotal} AddMaterial={this.AddMaterial} NewMaterial={this.NewMaterial} matlist={this.state.materialList} bool={this.state.matValue} next={this.state.nextButton} total={this.state.total} mod2={this.state.mod2}  currentId={this.state.currentId}/>
 				<Equip idcheck={this.state.idcheck} CheckId={this.CheckId} chantierName={this.state.chantierName} EditingId={this.EditingId} EditingEquip={this.EditingEquip} CalculateTotal={this.CalculateTotal} AddItem={this.AddItem} NewEquip={this.NewEquip} a={this.state.itemList} bool={this.state.newValue} total={this.state.total}  mod={this.state.mod} currentId={this.state.currentId}/>
 				{this.state.displayVar === true ?
 				(
-				<Display ValueIndex={this.state.DaysList} AddMaterial={this.AddMaterial} AddItem={this.AddItem} SetDisplayVar={this.SetDisplayVar} selectedList={this.state.SelectedList} daysList={this.state.DaysList}  SetDays={this.SetDays} DisplayTeam={this.DisplayTeam} matlist={this.state.materialList} ChooseChantier={this.ChooseChantier} pdv={this.state.pdv}  AddTeam={this.AddTeam} a={this.state.teamList} equipement={this.state.itemList} total={this.state.total} NewEquip={this.NewEquip} NewMaterial={this.NewMaterial} />
+				<Display currentTeamList={this.state.teamList} AddMaterial={this.AddMaterial} EditingMat={this.EditingMat} NewMaterial={this.NewMaterial} AddItem={this.AddItem} CheckId={this.CheckId} EditingId={this.EditingId} EditingEquip={this.EditingEquip} chantierName={this.state.chantierName} AddTeamSelected={this.AddTeamSelected} teamSelected={this.state.teamSelected} Next2={this.Next2} modifChantier={this.state.teamButton} ValueIndex={this.state.DaysList} AddMaterial={this.AddMaterial} AddItem={this.AddItem} SetDisplayVar={this.SetDisplayVar} selectedList={this.state.SelectedList} daysList={this.state.DaysList}  SetDays={this.SetDays} DisplayTeam={this.DisplayTeam} matlist={this.state.materialList} ChooseChantier={this.ChooseChantier} pdv={this.state.pdv}  AddTeam={this.AddTeam} a={this.state.teamList} equipement={this.state.itemList} total={this.state.total} NewEquip={this.NewEquip} NewMaterial={this.NewMaterial} />
 				):(
 					<div>
-					<AcceuilChantier AddTeamWeek={this.AddTeamWeek} AddMaterialSuivi={this.AddMaterialSuivi} AddItemSuivi={this.AddItemSuivi} ChooseChantier={this.ChooseChantier} SelectedAndDays={this.SelectedAndDays} AddMaterial={this.AddMaterial} AddItem={this.AddItem} teamWeek={this.state.teamWeek} DisplayTeamSuivi={this.DisplayTeamSuivi} matlistSuivi={this.state.materialListSuivi} NewMaterialSuivi={this.NewMaterialSuivi} itemSuiviList={this.state.itemSuiviList} SetSemaine={this.SetSemaine} NewEquipSuivi={this.NewEquipSuivi} team={this.state.teamList} SetDisplayVar={this.SetDisplayVar} AddTeam={this.AddTeam}/>
+					<AcceuilChantier currentTeam={this.state.currentTeam} SetDays={this.SetDays} Next2={this.Next2} AddTeamWeek={this.AddTeamWeek} AddMaterialSuivi={this.AddMaterialSuivi} AddItemSuivi={this.AddItemSuivi} ChooseChantier={this.ChooseChantier} SelectedAndDays={this.SelectedAndDays} AddMaterial={this.AddMaterial} AddItem={this.AddItem} teamWeek={this.state.teamWeek} DisplayTeamSuivi={this.DisplayTeamSuivi} matlistSuivi={this.state.materialListSuivi} NewMaterialSuivi={this.NewMaterialSuivi} itemSuiviList={this.state.itemSuiviList} SetSemaine={this.SetSemaine} NewEquipSuivi={this.NewEquipSuivi} team={this.state.teamList} SetDisplayVar={this.SetDisplayVar} AddTeam={this.AddTeam}/>
 					<MateriauxSuivi chantierName={this.state.chantierName} team={this.state.teamList} AddMaterialSuivi={this.AddMaterialSuivi} NewMaterialSuivi={this.NewMaterialSuivi} matlistSuivi={this.state.materialListSuivi} semaine={this.state.semaine} bool={this.state.matValueSuivi} />
 					<TeamSuivi chantierName={this.state.chantierName} AddTeamWeek={this.AddTeamWeek} team={this.state.teamList} semaine={this.state.semaine} SelectedAndDaysSuivi={this.SelectedAndDaysSuivi} MountingTeamSuivi={this.MountingTeamSuivi} teamMounted={this.state.teamMountedSuivi} days={7} DisplayTeamSuivi={this.DisplayTeamSuivi} DisplayButton={this.state.DisplayButtonSuivi} />
 				

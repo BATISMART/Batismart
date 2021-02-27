@@ -14,11 +14,21 @@ class Team extends React.Component {
 			this.props.DisplayTeam(props);
 		
 	}
+	AddTeamSelected = (props) => {
+		
+			this.props.AddTeamSelected(props);
+		
+	}
 	SelectedAndDays = (props1,props2) => {
 		
 			this.props.SelectedAndDays(props1,props2);
 		
-	}		
+	}
+	AddCurrentTeam = (props1) => {
+		
+			this.props.AddCurrentTeam(props1);
+		
+	}			
 	MountingTeam = (props) => {
 		
 			this.props.MountingTeam(props);
@@ -32,8 +42,10 @@ class Team extends React.Component {
 		this.resetValues = this.resetValues.bind(this);
 		this.handleDays = this.handleDays.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
 		let EquipeList = [];
 		let SelectList = [];
+		let nombreList = [];
 		let SelectIndex = [];
 		let TabDays = [0];
 		let ValueIndex = [];
@@ -44,11 +56,35 @@ class Team extends React.Component {
 			CurrentDay,
 			SelectIndex,
 			EquipeList,
-			SelectList
+			SelectList,
+			nombreList
 		};
 		
 	}
-	
+				componentDidUpdate(prevProps){
+		
+
+		
+		
+		if(this.props.chantierName !== prevProps.chantierName){
+			var user = firebase.auth().currentUser;
+			var myname = user.displayName+this.props.chantierName+"Equipe"+"/";
+			db.ref(myname).on("value", snapshot => {
+    let allNotes = [];
+    snapshot.forEach(snap => {
+      allNotes.push(snap.val());
+    });
+	console.log(allNotes,"All notes updated");
+	this.AddTeamSelected(allNotes);
+			
+			
+			
+		})
+		}
+		
+		
+		
+	}
 		handleSelect(id){
 			
 			if(this.props.teamMounted === false){
@@ -79,11 +115,15 @@ class Team extends React.Component {
 				
 			}
 			let selectIndex = this.state.SelectIndex;
+			let nombreList = this.state.nombreList;
 			selectIndex.push(id);
 			selectList.push(this.state.EquipeList[id])
+			console.log(this.state.EquipeList[id].nombre, "brain");
+			nombreList.push(this.state.EquipeList[id].nombre);
 			console.log(selectList);
 			this.setState({SelectList:selectList});
 			this.setState({SelectIndex:selectIndex});
+			this.setState({nombreList: nombreList});
 			let valueIndex = this.state.ValueIndex;
 			valueIndex.push(0);
 			this.setState({ValueIndex:valueIndex});
@@ -248,18 +288,20 @@ class Team extends React.Component {
 	
 	var data = [];
 	let salaireNow = allNotes[0].salaire;
+	let nombre = allNotes[0].nombre;
 	for(let k = 0 ; k < nameArray.length ; k++){
-		
+		if(nameArray[k] !== undefined){
 		data.push({
 			name : nameArray[k],
 			surname: surnameArray[k]
 		
 		});
-		
+		}
 	}
 
 	FullData.push({values : data,
 						   salaire: salaireNow,
+						   nombre: nombre
 							});
 	
 	
@@ -271,6 +313,9 @@ class Team extends React.Component {
 	
 	
 	this.setState({EquipeList:FullData});
+	this.AddCurrentTeam(FullData);
+	
+	
 	}
 	
 	})
@@ -288,22 +333,48 @@ class Team extends React.Component {
 		let selectIndex = this.state.SelectIndex;
 		let selectList = this.state.SelectList;
 		let checkEmpty = true;
+
 		
-		for(let i = 0 ; i <= selectList.length ; i++){
-			
-			let id = "#daysattribute"+selectIndex[i];
-			if($(id).val() === "0"){
-				
-				checkEmpty = false;
-				
-			}
 			
 			
-		}
-		if(this.state.CurrentDay === 0 && checkEmpty === true){
+		var user = firebase.auth().currentUser;
+		let teamName = this.props.chantierName;
+		let completeTeam = [];
+		var myname = user.displayName+teamName+"Equipe"+"/";
+		db.ref(myname).remove();
+		let pushSelectList = this.state.SelectList;
+		let pushValueIndex = this.state.ValueIndex;
+		for(let z = 0 ; z < pushSelectList.length ; z++){
+			var account = "Equipe"+z; 
+			var jour = pushValueIndex[z];
+			var cout = pushValueIndex[z] * pushSelectList[z].salaire;
+			console.log(this.state.nombreList, "brain");
+			var nombre = this.state.nombreList[z];
+			completeTeam.push({jour,cout,nombre})
+			db.ref(myname).child(account).set({jour,cout,nombre});
+			
+			
+		}	
 			
 			
 		this.SelectedAndDays(this.state.SelectList,this.state.ValueIndex);
+		this.AddTeamSelected(completeTeam);
+		selectList = [];
+		selectIndex = [];
+		let tabDays = [0];
+		let valueIndex = [];
+		let vide2 = [];
+		this.setState({nombreList: vide2});
+		this.setState({SelectList:selectList});
+		this.setState({SelectIndex:selectIndex});
+		this.setState({TabDays:tabDays});
+		this.setState({ValueIndex:valueIndex});
+		this.DisplayTeam(false);
+		$("#mainfield").show();
+
+		
+	}
+	handleCancel(){
 		let selectList = [];
 		let selectIndex = [];
 		let tabDays = [0];
@@ -314,9 +385,11 @@ class Team extends React.Component {
 		this.setState({ValueIndex:valueIndex});
 		this.DisplayTeam(false);
 		$("#mainfield").show();
-		}
+		
+		
 		
 	}
+	
 	render(){
 	let team = this.state.EquipeList;
 	let selected = this.state.SelectList;
@@ -335,7 +408,11 @@ class Team extends React.Component {
 	return (
 	
 		<Segment>
-		
+					
+					<Button
+						onClick={() => this.handleCancel()}>
+						Annuler/Retour
+					</Button>
 		<Grid columns={2} relaxed='very' stackable>
 		<Grid.Column>
 		  <Card.Group>
@@ -365,7 +442,8 @@ class Team extends React.Component {
 							
 								<ul>
 									
-									<p>Prix Journalier : {data.salaire} €/Jour</p>
+									<p>tarif Journalier : {data.salaire} €/Jour</p>
+									<p>Nombre de personne dans l'équipe : {data.nombre} </p>
 									
 										
 									
@@ -393,13 +471,7 @@ class Team extends React.Component {
 		</Card.Group>
 		</Grid.Column>
 		<Grid.Column verticalAlign='top'>
-				{selected.length > 0 ?
-				(	
-					<div>Nombre de jours restant à attribuer {this.state.CurrentDay}</div>
-					)
-				:(
-				<div>Nombre de jours restant à attribuer {this.props.days}</div>
-				)}
+
 				  <Card.Group>
   
   
@@ -426,7 +498,8 @@ class Team extends React.Component {
 							
 								<ul>
 									
-									<p>Prix Journalier : {data.salaire} €/Jour</p>
+									<p>Tarif Journalier : {data.salaire} €/Jour</p>
+									<p>Nombre de personne : {data.nombre} </p>
 									
 										
 									
@@ -463,7 +536,7 @@ class Team extends React.Component {
 		</Grid>
 		<Button
 			onClick={this.handleClick}>
-							DONE
+							TERMINER
 						</Button>
 		<Divider vertical>Selected</Divider>
 	

@@ -23,6 +23,9 @@ class AcceuilChantier extends Component {
 		this.props.AddTeam(props);
 		
 	}
+	Next2 = (props) => {
+		this.props.Next2(props);
+	}
 	AddTeamWeek = (props) => {
 		this.props.AddTeamWeek(props);
 		
@@ -70,6 +73,11 @@ class AcceuilChantier extends Component {
 		this.props.ChooseChantier(props);
 		
 	}
+	SetDays = (props) => {
+		
+		this.props.SetDays(props);
+		
+	}
 	constructor(props){
 		
 		super(props);
@@ -78,11 +86,13 @@ class AcceuilChantier extends Component {
 		this.handleEnter = this.handleEnter.bind(this);
 		this.handleSuivi = this.handleSuivi.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
+		this.handleSuppr = this.handleSuppr.bind(this);
 		this.handleMateriaux = this.handleMateriaux.bind(this);
 		this.addWeeks = this.addWeeks.bind(this);
 		this.handleEquipement = this.handleEquipement.bind(this);
 		this.handleTeam = this.handleTeam.bind(this);
 		this.suiviChantier = this.suiviChantier.bind(this);
+		this.handleModif = this.handleModif.bind(this);
 		let activeItem;
 		this.state = { 	
 						currUser: null,
@@ -154,7 +164,7 @@ class AcceuilChantier extends Component {
 		let item = this.props.itemSuiviList;
 		let matos = this.props.matlistSuivi;
 		let teamWeek = this.props.teamWeek;
-		console.log(item,"wsh pk");
+		
 		return (
 		
 		<Segment textAlign = 'center' basic id="mainfield2">
@@ -364,6 +374,93 @@ class AcceuilChantier extends Component {
 		
 		
 	}
+	handleModif(index){
+		let emptyList = [];
+		let emptyList2 = [];
+		let emptyList3 = [];
+		let emptyList4 = [];
+		this.AddMaterial(emptyList);
+		// this.AddTeam(emptyList);
+		
+		// this.SelectedAndDays(emptyList3,emptyList4);
+		this.AddItem(emptyList2);
+		this.SetDisplayVar(true);
+		this.ChooseChantier(this.props.team[index].intitule);
+		let debut = this.props.team[index].dateDebut.split('-');
+		let dateDebut = this.props.team[index].dateDebut;
+		let dateFin = this.props.team[index].dateFin;
+		let fin = this.props.team[index].dateFin.split('-');
+		let subdate1 = debut[1]+"/"+debut[0]+"/"+debut[2];
+		
+		let subdate2 = fin[1]+"/"+fin[0]+"/"+fin[2];
+		
+		let date1 = new Date(subdate1);
+		let date2 = new Date(subdate2);
+		
+		var time_diff = date2.getTime() - date1.getTime();
+		
+		var days_diff = time_diff / (1000 * 60 * 60 * 24);
+		console.log("days diff : "+days_diff);
+		days_diff = Math.ceil(days_diff);
+		this.SetDays(days_diff);
+		this.Next2(true);
+		
+		
+	}
+	handleSuppr(index){
+		
+		
+		let debut = this.props.team[index].dateDebut.split('-');
+		let dateDebut = this.props.team[index].dateDebut;
+		let dateFin = this.props.team[index].dateFin;
+		let fin = this.props.team[index].dateFin.split('-');
+		let subdate1 = debut[1]+"/"+debut[0]+"/"+debut[2];
+		let team = this.props.team;
+		let subdate2 = fin[1]+"/"+fin[0]+"/"+fin[2];
+		
+		let date1 = new Date(subdate1);
+		let date2 = new Date(subdate2);
+		
+		var time_diff = date2.getTime() - date1.getTime();
+		
+		var days_diff = time_diff / (1000 * 60 * 60 * 24);
+		console.log("days diff : "+days_diff);
+		days_diff = Math.ceil(days_diff);
+		let nbrSem = Math.ceil(days_diff/7);
+		
+		
+		var user = firebase.auth().currentUser;
+		let myname1 = user.displayName + "Chantier/"+team[index].intitule;
+		let myname2 = user.displayName + team[index].intitule + "Equipe/";
+		let myname3 = user.displayName + team[index].intitule + "Equipement/";
+		let myname4 = user.displayName + team[index].intitule + "Materiel/";
+		
+		
+		for( let i = 0 ; i < nbrSem ; i++){
+			let a = i + 1;
+			let semaine = "Semaine"+a;
+			
+		let myname5 = user.displayName + team[index].intitule + "Equipe"+ semaine + "/";
+		let myname6 = user.displayName + team[index].intitule + "Equipement"+ semaine + "/";
+		let myname7 = user.displayName + team[index].intitule + "Materiel"+ semaine + "/";
+			db.ref(myname5).remove();
+			db.ref(myname6).remove();
+			db.ref(myname7).remove();
+			
+		}
+		db.ref(myname2).remove();
+		db.ref(myname3).remove();
+		db.ref(myname4).remove();
+		db.ref(myname1).remove();
+		if(this.props.team.length === 1 ){
+			let vide = [];
+			this.AddTeam(vide);
+			
+		}
+		console.log(this.props.team,"TEAM SUPPR");
+		
+		
+	}
 	handleValidate(){
 		let empty = [];
 		let empty2 = [];
@@ -463,8 +560,12 @@ class AcceuilChantier extends Component {
 	render() {
 
 		let team = this.props.team;
-		console.log(team,"teamz");
+		let currentTeam = this.props.currentTeam;
+		console.log(team,"bubblegum");
+		console.log(currentTeam,"teamz");
 		if(this.state.currUser !== null){
+			
+			if(currentTeam.length > 0){
 		return (
 		<div>
 		{this.state.suiviCheck === false ?
@@ -507,13 +608,31 @@ class AcceuilChantier extends Component {
 									</Card.Description>
 								</Card.Content>
 									<Card.Content extra>
+									<Button.Group>
+										<Button
+											onClick={() => this.handleModif(index)}
+											positive>
+											Modifier le chantier
+										</Button>
+										<Button.Or />
+										<Button
+											onClick={() => this.handleSuppr(index)}
+											negative>
+											Supprimer
+										</Button>
+										
+									</Button.Group>
 									
+									<br/>
 										<Button
 											onClick={() => this.handleSuivi(index)}
-											positive>
+											>
 											Faire le suivi
 										</Button>
+										<br/>
+
 									
+										
 								</Card.Content>
 							</Card>
 							))}
@@ -532,6 +651,14 @@ class AcceuilChantier extends Component {
 		</div>
 		
 			);
+			}else{
+				
+							return (
+			<div> Veuillez ajouter une équipe pour pouvoir créer un chantier </div>
+			
+			);
+				
+			}
 		}else{
 			
 			return (

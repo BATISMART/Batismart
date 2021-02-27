@@ -5,8 +5,30 @@ import $ from "jquery";
 import firebase from "firebase/app";
 import { db} from "../config"
 class Display extends Component {
-	
-	
+	AddMaterial = (props) => {
+		this.props.AddMaterial(props);
+		
+	}
+	NewMaterial = (props) => {
+		
+			this.props.NewMaterial(props);
+		
+	}
+
+		EditingMat = (props) => {
+		
+		this.props.EditingMat(props);
+		
+	}
+	AddItem = (props) => {
+		this.props.AddItem(props);
+		
+	}	
+	EditingId = (props) => {
+		
+		this.props.EditingId(props);
+		
+	}	
 	SetDays = (props) => {
 		
 		this.props.SetDays(props);
@@ -31,7 +53,9 @@ class Display extends Component {
 			this.props.NewEquip(props);
 		
 	}
-	
+	Next2 = (props) => {
+		this.props.Next2(props);
+	}	
 	ChooseChantier = (props) => {
 		
 		this.props.ChooseChantier(props);
@@ -42,14 +66,27 @@ class Display extends Component {
 			this.props.NewMaterial(props);
 		
 	}
-	
-
-	
+	AddTeamSelected = (props) => {
+		
+			this.props.AddTeamSelected(props);
+		
+	}	
+	EditingEquip = (props) => {
+		
+		this.props.EditingEquip(props);
+		
+	}
+		CheckId = ( props) => {
+		
+		this.props.CheckId(props);
+		
+	}	
 	constructor(props){
 		super(props);
 		this.handleChantier = this.handleChantier.bind(this);
 		this.handleIndirect = this.handleIndirect.bind(this);
 		this.addTeam = this.addTeam.bind(this);
+		this.handleRetour = this.handleRetour.bind(this);
 		this.handleEquipement = this.handleEquipement.bind(this);
 		this.handleMateriaux = this.handleMateriaux.bind(this);
 		this.addEquipement = this.addEquipement.bind(this);
@@ -57,6 +94,8 @@ class Display extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleTeam = this.handleTeam.bind(this);
 		this.handleTotal = this.handleTotal.bind(this);
+		this.handleModif = this.handleModif.bind(this);
+		 this.handleSuppr =  this.handleSuppr.bind(this);
 		this.state = {
 			debut : "",
 			Fin: "",
@@ -86,6 +125,17 @@ class Display extends Component {
     }
   };
   
+  
+  
+	handleRetour(){
+		let vide = [];
+		this.EditingId(99);
+		this.ChooseChantier("NONE");
+		this.AddTeamSelected(vide);
+		this.SetDisplayVar(false);
+		this.Next2(false);
+		
+	}
 	handleTotal(){
 		
 	
@@ -93,7 +143,7 @@ class Display extends Component {
 		
 		
 		
-		let team = this.props.selectedList;
+		let team = this.props.teamSelected;
 		let b = this.props.matlist;
 		let days = this.props.daysList;
 		let a = this.props.equipement;
@@ -118,14 +168,20 @@ class Display extends Component {
 		 for(i = 0 ; i < team.length ; i++){
 			
 			
-			total += team[i].salaire * days[i]
+			total += team[i].cout
 		 
 		 
 		 
 		}
 		let dateDebut = this.state.debut;
 		let dateFin = this.state.Fin;
-		let chantierName = $("#chantierTest").val();
+		let chantierName;
+		if(this.props.modifChantier === false){
+			chantierName = $("#chantierTest").val();
+		}else{
+			
+			chantierName = this.props.chantierName;
+		}
 		var account = ""+chantierName;
 		
 		var user = firebase.auth().currentUser;
@@ -145,18 +201,7 @@ class Display extends Component {
 		
 		
 		console.log(total);
-		
-		var myname2 = user.displayName+intitule+"Equipe/";	
-		
-		let pushValueIndex = this.props.ValueIndex;
-		for(let z = 0 ; z < team.length ; z++){
-			var account2 = "Equipe"+z; 
-			var jour = pushValueIndex[z];
-			var cout = pushValueIndex[z] * team[z].salaire;
-			db.ref(myname2).child(account2).set({jour,cout});
-			
-			
-		}
+
 		
 		
 		
@@ -176,7 +221,7 @@ class Display extends Component {
 			
 			
 		}
-		if(this.props.selectedList.length > 0){
+		if(this.props.teamSelected.length > 0){
 			
 			teamcheck = true;
 		}
@@ -212,6 +257,23 @@ class Display extends Component {
 			datecheck = true;
 			
 		}
+		let chantierName = $("#chantierTest").val();
+		var user = firebase.auth().currentUser;
+		
+		var myname = user.displayName+"Chantier/";
+		let myState = true ;
+		
+		for(let i = 0 ; i < this.props.currentTeamList.length ; i++){
+			let dbName = this.props.currentTeamList[i].intitule;
+			if(dbName.toUpperCase() === chantierName.toUpperCase()){
+				
+				myState = false;
+				
+			}
+			
+			
+		}
+		if(myState === true ){
 		if(datecheck === true){
 		 
 		let subdate1 = debut[1]+"/"+debut[0]+"/"+debut[2];
@@ -227,15 +289,13 @@ class Display extends Component {
 		console.log("days diff : "+days_diff);
 		days_diff = Math.ceil(days_diff);
 		this.SetDays(days_diff);
-		let chantierName = $("#chantierTest").val();
+		
 		var item = this.props.a;
 		item.push({intitule : chantierName});
 		this.AddTeam(item);
 		var account = ""+chantierName;
 		
-		var user = firebase.auth().currentUser;
 		
-		var myname = user.displayName+"Chantier/";
 		
 		var intitule = chantierName;
 		
@@ -251,6 +311,15 @@ class Display extends Component {
 		this.ChooseChantier(intitule);
 		db.ref(myname).child(account).set({intitule,total,pdv,dateDebut,dateFin}); 
 		
+		}else{
+			
+			alert("Votre date de fin est mal configurée");
+			
+		}
+		}else{
+			
+			alert("Ce nom de chantier éxiste déjà");
+			
 		}
 		
 	}
@@ -265,6 +334,122 @@ class Display extends Component {
 	handleEquipement(){
 		this.NewEquip(true);
 		$("#mainfield").hide();
+	}
+	
+	handleModif(type,index){
+		this.CheckId(false);
+		this.EditingId(index);
+		if(type == 1){
+		this.EditingEquip(true);
+		this.NewEquip(true);
+		}else{
+			
+		this.NewMaterial(true);
+		this.EditingMat(true);
+			
+		}
+		$("#mainfield").hide();
+		
+		
+	}
+	handleSuppr(type,index){
+		var user = firebase.auth().currentUser;
+		var myname2 = user.displayName+this.props.chantierName+"Equipement";
+		var myname3 = user.displayName+this.props.chantierName+"Materiel";
+		var account = "Equipement"+index;
+		var account2 = "Materiel"+index;
+		let equipement = this.props.equipement;
+		if(type === 1){
+		db.ref(myname2).child(account).remove().then(() => {
+    console.log('Write succeeded!');
+	console.log(this.props.equipement,"monster2");
+	
+		
+			let allNotes = [];
+			db.ref(myname2).once("value", snapshot => {
+				
+				snapshot.forEach(snap => {
+					allNotes.push(snap.val());
+				});
+			}).then(() => {
+				
+				console.log(allNotes, "after remove");
+				this.AddItem(allNotes);
+				let longueur = allNotes.length;
+				for(let i = 0 ; i < allNotes.length ; i++){
+					var faccount = "Equipement"+i;
+					var idnumber = i;
+					var intitule = allNotes[i].intitule;
+					var fournisseur = allNotes[i].fournisseur;
+					var prix_par_jour = allNotes[i].prix_par_jour;
+					var jour = allNotes[i].jour;
+					db.ref(myname2).child(faccount).set({idnumber,intitule,fournisseur,prix_par_jour,jour});
+					
+				}
+				
+				var Laccount = "Equipement"+longueur
+				db.ref(myname2).child(Laccount).remove()
+				
+			});
+		/*	let a = i+ 1;
+			var account2 = "Equipement"+a;
+			var newValue = "Equipement"+i;
+			db.ref(myname2).child(account2).set(newValue);
+			*/
+		
+		
+		
+	
+  });
+		}else{
+		db.ref(myname3).child(account2).remove().then(() => {
+ 
+	
+		
+			let allNotes = [];
+			db.ref(myname3).once("value", snapshot => {
+				
+				snapshot.forEach(snap => {
+					allNotes.push(snap.val());
+				});
+			}).then(() => {
+				
+				console.log(allNotes, "after remove");
+				this.AddMaterial(allNotes);
+				let longueur = allNotes.length;
+				for(let i = 0 ; i < allNotes.length ; i++){
+					var faccount = "Materiel"+i;
+					var idnumber = i;
+					var intitule = allNotes[i].intitule;
+					var fournisseur = allNotes[i].fournisseur;
+					var montant_unite = allNotes[i].montant_unite
+					var quantite = allNotes[i].quantite;
+					db.ref(myname3).child(faccount).set({idnumber,intitule,fournisseur,montant_unite,quantite});
+					
+				}
+				
+				var Laccount = "Materiel"+longueur
+				db.ref(myname3).child(Laccount).remove()
+				
+			});
+		/*	let a = i+ 1;
+			var account2 = "Equipement"+a;
+			var newValue = "Equipement"+i;
+			db.ref(myname2).child(account2).set(newValue);
+			*/
+		
+		
+		
+	
+  });			
+			
+			
+			
+			
+		}
+		console.log(this.props.equipement,"monster");
+		
+		
 	}
 	handleMateriaux(){
 		
@@ -316,11 +501,11 @@ class Display extends Component {
 			
 			
 			
-			{a.map((data) => (
+			{a.map((data,index) => (
 				
 				<Card>
 					<Card.Content>
-						<Card.Header>Equipement {data.idnumber + 1}</Card.Header>
+						<Card.Header>Location {data.idnumber + 1}</Card.Header>
 						<Card.Description>
 							<ul>
 								<li key = {data.idnumber}>
@@ -332,6 +517,20 @@ class Display extends Component {
 							</ul>
 						</Card.Description>
 					</Card.Content>
+					<Card.Content extra>
+									
+										<Button
+											onClick={() => this.handleModif(1,index)}
+											positive>
+											Modifier
+										</Button>
+										<Button
+											onClick={() => this.handleSuppr(1,index)}
+											negative>
+											Supprimer
+										</Button>
+									
+								</Card.Content>
 				</Card>
 			))}
 			
@@ -348,8 +547,11 @@ class Display extends Component {
 		
 	}
 	addTeam(){
-	 let team = this.props.selectedList;
+	 let team = this.props.teamSelected;
+	 console.log(team, "TEAM SELECTED 94ZOO");
+	 
 	 let days = this.props.daysList;
+	 
 	
 
 
@@ -357,46 +559,51 @@ class Display extends Component {
 	 return (
 	 
 								<Card.Group>
-		{team.map((data,index) => (
-			
+<Card>
+								<Card.Content>
+									<Card.Description>
+										Refaire mes equipes
+									</Card.Description>
+								</Card.Content>
+								<Card.Content extra>
+									<div>
+										<Button
+											id="team"
+											onClick={this.handleTeam}
+											circular
+											animated
+											positive>
+											<Button.Content visible>
+												<Icon name='plus circle'/>
+											</Button.Content>
+											<Button.Content hidden>
+												<Icon name='arrow circle right' />
+											</Button.Content>
+										</Button>
+									</div>
+								</Card.Content>
+							</Card>								
+								
+								
+								
+								
+				{team.map((data,index) => (
+				
 				<Card>
-					
-					 <Card.Content>
-					 
-					 <Card.Header>Equipe n°{index + 1}</Card.Header>
+					<Card.Content>
+						<Card.Header>Equipe {index + 1}</Card.Header>
 						<Card.Description>
-							{data.values.map((item) => (
-							
 							<ul>
+								<li key = {data.idnumber}>
+									<p>Nombre de jours sur le chantier : {data.jour}</p>
+									<p>Coût de l'équipe : {data.cout}  € </p>
+									<p>Nombre de membre : {data.nombre} </p>
 									
-									<p>Prenom: {item.name}</p>
-									<p>Nom : {item.surname}</p>
-										
-									
-									
-								
+								</li>
 							</ul>
-							))}
-							
-							
-								<ul>
-									
-									<p>Jours accordés sur le chantier : {days[index]} </p>
-									<p>Prix journalier {team[index].salaire} €/Jour </p>
-									<p> Coût total de l'Equipe sur le chantier {team[index].salaire * days[index]} € </p>
-									
-										
-									
-									
-								
-								</ul>
-							
 						</Card.Description>
-						
 					</Card.Content>
-				</Card>			
-					 
-							
+				</Card>
 			))}
 			
 			
@@ -458,7 +665,7 @@ class Display extends Component {
 			
 			
 			
-			{a.map((data) => (
+			{a.map((data,index) => (
 				
 				<Card>
 					<Card.Content>
@@ -474,6 +681,21 @@ class Display extends Component {
 							</ul>
 						</Card.Description>
 					</Card.Content>
+						<Card.Content extra>
+									
+										<Button
+											onClick={() => this.handleModif(2,index)}
+											positive>
+											Modifier
+										</Button>
+										<Button
+											onClick={() => this.handleSuppr(2,index)}
+											negative>
+											Supprimer
+										</Button>
+
+									
+								</Card.Content>
 				</Card>
 			))}
 			
@@ -498,11 +720,18 @@ class Display extends Component {
 	
 	render() {
 		
-		console.log(this.props.equipement,"OMG");
+		console.log(this.props.modifChantier,"OMG");
+		if(this.props.modifChantier === false){
 		return (
 		
 		<Segment textAlign = 'center' basic id="mainfield">
-
+					<div>
+		<Button
+					onClick={this.handleRetour}
+					primary>Retour</Button>
+			
+				
+		</div>
 			<Form>
 				<Divider horizontal>Propriétés du chantier</Divider>	
 				<Form.Field inline id="chantierName">
@@ -518,7 +747,7 @@ class Display extends Component {
 						value={this.state.debut}
 						onChange={this.handleChange}
 						placeholder="Date de début du chantier"
-						iconPosition="left"
+						popupPosition="bottom center"
 						/>
 					
 				
@@ -530,7 +759,7 @@ class Display extends Component {
 						value={this.state.Fin}
 						onChange={this.handleChange}						
 						placeholder="Date de fin du chantier"
-						iconPosition="left"
+						popupPosition="bottom center"
 						/>
 					
 				
@@ -638,7 +867,7 @@ class Display extends Component {
 				<div id ="ekipField">
 				
 					<Form.Field id = "2">
-					{this.props.selectedList.length > 0 ?
+					{this.props.teamSelected.length > 0 ?
 				
 						this.addTeam()
 				
@@ -678,7 +907,7 @@ class Display extends Component {
 					)}
 					<Button
 						onClick={this.handleIndirect}
-						positive>Click Here</Button>
+						positive>Ajouter Coûts indirects et autre(s) </Button>
 					</Form.Field>
 				</div>
 				<Divider horizontal>Coûts indirects et autre(s)</Divider>
@@ -714,7 +943,7 @@ class Display extends Component {
 				<Button
 					id="ButtonIndirect"
 					onClick={this.handleTotal}
-					positive>Click Here</Button>
+					positive>Terminer</Button>
 			
 				</div>
 						
@@ -729,6 +958,220 @@ class Display extends Component {
 		
 		
 		
+	}else{
+		$("#ekip").prop("disabled",false);
+		$("#mat").prop("disabled",false);
+		$("#team").prop("disabled",false);
+		
+		$("#validate").prop("disabled",true);
+		console.log(this.props.teamSelected, "TEAM SELECTED ZEER");
+		console.log("lag");
+		return (
+		
+		<Segment textAlign = 'center' basic id="mainfield">
+		<div>
+		<Button
+					onClick={this.handleRetour}
+					primary>Retour</Button>
+			
+				
+		</div>
+		<Form>
+						<Divider horizontal>Location</Divider>
+				<div id="equipmentField">
+				
+					<Form.Field id = "0">
+						
+						{this.props.equipement.length > 0 ?  
+								
+								this.addEquipement()
+								
+							: ( 
+						<Card.Group>
+							<Card>
+								<Card.Content>
+									<Card.Description>
+										Ajouter une Location
+									</Card.Description>
+								</Card.Content>
+								<Card.Content extra>
+									<div>
+										<Button
+											id="ekip"
+											animated
+											circular
+											onClick={this.handleEquipement}
+											positive>
+											<Button.Content visible>
+												<Icon name='plus circle'/>
+											</Button.Content>
+											<Button.Content hidden>
+												<Icon name='arrow circle right' />
+											</Button.Content>
+										</Button>
+									</div>
+								</Card.Content>
+							</Card>
+							
+							{console.log("equpment length "+this.props.equipement.length)}
+							
+							
+							
+							
+							
+						</Card.Group>
+						)}
+						
+					
+					</Form.Field>
+					
+				</div>
+				<Divider horizontal>Matériel</Divider>
+				<div id ="materField">
+				
+					<Form.Field id = "1">
+					{this.props.matlist.length > 0 ? 
+						
+							this.addMateriaux()
+						: (
+						<Card.Group>
+							<Card>
+								<Card.Content>
+									<Card.Description>
+										Ajouter du matériel
+									</Card.Description>
+								</Card.Content>
+								<Card.Content extra>
+									<div>
+										<Button
+											id="mat"
+											circular
+											onClick={this.handleMateriaux}
+											animated
+											positive>
+											<Button.Content visible>
+												<Icon name='plus circle'/>
+											</Button.Content>
+											<Button.Content hidden>
+												<Icon name='arrow circle right' />
+											</Button.Content>
+										</Button>
+									</div>
+								</Card.Content>
+							</Card>
+						
+								
+							
+							
+							
+							
+						</Card.Group>
+					)}
+					
+					</Form.Field>
+				</div>
+				<Divider horizontal>Mes Equipes</Divider>
+				<div id ="ekipField">
+				
+					<Form.Field id = "2">
+					{this.props.teamSelected.length > 0 ?
+				
+						this.addTeam()
+				
+					: (
+						<Card.Group>
+							<Card>
+								<Card.Content>
+									<Card.Description>
+										Ajouter mes Equipes
+									</Card.Description>
+								</Card.Content>
+								<Card.Content extra>
+									<div>
+										<Button
+											id="team"
+											onClick={this.handleTeam}
+											circular
+											animated
+											positive>
+											<Button.Content visible>
+												<Icon name='plus circle'/>
+											</Button.Content>
+											<Button.Content hidden>
+												<Icon name='arrow circle right' />
+											</Button.Content>
+										</Button>
+									</div>
+								</Card.Content>
+							</Card>
+						
+								
+							
+							
+							
+							
+						</Card.Group>	
+					)}
+					<Button
+						onClick={this.handleIndirect}
+						positive>Ajouter Coûts indirects et autre(s) </Button>
+					</Form.Field>
+				</div>
+				<Divider horizontal>Coûts indirects et autre(s)</Divider>
+				<div id ="coutField">
+					<Form.Field inline id = "3">
+					<label>Coefficient Indirect ( en % ) </label><br/>
+					<Input type="text"
+							id="indirect"
+							className='text-input1' 
+							name='indirect' 
+							placeholder = 'Coefficient Indirect' 
+							onChange={this.changeHandler}/>
+					</Form.Field>
+					<Form.Field inline id = "4">
+					<label>Aléas ( en % )</label><br/>
+			<Input type="text"
+                className='text-input1' 
+				id="alea"
+                name='alea' 
+                placeholder = 'Aléas' 
+                onChange={this.changeHandler}/>
+			</Form.Field>
+			<Form.Field inline id = "5">
+			<label>Marge ( en % )</label><br/>
+			<Input type="text"
+                className='text-input1' 
+				id="marge"
+                name='marge' 
+                placeholder = 'marge' 
+                onChange={this.changeHandler}/>
+				</Form.Field>
+				
+				<Button
+					id="ButtonIndirect"
+					onClick={this.handleTotal}
+					positive>Terminer</Button>
+			
+				</div>
+						
+				
+			</Form>
+			</Segment>
+		
+		
+		
+		
+		)
+	}
+		
+		
+		
+		
+		
+		
+		
+	}
+	
 	}
 	
 	
@@ -736,6 +1179,6 @@ class Display extends Component {
 	
 	
 	
-}
+
 
 export default Display;

@@ -11,17 +11,23 @@ class CardEquipe extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleClick2 = this.handleClick2.bind(this);
 		this.handleClick3 = this.handleClick3.bind(this);
+		this.editTeam = this.editTeam.bind(this);
+		this.supprTeam = this.supprTeam.bind(this);
 		let EquipeList = [];
 		let size = 1;
 		let id = 0;
 		let etat = false;
+		let modState = false;
+		let modIndex = 0;
 		this.state = {
 			currUser: null,
 			etat,
 			id,
 			size,
 			EquipeList,
-			teamValue: false
+			teamValue: false,
+			modIndex,
+			modState,
 		
 		};
 		
@@ -80,14 +86,16 @@ class CardEquipe extends Component {
 	console.log(FullData);
 	console.log("fin contenu full data");
 	let salaireNow = allNotes[0].salaire;
+	let nombre = allNotes[0].nombre;
 	var data = [];
 	for(let k = 0 ; k < nameArray.length ; k++){
-		
+		if(nameArray[k] !== undefined){
 		data.push({
 			name : nameArray[k],
 			surname: surnameArray[k]
 		
 		});
+		}
 		
 		
 	}
@@ -95,7 +103,8 @@ class CardEquipe extends Component {
 	console.log(data);
 	console.log("fin contenu de data");
 	FullData.push({values : data,
-						   salaire: salaireNow	
+						   salaire: salaireNow,
+							nombre: nombre
 							});
 
 	this.setState({EquipeList:FullData});
@@ -121,7 +130,13 @@ class CardEquipe extends Component {
 		
 	}
 	
-	
+	editTeam(index){
+		
+		console.log(this.state.EquipeList[index]);
+		this.setState({teamValue:true});
+		this.setState({modState: true});
+		this.setState({modIndex: index})
+	}
 	handleClick2(){
 		let currentSize = this.state.size;
 		
@@ -149,10 +164,69 @@ class CardEquipe extends Component {
 		
 	}
 	
-	
+	supprTeam(index){
+		
+		
+			let tempTeam = [];
+		let yay = this.state.EquipeList[index];
+		console.log(yay.values.length, "supr");
+			var user = firebase.auth().currentUser;
+		for( let i = 0 ; i < this.state.EquipeList.length ; i++ ) {
+			
+			let myname5 = user.displayName + "Equipe" +  i + "/";
+			db.ref(myname5).remove();
+			
+			if( i !== index){
+				
+				tempTeam.push(this.state.EquipeList[i]);
+				
+			}
+			
+			
+		}
+		
+		
+			
+			
+		for(let i = 0 ; i < tempTeam.length ; i++){
+			var myname = user.displayName+"Equipe"+i;
+			let yay = tempTeam[i];
+			if(yay.values.length <= 1 ){
+					var account1 = "Personne"+0;
+					var salaire = yay.salaire;
+					var nombre = yay.nombre;
+					db.ref(myname).child(account1).set({salaire,nombre})
+					
+			}
+			else{
+			for(let j = 0 ; j < yay.values.length ; j++){
+					var account = "Personne"+j;
+					var name = yay.values[j].name;
+					var surname = yay.values[j].surname;
+					var salaire = yay.salaire;
+					var nombre = yay.nombre;
+					if(this.state.size > 1 ){
+					db.ref(myname).child(account).set({name,surname,salaire,nombre})
+					}
+				
+			}
+			
+			}
+			
+		}
+		this.setState({EquipeList:tempTeam});
+		var tmpId = this.state.id - 1;
+		this.setState({id:tmpId});
+		
+		
+		
+		
+	}
 	handleClick3(){
 			
 			var user = firebase.auth().currentUser;
+			
+			if(this.state.modState === false ) {
 		
 			var myname = user.displayName+"Equipe"+this.state.id;
 		
@@ -164,10 +238,12 @@ class CardEquipe extends Component {
 			var tmpId = this.state.id;
 		
 			var FullData = this.state.EquipeList;
-			for(let i = 0 ; i < this.state.size ; i+=2){
+			console.log(this.state.size,"LA LONGUEUR");
+			if(this.state.size > 1 ){
+			for(let i = 2 ; i < this.state.size ; i+=2){
 				
 				
-				
+				console.log($("#"+i).find("Input").val());
 				let a = i+1;
 				nameArray.push($("#"+i).find("Input").val());
 				surnameArray.push($("#"+a).find("Input").val());
@@ -183,20 +259,27 @@ class CardEquipe extends Component {
 				
 				
 			}
-			var name ;
-			var surname ;
+			}
 			let salaire = $("#salaire").find("Input").val();
+			let nombre = $("#numberz").find("Input").val();
+			var account1 = "Personne"+0;
+					if(this.state.size <= 1 ){
+					db.ref(myname).child(account1).set({salaire,nombre})
+					}
 			for(let j = 0 ; j < nameArray.length ; j++){
-					var account = "Personne"+j; 
-					name = nameArray[j];
-					surname = surnameArray[j];
-					db.ref(myname).child(account).set({name,surname,salaire})
+					var account = "Personne"+j;
+					var name = nameArray[j];
+					var surname = surnameArray[j];
+					if(this.state.size > 1 ){
+					db.ref(myname).child(account).set({name,surname,salaire,nombre})
+					}
 				
 			}
 			
 			
 			FullData.push({values : data,
-						   salaire: $("#salaire").find("Input").val()	
+						   salaire: $("#salaire").find("Input").val(),	
+						   nombre: $("#numberz").find("Input").val()
 							});
 							
 			tmpId = tmpId + 1;				
@@ -205,6 +288,90 @@ class CardEquipe extends Component {
 			this.setState({teamValue:false});
 			this.setState({size:1});
 			this.setState({etat:false});
+			
+		}else{
+			
+			
+			var myname = user.displayName+"Equipe"+this.state.modIndex;
+		
+		
+		
+			var nameArray = [];
+			var surnameArray = [];
+			var data = [];
+			var tmpId = this.state.id;
+		
+			var FullData = this.state.EquipeList;
+			console.log(this.state.size,"LA LONGUEUR");
+			if(this.state.size > 1 ){
+			for(let i = 2 ; i < this.state.size ; i+=2){
+				
+				
+				console.log($("#"+i).find("Input").val());
+				let a = i+1;
+				nameArray.push($("#"+i).find("Input").val());
+				surnameArray.push($("#"+a).find("Input").val());
+				
+				data.push( {
+			name : $("#"+i).find("Input").val(),
+			surname: $("#"+a).find("Input").val()
+			
+		 
+		
+			
+		});
+				
+				
+			}
+			}
+			let salaire = $("#salaire").find("Input").val();
+			let nombre = $("#numberz").find("Input").val();
+			var account1 = "Personne"+0;
+					if(this.state.size <= 1 ){
+					db.ref(myname).child(account1).set({salaire,nombre})
+					}
+			for(let j = 0 ; j < nameArray.length ; j++){
+					var account = "Personne"+j;
+					var name = nameArray[j];
+					var surname = surnameArray[j];
+					if(this.state.size > 1 ){
+					db.ref(myname).child(account).set({name,surname,salaire,nombre})
+					}
+				
+			}
+			
+		let tempTeam = [];
+		for( let i = 0 ; i < this.state.EquipeList.length ; i++ ) {
+			
+			
+			if( i !== this.state.modIndex){
+				
+				tempTeam.push(this.state.EquipeList[i]);
+				
+			}else{
+				tempTeam.push({values : data,
+						   salaire: $("#salaire").find("Input").val(),	
+						   nombre: $("#numberz").find("Input").val()
+							});
+				
+			}
+			
+			
+		}			
+
+							
+			tmpId = tmpId + 1;				
+			this.setState({EquipeList:tempTeam});
+			this.setState({id:tmpId});
+			this.setState({teamValue:false});
+			this.setState({size:1});
+			this.setState({etat:false});
+			this.setState({modState: false});
+			
+			
+			
+			
+		}
 		
 		
 	}
@@ -225,7 +392,7 @@ if(this.state.EquipeList.length > 0){
   <Card.Group>
   
   
-		{team.map((data) => (
+		{team.map((data,index) => (
 			
 				<Card>
 					
@@ -233,10 +400,11 @@ if(this.state.EquipeList.length > 0){
 					 
 					 <Card.Header>Equipe n°{currentIndex = currentIndex+1}</Card.Header>
 						<Card.Description>
-							{data.values.map((item) => (
+							{data.values.map((item,index) => (
+							
 							
 							<ul>
-									
+									<p>Membre {index+1} </p>
 									<p>Prénom: {item.name}</p>
 									<p>Nom : {item.surname}</p>
 										
@@ -249,8 +417,8 @@ if(this.state.EquipeList.length > 0){
 							
 								<ul>
 									
-									<p>Prix journalier : {data.salaire} €/jour</p>
-									
+									<p>Tarif journalier : {data.salaire} €/jour</p>
+									<p>Nombre de personne dans l'équipe : {data.nombre} </p>
 										
 									
 									
@@ -260,6 +428,24 @@ if(this.state.EquipeList.length > 0){
 						</Card.Description>
 						
 					</Card.Content>
+					      <Card.Content extra>
+        <div>
+          <Button
+			onClick={() => this.editTeam(index)}
+			>
+
+			MODIFIER	
+         </Button>
+		 
+		           <Button
+				   negative
+			onClick={() => this.supprTeam(index)}
+			>
+
+			SUPPRIMER	
+         </Button>
+        </div>
+      </Card.Content>
 				</Card>			
 					 
 							
@@ -332,23 +518,25 @@ else{
 
 		<Form>
 			<Form.Field inline id="salaire">
-				<label>Prix journalier</label>
+				<label>Tarif journalier</label>
 				<Input placeholder='Salaire' />
+			</Form.Field>
+			<Form.Field inline id="numberz">
+				<label>Nombre de personne dans l’équipe </label>
+				<Input placeholder='Nombre de personne' />
 			</Form.Field>
 			<div id="namefield">
 			<Form.Field id = "0">
-				<label>First name</label>
-				<Input placeholder='First name'/>
+
 			</Form.Field>
 			<Form.Field id = "1">
-				<label>Last Name</label>
-				<Input placeholder='Last name'/>
+
 			</Form.Field>
 			</div>
 			<Button.Group>
 				<Button
 				onClick={this.handleClick2}>
-					Ajouter
+					cliquer sur ici pour spécifier un membre de l’équipe
 				</Button>
 				<Button.Or />
 					<Button positive

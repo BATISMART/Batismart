@@ -474,7 +474,7 @@ class Display extends Component {
 				<Card>
 								<Card.Content>
 									<Card.Description>
-										Ajouter un équipement
+										Ajouter une location
 									</Card.Description>
 								</Card.Content>
 								<Card.Content extra>
@@ -784,7 +784,7 @@ class Display extends Component {
 							<Card>
 								<Card.Content>
 									<Card.Description>
-										Ajouter un équipement
+										Ajouter une location
 									</Card.Description>
 								</Card.Content>
 								<Card.Content extra>

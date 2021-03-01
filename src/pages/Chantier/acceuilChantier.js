@@ -178,7 +178,7 @@ class AcceuilChantier extends Component {
 							<Card>
 								<Card.Content>
 									<Card.Description>
-										Ajouter un équipement
+										Ajouter une location
 									</Card.Description>
 								</Card.Content>
 								<Card.Content extra>
@@ -204,7 +204,7 @@ class AcceuilChantier extends Component {
 				
 				<Card>
 					<Card.Content>
-						<Card.Header>Equipement {index + 1}</Card.Header>
+						<Card.Header>Location {index + 1}</Card.Header>
 						<Card.Description>
 							<ul>
 								<li key = {data.idnumber}>

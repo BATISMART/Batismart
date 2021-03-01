@@ -770,7 +770,7 @@ class Display extends Component {
 						onClick={this.handleChantier}
 						positive>Valider</Button>
 				</Form.Field>
-				<Divider horizontal>Equipement</Divider>
+				<Divider horizontal>Location</Divider>
 				<div id="equipmentField">
 				
 					<Form.Field id = "0">

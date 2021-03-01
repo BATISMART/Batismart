@@ -29,7 +29,7 @@ const Contacter = () => {
         
          
 
-        <div className='home'>
+        <div className='contacter'>
             
 
             <meta name="viewport" 

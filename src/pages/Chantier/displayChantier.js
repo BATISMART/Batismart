@@ -96,6 +96,7 @@ class Display extends Component {
 		this.handleTotal = this.handleTotal.bind(this);
 		this.handleModif = this.handleModif.bind(this);
 		 this.handleSuppr =  this.handleSuppr.bind(this);
+		 this.dateModif = this.dateModif.bind(this);
 		this.state = {
 			debut : "",
 			Fin: "",
@@ -350,6 +351,63 @@ class Display extends Component {
 		}
 		$("#mainfield").hide();
 		
+		
+	}
+	dateModif(){
+		var user = firebase.auth().currentUser;
+		var myname2 = user.displayName+"Chantier/"+this.props.chantierName+"/";
+		let debut = this.state.debut.split('-');
+		let dateDebut = this.state.debut;
+		let dateFin = this.state.Fin;
+		let fin = this.state.Fin.split('-');
+		let datecheck = false;
+		console.log("dictator");
+		if(fin[2] > debut[2]){
+
+			datecheck = true
+
+
+		}else if(fin[1] > debut[1]){
+
+			datecheck = true;
+
+		}else if(fin[0] > debut[0]){
+			
+			
+			datecheck = true;
+			
+		}
+		if(datecheck === true){
+		 
+		let subdate1 = debut[1]+"/"+debut[0]+"/"+debut[2];
+		
+		let subdate2 = fin[1]+"/"+fin[0]+"/"+fin[2];
+		
+		let date1 = new Date(subdate1);
+		let date2 = new Date(subdate2);
+		
+		var time_diff = date2.getTime() - date1.getTime();
+		
+		var days_diff = time_diff / (1000 * 60 * 60 * 24);
+		console.log("days diff : "+days_diff);
+		//days_diff = Math.ceil(days_diff);
+		this.SetDays(days_diff);
+		let total = 0;
+		let pdv = 0;
+		db.ref(myname2).child("total").on("value", snapshot => {
+			
+			
+				
+			console.log(snapshot.val(), "total monster");
+				
+			
+			
+			
+		
+		
+		})
+		
+		}
 		
 	}
 	handleSuppr(type,index){
@@ -977,7 +1035,39 @@ class Display extends Component {
 				
 		</div>
 		<Form>
-						<Divider horizontal>Location</Divider>
+				<Divider horizontal>Propriétés du chantier</Divider>	
+
+				<Form.Field inline>
+					  <label>Date de début du chantier</label>
+					  <DateInput
+						name="debut"
+						value={this.state.debut}
+						onChange={this.handleChange}
+						placeholder="Date de début du chantier"
+						popupPosition="bottom center"
+						/>
+					
+				
+				</Form.Field>
+				<Form.Field inline>
+					  <label> Date de fin du chantier</label>
+					  <DateInput
+						name="Fin"
+						value={this.state.Fin}
+						onChange={this.handleChange}						
+						placeholder="Date de fin du chantier"
+						popupPosition="bottom center"
+						/>
+					
+				
+				</Form.Field>
+				<Form.Field>
+					<Button
+						id="modifDate"
+						onClick={this.dateModif}
+						positive>Valider</Button>
+				</Form.Field>
+				<Divider horizontal>Location</Divider>
 				<div id="equipmentField">
 				
 					<Form.Field id = "0">

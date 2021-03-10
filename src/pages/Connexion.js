@@ -1,6 +1,6 @@
 import React from 'react';
 import './login_signup.css'
-
+import Connect from "./connected.png";
 import firebase from "firebase/app";
 
 class Connexion extends React.Component {
@@ -62,7 +62,12 @@ class Connexion extends React.Component {
 
 if (user) {
 	return (
-	<div>Bonjour {user.displayName}, vous êtes déjà connecté.</div>
+	<div>
+	<img class="imageconnect" src={Connect} />
+		<h2 class="cm">
+			Bonjour {user.displayName} vous êtes connecté à Batismart: Vous pouvez accéder à toutes nos fonctionnalités
+		</h2>
+	</div>
 	)
 } else {
 	return (

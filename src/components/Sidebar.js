@@ -139,7 +139,7 @@ class Sidebar extends React.Component  {
 	}
 	
     showSidebar(){
-		console.log("test");
+		console.log("test sidebar");
 		this.setState({sidebar: !this.state.sidebar});
 		
 	}
@@ -177,11 +177,13 @@ class Sidebar extends React.Component  {
             <SidebarNav sidebar={this.state.sidebar}>
                 <SidebarWrap>
                 <NavIcon to="#">
+				
                     <AiIcons.AiOutlineClose onClick={this.showSidebar} 
                     />
                 </NavIcon>
                 {SidebarData.map((item, index) => {
-                    return <SubMenu item={item} key={index} />;
+                    return <SubMenu item={item} key={index} showSidebar={this.showSidebar} />;
+						
                 }) } 
                 </SidebarWrap>
             </SidebarNav>

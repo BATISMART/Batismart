@@ -3,6 +3,8 @@ import { Button, Card, Icon, Form,Input } from 'semantic-ui-react'
 import firebase from "firebase/app";
 import $ from "jquery";
 import { db} from "../config"
+import './ErrorEquip.css'
+import Lock from "./lock.png";
 class CardEquipe extends Component {
 	
 	constructor(props){
@@ -11,15 +13,21 @@ class CardEquipe extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleClick2 = this.handleClick2.bind(this);
 		this.handleClick3 = this.handleClick3.bind(this);
+		this.changeHandler2 = this.changeHandler2.bind(this);
 		this.editTeam = this.editTeam.bind(this);
 		this.supprTeam = this.supprTeam.bind(this);
+		this.addUser = this.addUser.bind(this);
 		let EquipeList = [];
+		let memberListNom = [];
+		let memberListPrenom = [];
 		let size = 1;
 		let id = 0;
 		let etat = false;
 		let modState = false;
 		let modIndex = 0;
 		this.state = {
+			teammate : 0,
+			tarif : 0,
 			currUser: null,
 			etat,
 			id,
@@ -28,7 +36,8 @@ class CardEquipe extends Component {
 			teamValue: false,
 			modIndex,
 			modState,
-		
+			memberListNom,
+			memberListPrenom
 		};
 		
 	}
@@ -126,23 +135,112 @@ class CardEquipe extends Component {
 	handleClick(){
 			
 			this.setState({teamValue:true});
-		
+			this.setState({teammate: 0});
+			this.setState({tarif: 0});
 		
 	}
+		changeHandler = (event) => {
+		let nam = event.target.name;
+		let val = event.target.value;
+		console.log(nam,"sadist nam");
+		console.log(val,"sadist val");
+		
+		this.setState({[nam]: val});
+
+	}
 	
+	changeHandler2(event,index,stats){
+		
+		if(stats === 1){
+			let ouais = this.state.memberListPrenom;
+			ouais[index] = event.target.value;
+			
+			this.setState({memberListPrenom: ouais});
+		}else{
+			let ouais1 = this.state.memberListNom;
+			ouais1[index] = event.target.value;
+			
+			this.setState({memberListNom: ouais1});			
+			
+			
+		}
+		
+		
+
+	}
 	editTeam(index){
 		
 		console.log(this.state.EquipeList[index]);
 		this.setState({teamValue:true});
 		this.setState({modState: true});
 		this.setState({modIndex: index})
+		console.log(index,"bug 2");
+		let actuelInd = this.state.modIndex;
+		let team = this.state.EquipeList[index];
+		let teamMember = team.values;
+		let prenom = [];
+		let nom = [];
+
+	for(let i = 0 ; i < teamMember.length ; i++){
+		
+
+		prenom.push(teamMember[i].name);
+		nom.push(teamMember[i].surname);
+
+		
+		
+	}
+	this.setState({memberListNom: nom});
+	this.setState({memberListPrenom: prenom})
+	console.log(nom,"bug memberListNom");
+		var user = firebase.auth().currentUser;
+		let myname = user.displayName + "Equipe" +  index + "/Personne0/";
+		
+			let nombre = 0;
+			let salaire = 0;
+			db.ref(myname).child("nombre").once("value", snapshot => {
+
+				nombre = snapshot.val();
+			
+			
+			}).then(() => {
+				
+				this.setState({teammate: nombre});
+				
+			});
+			db.ref(myname).child("salaire").once("value", snapshot => {
+
+				salaire = snapshot.val();
+				console.log(snapshot.val(),"mind");
+			
+			}).then(() => {
+				
+				this.setState({tarif: salaire});
+				
+			});		
+			
+			
+			
+			
+
+		
 	}
 	handleClick2(){
-		let currentSize = this.state.size;
+		let currentSize;
+		if(this.state.modState === false){
+		currentSize = this.state.size;
+		}else{
+				let actuelInd = this.state.modIndex;
+				let team = this.state.EquipeList[actuelInd];
+				let teamMember = team.values;
+				console.log(teamMember.length, "drunk");
+				currentSize = teamMember.length * 2 + 1
+			
+		}
 		
 		
-	
 		let strSize1 = currentSize + 1;
+		console.log(strSize1,"taille ATM");
 		let tform = $("<Form.Field id = " + strSize1+ "></Form.Field>");
 		
 		
@@ -222,6 +320,81 @@ class CardEquipe extends Component {
 		
 		
 	}
+	addUser(){
+	
+	
+		
+		
+
+
+
+	
+	let actuelInd = this.state.modIndex;
+	let team = this.state.EquipeList[actuelInd];
+	console.log(actuelInd,"bug actuel");
+	console.log(team,"bug 3");
+	let teamMember = team.values;
+	let prenom = [];
+	let nom = [];
+	let strArray1 = [];
+	let strArray2 = [];
+	let currentSize = this.state.size;
+	for(let i = 0 ; i < teamMember.length ; i++){
+		
+		let current1 = currentSize + 1;
+
+		
+		let current2 = currentSize + 2;
+
+		console.log(current1,"findingz");
+		strArray1.push(current1);
+		strArray2.push(current2);
+		prenom.push(teamMember[i].name);
+		nom.push(teamMember[i].surname);
+		currentSize = currentSize + 2;
+		
+		
+	}
+
+	
+	return (
+		<div>
+		{teamMember.map((data,index) => (
+			<div>
+			<Form.Field id = {strArray1[index]}>
+				<label>Prénom</label>
+				<Input 
+				name="memberListPrenom"
+				value={this.state.memberListPrenom[index]}
+				onChange={(e) => this.changeHandler2(e,index,1)}
+				placeholder='Prénom'/>
+			</Form.Field>
+
+
+			
+			<Form.Field id = {strArray2[index]}>
+				<label>Nom</label>
+				<Input 
+				name="memberListNom"
+				value={this.state.memberListNom[index]}
+				onChange={(e) => this.changeHandler2(e,index,2)}
+				placeholder='Nom'/>
+			</Form.Field>
+		</div>
+
+		
+		
+		))}
+		</div>
+	
+	)
+
+		
+		
+		
+	console.log(teamMember,"home with u ");
+		
+	}
 	handleClick3(){
 			
 			var user = firebase.auth().currentUser;
@@ -259,6 +432,7 @@ class CardEquipe extends Component {
 				
 				
 			}
+			
 			}
 			let salaire = $("#salaire").find("Input").val();
 			let nombre = $("#numberz").find("Input").val();
@@ -282,7 +456,9 @@ class CardEquipe extends Component {
 						   nombre: $("#numberz").find("Input").val()
 							});
 							
-			tmpId = tmpId + 1;				
+			if(this.state.modState === false){				
+			tmpId = tmpId + 1;
+			}				
 			this.setState({EquipeList:FullData});
 			this.setState({id:tmpId});
 			this.setState({teamValue:false});
@@ -291,7 +467,8 @@ class CardEquipe extends Component {
 			
 		}else{
 			
-			
+			let memberListNom = this.state.memberListNom;
+			let memberListPrenom = this.state.memberListPrenom;
 			var myname = user.displayName+"Equipe"+this.state.modIndex;
 		
 		
@@ -312,15 +489,19 @@ class CardEquipe extends Component {
 				nameArray.push($("#"+i).find("Input").val());
 				surnameArray.push($("#"+a).find("Input").val());
 				
-				data.push( {
-			name : $("#"+i).find("Input").val(),
-			surname: $("#"+a).find("Input").val()
-			
-		 
 		
-			
-		});
 				
+				
+			}
+			
+			for(let j = 0 ; j < nameArray.length ; j++){
+				if(nameArray[j] !== undefined){
+					
+					memberListPrenom.push(nameArray[j]);
+					memberListNom.push(surnameArray[j]);
+					
+					
+				}
 				
 			}
 			}
@@ -330,10 +511,11 @@ class CardEquipe extends Component {
 					if(this.state.size <= 1 ){
 					db.ref(myname).child(account1).set({salaire,nombre})
 					}
-			for(let j = 0 ; j < nameArray.length ; j++){
+			for(let j = 0 ; j < memberListNom.length ; j++){
 					var account = "Personne"+j;
-					var name = nameArray[j];
-					var surname = surnameArray[j];
+					var name = memberListNom[j];
+					console.log(name,"bug");
+					var surname = memberListPrenom[j];
 					if(this.state.size > 1 ){
 					db.ref(myname).child(account).set({name,surname,salaire,nombre})
 					}
@@ -341,6 +523,21 @@ class CardEquipe extends Component {
 			}
 			
 		let tempTeam = [];
+		
+		
+		
+			for(let j = 0 ; j < memberListNom.length ; j++){
+			
+						data.push( {
+			name : memberListPrenom[j],
+			surname: memberListNom[j]
+			
+		 
+		
+			
+		});
+				
+			}
 		for( let i = 0 ; i < this.state.EquipeList.length ; i++ ) {
 			
 			
@@ -359,8 +556,9 @@ class CardEquipe extends Component {
 			
 		}			
 
-							
-			tmpId = tmpId + 1;				
+			if(this.state.modState === false){				
+			tmpId = tmpId + 1;
+			}
 			this.setState({EquipeList:tempTeam});
 			this.setState({id:tmpId});
 			this.setState({teamValue:false});
@@ -513,17 +711,25 @@ return (
 }
 }
 else{
-	
+
 	return (	 
 
 		<Form>
 			<Form.Field inline id="salaire">
 				<label>Tarif journalier</label>
-				<Input placeholder='Salaire' />
+				<Input 
+				value={this.state.tarif}
+				onChange={this.changeHandler}
+				name="tarif"
+				placeholder='Salaire' />
 			</Form.Field>
 			<Form.Field inline id="numberz">
 				<label>Nombre de personne dans l’équipe </label>
-				<Input placeholder='Nombre de personne' />
+				<Input 
+				name="teammate"
+				value={this.state.teammate}
+				onChange={this.changeHandler}
+				placeholder='Nombre de personne' />
 			</Form.Field>
 			<div id="namefield">
 			<Form.Field id = "0">
@@ -532,7 +738,16 @@ else{
 			<Form.Field id = "1">
 
 			</Form.Field>
+			{this.state.modState === true && 
+			
+				this.addUser()
+				
+				
+			}
+			
+			
 			</div>
+									
 			<Button.Group vertical>
 				<Button
 				onClick={this.handleClick2}>
@@ -544,6 +759,9 @@ else{
 					>Terminer</Button>
 			</Button.Group>
 			
+			
+			
+			
 		</Form>
 			
 	);
@@ -553,7 +771,12 @@ else{
 }else{
 	
 	return (
-			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Accueil ensuite sur mes Equipes dans la sidebar de gauche si vous êtes déjà connecté </div>
+			<div >
+				<img class="imagelock" src={Lock} />
+				<h2 class="errorm" >
+					Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou créez un compte pour accéder à nos fonctionnalités 
+				</h2>
+			</div>
 			
 			);
 	

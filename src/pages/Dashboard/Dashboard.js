@@ -3,6 +3,8 @@ import firebase from "firebase/app";
 import { db} from "../config";
 import { Card, Button, Container, Divider } from 'semantic-ui-react'
 import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import './ErrorDashboard.css'
+import Lock from "./lock.png";
 class Dashboard extends Component {
 	
 	
@@ -410,7 +412,12 @@ const data = [
 		}else{
 			
 			return (
-			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Accueil ensuite sur Dashboard dans la sidebar de gauche si vous êtes déjà connecté </div>
+			<div >
+				<img class="imagelock" src={Lock} />
+				<h2 class="errorm" >
+					Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou créez un compte pour accéder à nos fonctionnalités 
+				</h2>
+			</div>
 			
 			);
 			

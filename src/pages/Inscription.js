@@ -2,6 +2,7 @@ import React from 'react';
 import './login_signup.css'
 import { config , db} from "./config"
 import firebase from "firebase/app";
+import Connect from "./connected.png";
 import {
   FirebaseAuthProvider
 } from "@react-firebase/auth";
@@ -101,7 +102,12 @@ class Inscription extends React.Component {
 				var user = firebase.auth().currentUser;
 				db.ref().child("tmp").set({tmp})
 				return ( 
-				<div>Bonjour {user.displayName}, vous êtes déjà inscrit.</div>
+				<div>
+				<img class="imageconnect" src={Connect} />
+					<h2 class="cm">
+						Bonjour {user.displayName} vous êtes connecté à Batismart: Vous pouvez accéder à toutes nos fonctionnalités
+					</h2>
+				</div>
 				)
 				
 				

@@ -7,6 +7,8 @@ import  { Redirect } from 'react-router-dom'
 import firebase from "firebase/app";
 import { db} from "../config";
 import $ from "jquery";
+import './ErrorChantier.css'
+import Lock from "./lock.png";
 class AcceuilChantier extends Component {
 	
 	SelectedAndDays = (props1,props2) => {
@@ -662,9 +664,17 @@ class AcceuilChantier extends Component {
 		}else{
 			
 			return (
-			<div>Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou Cliquer sur Accueil ensuite sur chantier dans la sidebar de gauche si vous êtes déjà connecté </div>
+
+			<div >
+				<img class="imagelock" src={Lock} />
+				<h2 class="errorm" >
+					Erreur utilisateur vous n'êtes pas connecté  : Connectez-vous ou créez un compte pour accéder à nos fonctionnalités 
+				</h2>
+			</div>
 			
 			);
+		
+		
 		}
 		
 		

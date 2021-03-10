@@ -145,3 +145,22 @@ input{
 .text-input:focus{
 	background: lightblue;
 }
+
+.cm{
+	position: relative;
+	font-size: 30px;
+	text-align: center;
+	color: #555B61;
+	padding-top: 100px;
+	padding-bottom: 150px;
+	
+}
+
+.imageconnect{
+	width: 100px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 50px;
+	margin-bottom: -100px;
+}

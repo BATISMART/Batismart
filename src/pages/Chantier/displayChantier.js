@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import {DateInput} from "semantic-ui-calendar-react"
-import { Card, Form, Input, Icon, Button, Segment, Divider } from 'semantic-ui-react'
+import { Card, Form, Input, Icon, Button, Segment, Divider, Modal } from 'semantic-ui-react'
 import $ from "jquery";
 import firebase from "firebase/app";
 import { db} from "../config"
@@ -102,13 +102,45 @@ class Display extends Component {
 			Fin: "",
 			indirect : 0,
 			alea : 0,
-			marge : 0
+			marge : 0,
+			modalOpen: false
 			
 		};
 		
 	}
 	
+	componentDidUpdate(prevProps){
+		
 
+		
+		console.log(prevProps.chantierName, "somebody else");
+		console.log(this.props.chantierName, "somebody dict");
+		if(this.props.chantierName !== prevProps.chantierName){
+			var user = firebase.auth().currentUser;
+			var myname = user.displayName+"Chantier/"+this.props.chantierName;
+			let debut = "";
+			let fin = "";
+			db.ref(myname).child("dateDebut").on("value", snapshot => {
+
+				debut = snapshot.val();
+			
+			
+			})
+			db.ref(myname).child("dateFin").on("value", snapshot => {
+
+				fin = snapshot.val();
+			
+			
+			})
+			
+			this.setState({debut: debut});
+			this.setState({Fin: fin});
+			
+		}
+		
+		
+		
+	}
 	componentDidMount(){
 		$("#ekip").prop("disabled",true);
 		$("#mat").prop("disabled",true);
@@ -117,6 +149,29 @@ class Display extends Component {
 		$("#alea").prop("disabled",true);
 		$("#marge").prop("disabled",true);
 		$("#ButtonIndirect").prop("disabled",true);
+		
+		
+			var user = firebase.auth().currentUser;
+			var myname = user.displayName+"Chantier/"+this.props.chantierName;
+			let debut = "";
+			let fin = "";
+			db.ref(myname).child("dateDebut").on("value", snapshot => {
+
+				debut = snapshot.val();
+			
+			
+			})
+			db.ref(myname).child("dateFin").on("value", snapshot => {
+
+				fin = snapshot.val();
+			
+			
+			})
+			
+			this.setState({debut: debut});
+			this.setState({Fin: fin});
+			
+		
 		
 		
 	}
@@ -148,10 +203,29 @@ class Display extends Component {
 		let b = this.props.matlist;
 		let days = this.props.daysList;
 		let a = this.props.equipement;
-		console.log(team,"Selected List");
-		console.log(b,"materiaux List");
-		console.log(days," Days List");
-		console.log(a,"Equipement List");
+		let dateDebut = this.state.debut;
+		let dateFin = this.state.Fin;
+		let debut = this.state.debut.split('-');
+		let fin = this.state.Fin.split('-');
+		
+		
+		let datecheck = false;
+		if(fin[2] > debut[2]){
+
+			datecheck = true
+
+
+		}else if(fin[1] > debut[1]){
+
+			datecheck = true;
+
+		}else if(fin[0] > debut[0]){
+			
+			
+			datecheck = true;
+			
+		}
+		if(datecheck === true){
 		let total = 0;
 		let i = 0;
 		for( i = 0 ; i < a.length ; i++){
@@ -174,8 +248,8 @@ class Display extends Component {
 		 
 		 
 		}
-		let dateDebut = this.state.debut;
-		let dateFin = this.state.Fin;
+
+		
 		let chantierName;
 		if(this.props.modifChantier === false){
 			chantierName = $("#chantierTest").val();
@@ -209,7 +283,20 @@ class Display extends Component {
 		
 		
 		db.ref(myname).child(account).set({intitule,total,pdv,dateDebut,dateFin}); 
+		
+		let vide = [];
+		this.EditingId(99);
+		this.ChooseChantier("NONE");
+		this.AddTeamSelected(vide);		
 		this.SetDisplayVar(false);
+		this.Next2(false);
+		
+		}else{
+			
+		 alert("Vous avez mal configuré vos dates");
+
+			
+		}
 		
 		
 	}
@@ -300,9 +387,9 @@ class Display extends Component {
 		
 		var intitule = chantierName;
 		
-		var total = this.props.total;
+		var total = 0;
 		
-		var pdv = this.props.pdv;
+		var pdv = 0;
 		$("#ekip").prop("disabled",false);
 		$("#mat").prop("disabled",false);
 		$("#team").prop("disabled",false);
@@ -353,9 +440,10 @@ class Display extends Component {
 		
 		
 	}
-	dateModif(){
+dateModif(){
 		var user = firebase.auth().currentUser;
 		var myname2 = user.displayName+"Chantier/"+this.props.chantierName+"/";
+		let intitule = this.props.chantierName;
 		let debut = this.state.debut.split('-');
 		let dateDebut = this.state.debut;
 		let dateFin = this.state.Fin;
@@ -398,7 +486,19 @@ class Display extends Component {
 			
 			
 				
-			console.log(snapshot.val(), "total monster");
+			total = snapshot.val();
+				
+			
+			
+			
+		
+		
+		})
+		db.ref(myname2).child("pdv").on("value", snapshot => {
+			
+			
+				
+			pdv = snapshot.val();
 				
 			
 			
@@ -407,9 +507,12 @@ class Display extends Component {
 		
 		})
 		
+		db.ref(myname2).update({intitule,total,pdv,dateDebut,dateFin}); 
 		}
 		
 	}
+	
+
 	handleSuppr(type,index){
 		var user = firebase.auth().currentUser;
 		var myname2 = user.displayName+this.props.chantierName+"Equipement";
@@ -1061,12 +1164,6 @@ class Display extends Component {
 					
 				
 				</Form.Field>
-				<Form.Field>
-					<Button
-						id="modifDate"
-						onClick={this.dateModif}
-						positive>Valider</Button>
-				</Form.Field>
 				<Divider horizontal>Location</Divider>
 				<div id="equipmentField">
 				
@@ -1240,8 +1337,7 @@ class Display extends Component {
 				<Button
 					id="ButtonIndirect"
 					onClick={this.handleTotal}
-					positive>Terminer</Button>
-			
+					positive>Terminer</Button>				
 				</div>
 						
 				

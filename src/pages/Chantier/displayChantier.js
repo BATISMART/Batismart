@@ -103,7 +103,9 @@ class Display extends Component {
 			indirect : 0,
 			alea : 0,
 			marge : 0,
-			modalOpen: false
+			modalOpen: false,
+			open1 : false,
+			open2: false
 			
 		};
 		
@@ -521,6 +523,7 @@ dateModif(){
 		var account2 = "Materiel"+index;
 		let equipement = this.props.equipement;
 		if(type === 1){
+			this.setState({open1:false})
 		db.ref(myname2).child(account).remove().then(() => {
     console.log('Write succeeded!');
 	console.log(this.props.equipement,"monster2");
@@ -563,6 +566,7 @@ dateModif(){
 	
   });
 		}else{
+			this.setState({open2:false})
 		db.ref(myname3).child(account2).remove().then(() => {
  
 	
@@ -685,11 +689,36 @@ dateModif(){
 											positive>
 											Modifier
 										</Button>
-										<Button
-											onClick={() => this.handleSuppr(1,index)}
+										<Modal
+											size = "mini"
+											onClose={() => this.setState({open1:false})}
+											onOpen={() => this.setState({open1:true})}
+											open={this.state.open1}
+										trigger={<Button
 											negative>
 											Supprimer
-										</Button>
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer cette location ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setState({open1:false})}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.handleSuppr(1,index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>
 									
 								</Card.Content>
 				</Card>
@@ -849,11 +878,36 @@ dateModif(){
 											positive>
 											Modifier
 										</Button>
-										<Button
-											onClick={() => this.handleSuppr(2,index)}
+										<Modal
+											size = "mini"
+											onClose={() => this.setState({open2:false})}
+											onOpen={() => this.setState({open2:true})}
+											open={this.state.open2}
+										trigger={<Button
 											negative>
 											Supprimer
-										</Button>
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer ce matériel ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setState({open2:false})}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.handleSuppr(2,index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>
 
 									
 								</Card.Content>

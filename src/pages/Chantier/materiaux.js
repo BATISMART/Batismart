@@ -226,7 +226,7 @@ class Materiaux extends React.Component {
             <input type="text" 
                 className='text-input1' 
                 name='montant_unite' 
-                placeholder = 'Montant/unité'
+                placeholder = 'Prix/unité'
                 onChange={this.changeHandler}/> <br /> {this.state.error}<br /> 
             <input type="text" 
                 className='text-input1' 
@@ -259,7 +259,7 @@ class Materiaux extends React.Component {
             <input type="text" 
                 className='text-input1' 
                 name='montant_unite' 
-                placeholder = 'Montant/unité'
+                placeholder = 'Prix/unité'
 				value = {this.state.montant_unite}
                 onChange={this.changeHandler}/> <br /> {this.state.error}<br /> 
             <input type="text" 

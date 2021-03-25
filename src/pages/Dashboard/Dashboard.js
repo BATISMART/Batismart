@@ -221,18 +221,18 @@ class Dashboard extends Component {
 		
 		for(let i = 0 ; i < mesEquipesPrev.length ; i++){
 			
-			EquipeTotal += mesEquipesPrev[i].cout;
+			EquipeTotal += Math.round(mesEquipesPrev[i].cout * 100)/100;
 			
 			
 		}
 		for(let i = 0 ; i < mesEquipementPrev.length ; i++){
 			
-			EquipementTotal += mesEquipementPrev[i].jour * mesEquipementPrev[i].prix_par_jour;
+			EquipementTotal += Math.round((mesEquipementPrev[i].jour * mesEquipementPrev[i].prix_par_jour) * 100) / 100;
 			
 		}
 		for(let i = 0 ; i < mesMateriauxPrev.length ; i++){
 			console.log(mesMateriauxPrev[i]);
-			MaterielTotal += mesMateriauxPrev[i].quantite * mesMateriauxPrev[i].montant_unite;
+			MaterielTotal += Math.round((mesMateriauxPrev[i].quantite * mesMateriauxPrev[i].montant_unite)*100)/100;
 			
 		}
 		let mesMateriauxSuiv = this.state.mesMateriauxSuiv;
@@ -244,7 +244,7 @@ class Dashboard extends Component {
 			for(let i = 0 ; i < mesMateriauxSuiv.length ; i++){
 				let currInd =  mesMateriauxSuiv[i].semaine;
 				let values = mesMateriauxSuiv[i].values;
-				suiviTotal[currInd-1] +=values.quantite * values.montant_unite;
+				suiviTotal[currInd-1] += Math.round((values.quantite * values.montant_unite)*100)/100;
 			
 			}
 		}
@@ -252,7 +252,7 @@ class Dashboard extends Component {
 			for(let i = 0 ; i < mesEquipementSuiv.length ; i++){
 				let currInd =  mesEquipementSuiv[i].semaine;
 				let values = mesEquipementSuiv[i].values;
-				suiviEquipement[currInd-1] +=values.jour * values.prix_par_jour;
+				suiviEquipement[currInd-1] +=Math.round((values.jour * values.prix_par_jour)*100)/100;
 			
 			}
 		}
@@ -260,54 +260,151 @@ class Dashboard extends Component {
 			for(let i = 0 ; i < mesEquipesSuiv.length ; i++){
 				let currInd =  mesEquipesSuiv[i].semaine;
 				let values = mesEquipesSuiv[i].values;
-				suiviEquipe[currInd-1] +=values.cout;
+				suiviEquipe[currInd-1] +=Math.round(values.cout * 100)/100;
 			
 			}
 		}
 		for(let i = 0 ; i < nbrSem ; i++){
 			suiviFull[i] = suiviEquipe[i] + suiviEquipement[i] + suiviTotal[i];
+			suiviFull[i] = Math.round(suiviFull[i] * 100)/100
 				
 		}
 		let tmp = 0;
 		for(let i = 0 ; i < nbrSem ; i++){
 			tmp += suiviFull[i];
-			cumuleData[i] = tmp;
+			cumuleData[i] = Math.round(tmp*100)/100;
 				
 		}
 		for(let i = 0 ; i < nbrSem ; i++){
 			let a = i+1;
 			var currName = "Semaine "+a;
-			graphData.push({name: currName, Coût: suiviFull[i], Cumule:cumuleData[i],total: totalData[i], pdv: pdvData[i]});	
+			graphData.push({name: currName, Coût: suiviFull[i], Cumule:Math.round(cumuleData[i]*100)/100,total: Math.round(totalData[i]*100)/100, pdv: Math.round(pdvData[i]*100)/100});	
 		}
 		
-				
+		let x1 = 0;
+		let x2 = 0;
+		let x3 = 0;
+		for(let i = 0 ; i < suiviEquipement.length ; i++){
+			
+			x1 += suiviEquipement[i]
+			
+		}
+		for(let i = 0 ; i < suiviEquipe.length ; i++){
+			
+			x2 += suiviEquipe[i]
+			
+		}
+		for(let i = 0 ; i < suiviTotal.length ; i++){
+			
+			x3 += suiviTotal[i]
+			
+		}		
 		
 		
 		
 		
 const data = [
   {
-    name: 'Equipes',
-    Coût: EquipeTotal
-  },
-  {
-    name: 'Equipements',
-    Coût: EquipementTotal
-  },
-  {
     name: 'Matériaux',
     Coût: MaterielTotal
   },
+  {
+    name: 'Matériaux suivis',
+    Coût: x3
+  },
+
 ]
-// console.log(graphData,"data");
+const data2 = [
+	{
+		name: 'Equipes',
+		Coût: EquipeTotal
+	},
+	{
+		name:'Equipes suivies',
+		Coût: x2
+		
+		
+	},
+
+
+
+]
+const data3 = [
+	{
+		name: 'Equipement',
+		Coût: EquipementTotal
+	},
+	{
+		name:'Equpements suivis',
+		Coût: x1
+		
+		
+	},
+
+
+
+]
+	
+	let prixTotalCum = Math.round(cumuleData[cumuleData.length - 1] * 100 ) / 100
+	let pdvChantier = Math.round(pdvData[0] * 100)/100;
+	let def = (prixTotalCum * 100) / pdvChantier
+	
+	def = Math.round(def);
+	
+	def = 100 - def;
+	def = Math.abs(def)
+	console.log(def,"wsh pourcentage");
+	console.log(EquipementTotal,"graph equipement total");
+	console.log(suiviEquipement,"graph equipement total suivi");
+	
 		
 		    return (
       <Container style={{ margin: 20 }}>
 	  <Divider horizontal>Mes dépenses prévues pour le chantier : {team[indValue].intitule} sans les Coûts indirects et autre(s)</Divider>
+	  
+	   <Divider horizontal>Comparaison de mes dépenses entre le coût des Matériaux en prévisionnels et en suivis</Divider>
         <BarChart
           width={500}
           height={300}
           data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar name="Coût en €" dataKey="Coût" fill="#82ca9d" />
+        </BarChart>
+		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipes en prévisionnels et en suivis</Divider>
+        <BarChart
+          width={500}
+          height={300}
+          data={data2}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar name="Coût en €" dataKey="Coût" fill="#82ca9d" />
+        </BarChart>
+		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipements en prévisionnels et en suivis</Divider>
+        <BarChart
+          width={500}
+          height={300}
+          data={data3}
           margin={{
             top: 5,
             right: 30,
@@ -340,17 +437,26 @@ const data = [
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line name="Coût en € sur la semaine" type="monotone" dataKey="Coût" stroke="#8884d8" />
+          
 		  <Line name="Coût en € cumulé " type="monotone" dataKey="Cumule" stroke="#82ca9d"  />
 		  <Line name="Prix de vente du chantier € " type="monotone" dataKey="pdv" stroke="red"  />
-		  <Line name="Coût total du chantier € avec Coûts indirects et autre(s) € " type="monotone" dataKey="total" stroke="black"  />
+		  
         </LineChart>
 		 <Divider horizontal>Analyse sur mes dépenses</Divider>
 		{cumuleData[cumuleData.length - 1] > totalData[0] ? 
 		(
-		<p>Attention vous avez dépassé les dépenses prévues pour votre chantier ! Vous êtes dans le rouge </p>
+		<div>
+		<p>Attention vous avez dépassé les dépenses prévues pour votre chantier ! </p>
+		<p>Votre chantier côute actuellement {prixTotalCum} € alors que son prix de vente est de {pdvChantier} € </p>
+		<p>Vous êtes en perte de {def} % </p>
+		</div>
 		):(
-		<p>Vous n'avez pas encore dépassé les dépenses prévues pour votre chantier ! Bravo vous êtes dans le vert </p>
+		<div>
+		<p>Vous n'avez pas encore dépassé les dépenses prévues pour votre chantier !  </p>
+		<p>Votre chantier côute actuellement {prixTotalCum} € et son prix de vente est de {pdvChantier} € </p>
+		<p>Vous êtes en bénifice de {def} % </p>
+		</div>
+		
 		)}
 		<Button
 			onClick={() => this.handleRetour()}

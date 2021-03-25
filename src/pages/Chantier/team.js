@@ -49,8 +49,12 @@ class Team extends React.Component {
 		let SelectIndex = [];
 		let TabDays = [0];
 		let ValueIndex = [];
+		let activeList = [];
 		let CurrentDay = 0;
+		let active = false;
 		this.state = {
+			activeList,
+			active,
 			ValueIndex,
 			TabDays,
 			CurrentDay,
@@ -121,6 +125,9 @@ class Team extends React.Component {
 			console.log(this.state.EquipeList[id].nombre, "brain");
 			nombreList.push(this.state.EquipeList[id].nombre);
 			console.log(selectList);
+			let currentActive = this.state.activeList;
+			currentActive.push(false);
+			this.setState({activeList: currentActive});
 			this.setState({SelectList:selectList});
 			this.setState({SelectIndex:selectIndex});
 			this.setState({nombreList: nombreList});
@@ -145,6 +152,9 @@ class Team extends React.Component {
 		console.log("on change "+index+"   "+event.target.value);
 		let ouais = this.state.ValueIndex;
 		ouais[index] = event.target.value;
+			let currentActive = this.state.activeList;
+			currentActive[index] = false;
+			this.setState({activeList: currentActive});
 		this.setState({ValueIndex: ouais});
 
 		}
@@ -187,11 +197,11 @@ class Team extends React.Component {
 		handleDays(index,ind){
 			
 			
-			for(let i = 0 ; i < this.state.EquipeList.length ; i++){
+		/*	for(let i = 0 ; i < this.state.EquipeList.length ; i++){
 			let desact = "#ButtonTeam"+i;
 			$(desact).prop("disabled",true);
 			
-			}
+			}*/
 			let id = "#daysattribute"+index;
 			console.log("majudays : "+index);
 			let checkid = "#Check"+index;
@@ -232,6 +242,11 @@ class Team extends React.Component {
   console.log(this.state.TabDays, 'tab days');
 });
 			console.log(this.state.SelectList, 'select list');
+			let activeState = this.state.active;
+			let currentActive = this.state.activeList;
+			currentActive[index] = true;
+			this.setState({activeList: currentActive});
+			this.setState({active: !activeState});
 			
 		}
 		componentDidMount() {
@@ -404,6 +419,8 @@ class Team extends React.Component {
 	console.log(selected);
 	let currentIndex = 0;
 	
+	let active = this.state.active;
+	
 	 if(this.props.DisplayButton === true ){
 	return (
 	
@@ -515,6 +532,7 @@ class Team extends React.Component {
 					<br/>
 					<Input value={this.state.ValueIndex[index]}  onChange={(e) => this.handleChange(e,index)} id={"daysattribute"+selectIndex[index]} placeholder='Jours Attribués'/>
 					<Button
+						toggle active={this.state.activeList[index]}
 						onClick={() => this.handleDays(selectIndex[index],index)}
 						id={"Check"+selectIndex[index]}
 						icon>

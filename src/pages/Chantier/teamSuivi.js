@@ -37,19 +37,26 @@ class TeamSuivi extends React.Component {
 		this.resetValues = this.resetValues.bind(this);
 		this.handleDays = this.handleDays.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
 		let EquipeList = [];
 		let SelectList = [];
 		let SelectIndex = [];
 		let TabDays = [0];
 		let ValueIndex = [];
+		let activeList = [];
+		let nombreList = [];
 		let CurrentDay = 0;
+		let active = false;
 		this.state = {
 			ValueIndex,
 			TabDays,
 			CurrentDay,
 			SelectIndex,
 			EquipeList,
-			SelectList
+			SelectList,
+			activeList,
+			nombreList,
+			active
 		};
 		
 	}
@@ -84,12 +91,19 @@ class TeamSuivi extends React.Component {
 				
 			}
 			let selectIndex = this.state.SelectIndex;
+			let nombreList = this.state.nombreList;
 			selectIndex.push(id);
 			selectList.push(this.state.EquipeList[id])
 			console.log(selectList);
+			let currentActive = this.state.activeList;
+			currentActive.push(false);
+			this.setState({activeList: currentActive});			
+			
+			
 			this.setState({SelectList:selectList});
 			this.setState({SelectIndex:selectIndex});
 			let valueIndex = this.state.ValueIndex;
+			this.setState({nombreList: nombreList});
 			valueIndex.push(0);
 			this.setState({ValueIndex:valueIndex});
 			console.log(this.state.TabDays, "selected tab days after");
@@ -110,6 +124,11 @@ class TeamSuivi extends React.Component {
 		console.log("on change "+index+"   "+event.target.value);
 		let ouais = this.state.ValueIndex;
 		ouais[index] = event.target.value;
+		let currentActive = this.state.activeList;
+		currentActive[index] = false;
+		this.setState({activeList: currentActive});
+		
+		
 		this.setState({ValueIndex: ouais});
 
 		}
@@ -150,11 +169,12 @@ class TeamSuivi extends React.Component {
 			
 		}
 		handleDays(index,ind){
-			for(let i = 0 ; i < this.state.EquipeList.length ; i++){
+			/*for(let i = 0 ; i < this.state.EquipeList.length ; i++){
 			let desact = "#ButtonTeam"+i;
 			$(desact).prop("disabled",true);
 			
-			}
+			}*/
+			
 			let id = "#daysattribute"+index;
 			console.log("majudays : "+index);
 			let checkid = "#Check"+index;
@@ -195,6 +215,12 @@ class TeamSuivi extends React.Component {
   console.log(this.state.TabDays, 'tab days');
 });
 			console.log(this.state.SelectList, 'select list');
+			let activeState = this.state.active;
+			let currentActive = this.state.activeList;
+			currentActive[index] = true;
+			this.setState({activeList: currentActive});
+			this.setState({active: !activeState});			
+			
 			
 		}
 		
@@ -320,18 +346,8 @@ class TeamSuivi extends React.Component {
 		let selectList = this.state.SelectList;
 		let checkEmpty = true;
 		
-		for(let i = 0 ; i <= selectList.length ; i++){
-			
-			let id = "#daysattribute"+selectIndex[i];
-			if($(id).val() === "0"){
-				
-				checkEmpty = false;
-				
-			}
-			
-			
-		}
-		if(this.state.CurrentDay === 0 && checkEmpty === true){
+
+		
 			
 		
 		
@@ -349,8 +365,8 @@ class TeamSuivi extends React.Component {
 			
 			
 		}
-		let selectList = [];
-		let selectIndex = [];
+		selectList = [];
+		selectIndex = [];
 		let tabDays = [0];
 		let valueIndex = [];
 		this.setState({SelectList:selectList});
@@ -361,9 +377,24 @@ class TeamSuivi extends React.Component {
 		
 		
 		$("#mainfield2").show();
-		}
+		
 		
 	}
+	handleCancel(){
+		let selectList = [];
+		let selectIndex = [];
+		let tabDays = [0];
+		let valueIndex = [];
+		this.setState({SelectList:selectList});
+		this.setState({SelectIndex:selectIndex});
+		this.setState({TabDays:tabDays});
+		this.setState({ValueIndex:valueIndex});
+		this.DisplayTeamSuivi(false);
+		$("#mainfield2").show();
+		
+		
+		
+	}	
 	render(){
 	let team = this.state.EquipeList;
 	let selected = this.state.SelectList;
@@ -382,7 +413,10 @@ class TeamSuivi extends React.Component {
 	return (
 	
 		<Segment>
-		
+		<Button
+						onClick={() => this.handleCancel()}>
+						Annuler/Retour
+					</Button>
 		<Grid columns={2} relaxed='very' stackable>
 		<Grid.Column>
 		  <Card.Group>
@@ -440,13 +474,7 @@ class TeamSuivi extends React.Component {
 		</Card.Group>
 		</Grid.Column>
 		<Grid.Column verticalAlign='top'>
-				{selected.length > 0 ?
-				(	
-					<div>Nombre de jours restant à attribuer {this.state.CurrentDay}</div>
-					)
-				:(
-				<div>Nombre de jours restant à attribuer {this.props.days}</div>
-				)}
+
 				  <Card.Group>
   
   
@@ -489,6 +517,7 @@ class TeamSuivi extends React.Component {
 					<br/>
 					<Input value={this.state.ValueIndex[index]}  onChange={(e) => this.handleChange(e,index)} id={"daysattribute"+selectIndex[index]} placeholder='Jours Attribués'/>
 					<Button
+						toggle active={this.state.activeList[index]}
 						onClick={() => this.handleDays(selectIndex[index],index)}
 						id={"Check"+selectIndex[index]}
 						icon>
@@ -511,9 +540,9 @@ class TeamSuivi extends React.Component {
 		</Grid>
 		<Button
 			onClick={this.handleClick}>
-							DONE
+							TERMINER
 						</Button>
-		<Divider vertical>Selected</Divider>
+		<Divider vertical>Equipes sélectionnées</Divider>
 	
 
 	</Segment>

@@ -16,8 +16,25 @@ class EquipementSuivi extends Component {
 		
 	}
 
+	EditingEquipSuivi = (props) => {
+		
+		this.props.EditingEquipSuivi(props);
+		
+	}
+	EditingId = (props) => {
+		
+		this.props.EditingId(props);
+		
+	}
+	EditingId2 = (props) => {
+		
+		this.props.EditingId2(props);
+		
+	}	
 		constructor(props){
 		super(props);
+		this.setSetting = this.setSetting.bind(this);
+		this.editList = this.editList.bind(this);
 		this.state = {
 			idModif : 0,
 			notes: [],
@@ -32,11 +49,47 @@ class EquipementSuivi extends Component {
 		
 	}
 	
+	setSetting(){
+		
+		return this.props.currentId;
+		
+	}
 
+
+	
 	componentDidUpdate(prevProps){
 		
 
+			if(this.props.currentId !== prevProps.currentId){
+		var item = this.props.itemSuiviList;
+			console.log(this.props.currentId,"fetish");
+			  var barca = this.setSetting();
+			  var varIntitule = "";
+			  var varFournisseur = "";
+			  var varPrixJour = "";
+			  var varJour = "";
+			 
+			  item.map( data => {
+			
+			if(data.idnumber === barca){
+					
+					varIntitule = data.intitule;
+					varFournisseur = data.fournisseur;
+					varPrixJour = data.prix_par_jour;
+					varJour = data.jour;
+				
+			}
+			return 0;
+			
+		});
+		this.setState({intitule: varIntitule,
+					   fournisseur: varFournisseur,
+					   prix_par_jour: varPrixJour,
+					   jour: varJour
+						})
+		this.setState({idModif: this.props.currentId});		
 		
+		}
 		
 		if(this.props.semaine !== prevProps.semaine){
 			var user = firebase.auth().currentUser;
@@ -48,12 +101,16 @@ class EquipementSuivi extends Component {
     });
 	
 	this.AddItemSuivi(allNotes);
+	this.NewEquipSuivi(false);
+	this.EditingEquipSuivi(false);
 			
 			
 			
 		})
+	console.log(this.props.currentId,"current id suivi");
+	console.log(prevProps.currentId, "prev id suivi");
+
 		}
-		
 		
 		
 	}
@@ -86,7 +143,7 @@ class EquipementSuivi extends Component {
 		var item = this.props.itemSuiviList;
 		let idnumber = item.length;
 		console.log("id number is : " + idnumber);
-		
+		if(this.props.modEquipSuivi == false){
 		item.push( {
 			id : idnumber,
 			intitule: this.state.intitule,
@@ -95,7 +152,13 @@ class EquipementSuivi extends Component {
 			jour: this.state.jour
 			
 		});
-		
+		}else{
+			
+			item = this.editList(item);
+			console.log(item,"bubblegum");
+			
+			
+		}
 		
 		
 		
@@ -112,20 +175,47 @@ class EquipementSuivi extends Component {
 		
 		var myname = user.displayName+this.props.chantierName+"Equipement"+this.props.semaine+"/";
 		console.log(myname,"suivi myname");
-		
+		if(this.props.modEquipSuivi === false ){
 		db.ref(myname).child(account).set({idnumber,intitule,fournisseur,prix_par_jour,jour});
-		
+		}else{
+			
+			idnumber = this.state.idModif;
+			account = "Equipement"+idnumber; 
+			db.ref(myname).child(account).update({idnumber,intitule,fournisseur,prix_par_jour,jour});
+			
+		}
 		this.NewEquipSuivi(false);
+		this.EditingId2(99);
+		this.EditingEquipSuivi(false);
 		$("#mainfield2").show();
 		
 		
 
 	}
-	
-	render() {
+	editList(list){
+		return list.map( item => {
+			var temp = Object.assign({}, item);
+			if(temp.idnumber === this.props.currentId){
+				console.log(this.props.currentId,"bubblegum");
+				this.setState({idModif: temp.idnumber});
+				temp.intitule = this.state.intitule;
+				temp.fournisseur = this.state.fournisseur;
+				temp.prix_par_jour = this.state.prix_par_jour;
+				temp.jour = this.state.jour;
+				
+			}
+			return temp;
+		});
 		
+		
+		
+		
+	}	
+	render() {
+		console.log(this.setSetting(),"equipement suivi full bug");
 		if(this.props.bool === true){
-			
+			if(this.props.modEquipSuivi === false){
+				console.log("modif suivi");
 				return (
 		<div>
 		
@@ -158,7 +248,56 @@ class EquipementSuivi extends Component {
 		</div>
 		)
 			
+			}else{
+			  
+			  console.log("modif suivi 2 ");
+			  
+			  
 			
+		
+			  
+			  return (
+		<div>
+		
+		<form onSubmit = {this.submitHandler}>
+        <p>
+			
+            <input className='text-input1' 
+                type="text" 
+                name='intitule' 
+                placeholder = 'Intitulé'
+				value = {this.state.intitule}
+                onChange={this.changeHandler}/> <br /> <br /> 
+            <input className='text-input1' 
+                type="text" 
+                name='fournisseur' 
+                placeholder = 'Fournisseur' 
+				value = {this.state.fournisseur}
+                onChange={this.changeHandler}/> <br /> <br /> 
+            <input className='text-input1' 
+                type="text" 
+                name='prix_par_jour' 
+                placeholder = 'Prix/Jour' 
+				value = {this.state.prix_par_jour}
+                onChange={this.changeHandler}/> <br /> {this.state.error}<br /> 
+            <input className='text-input1' 
+                type="text" 
+                name='jour' 
+                placeholder = 'Nombre de Jour' 
+				value = {this.state.jour}
+                onChange={this.changeHandler}/> {this.state.error2}
+        </p>
+
+        <Button variant="primary" onClick={this.submitHandler}>Valider</Button>
+        </form>
+		</div>
+		);
+			  
+			  
+			  
+			  
+			  
+		  }	
 			
 			
 		}else{

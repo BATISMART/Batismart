@@ -75,6 +75,7 @@ class App extends React.Component{
 		
     </Router>
     </div>
+		
      <Footer />
     </div>
 

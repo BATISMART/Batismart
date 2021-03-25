@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 
 
-import { Card, Form, Input, Icon, Button, Segment, Divider, Grid,Menu,Dropdown} from 'semantic-ui-react'
+import { Card, Form, Input, Icon, Button, Segment, Divider, Grid,Menu,Dropdown, Header, Image, Modal} from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 import firebase from "firebase/app";
 import { db} from "../config";
@@ -10,7 +10,17 @@ import $ from "jquery";
 import './ErrorChantier.css'
 import Lock from "./lock.png";
 class AcceuilChantier extends Component {
-	
+	EditingId = (props) => {
+		
+		this.props.EditingId(props);
+		
+	}
+	EditingId2 = (props) => {
+		
+		this.props.EditingId2(props);
+		
+	}	
+
 	SelectedAndDays = (props1,props2) => {
 		
 			this.props.SelectedAndDays(props1,props2);
@@ -80,6 +90,16 @@ class AcceuilChantier extends Component {
 		this.props.SetDays(props);
 		
 	}
+	EditingEquipSuivi = (props) => {
+		
+		this.props.EditingEquipSuivi(props);
+		
+	}
+	EditingMaterialSuivi = (props) => {
+		
+		this.props.EditingMaterialSuivi(props);
+		
+	}		
 	constructor(props){
 		
 		super(props);
@@ -87,6 +107,7 @@ class AcceuilChantier extends Component {
 		let indValue = 0;
 		this.handleEnter = this.handleEnter.bind(this);
 		this.handleSuivi = this.handleSuivi.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.handleSuppr = this.handleSuppr.bind(this);
 		this.handleMateriaux = this.handleMateriaux.bind(this);
@@ -95,12 +116,17 @@ class AcceuilChantier extends Component {
 		this.handleTeam = this.handleTeam.bind(this);
 		this.suiviChantier = this.suiviChantier.bind(this);
 		this.handleModif = this.handleModif.bind(this);
+		this.setOpen = this.setOpen.bind(this);
+		this.handleModifSuivi = this.handleModifSuivi.bind(this);
 		let activeItem;
 		this.state = { 	
 						currUser: null,
 						suiviCheck,
 						activeItem: "Cliquer ici",
-						indValue: 0
+						indValue: 0,
+						open: false,
+						open1 : false,
+						open2: false
 						}
 		
 	}
@@ -130,7 +156,33 @@ class AcceuilChantier extends Component {
 		
 		
 }
-
+	
+	
+	setOpen(etat){
+		
+		this.setState({open: etat});
+		
+		
+		
+	}
+	handleModifSuivi(type, index){
+		
+		
+		if(type == 1){
+			$("#mainfield2").hide();
+			console.log(this.props.currentId, "current id props suivi");
+			this.EditingId2(index);
+			this.EditingEquipSuivi(true);
+			this.NewEquipSuivi(true);
+		}else{
+			this.EditingId2(index);
+			this.EditingMaterialSuivi(true);
+			this.NewMaterialSuivi(true)
+			$("#mainfield2").hide();
+		}
+		
+		
+	}
 	handleEnter(){
 	let emptyList = [];
 	let emptyList2 = [];
@@ -146,6 +198,7 @@ class AcceuilChantier extends Component {
 		
 	}
 	handleEquipement(){
+		
 		this.NewEquipSuivi(true);
 		$("#mainfield2").hide();
 	}
@@ -160,6 +213,124 @@ class AcceuilChantier extends Component {
 		this.DisplayTeamSuivi(true);
 		
 		$("#mainfield2").hide();
+		
+	}
+	handleDelete(type, index){
+		
+		if(type == 1 ){
+			this.setState({open2:false})
+			var user = firebase.auth().currentUser;
+			let item = this.props.itemSuiviList
+			var myname = user.displayName+this.props.chantierName+"Equipement"+this.props.semaine+"/";
+			console.log(myname,"delete item");
+			var account = "Equipement"+index;
+					db.ref(myname).child(account).remove().then(() => {
+
+	
+		
+			let allNotes = [];
+			db.ref(myname).once("value", snapshot => {
+				
+				snapshot.forEach(snap => {
+					allNotes.push(snap.val());
+				});
+			}).then(() => {
+				
+				console.log(allNotes, "after remove");
+				this.AddItemSuivi(allNotes);
+				let longueur = allNotes.length;
+				for(let i = 0 ; i < allNotes.length ; i++){
+					var faccount = "Equipement"+i;
+					var idnumber = i;
+					var intitule = allNotes[i].intitule;
+					var fournisseur = allNotes[i].fournisseur;
+					var prix_par_jour = allNotes[i].prix_par_jour;
+					var jour = allNotes[i].jour;
+					db.ref(myname).child(faccount).set({idnumber,intitule,fournisseur,prix_par_jour,jour});
+					
+				}
+				
+				var Laccount = "Equipement"+longueur
+				db.ref(myname).child(Laccount).remove()
+				
+			});
+		/*	let a = i+ 1;
+			var account2 = "Equipement"+a;
+			var newValue = "Equipement"+i;
+			db.ref(myname2).child(account2).set(newValue);
+			*/
+		
+		
+		
+	
+  });
+			
+			
+		}else{
+			
+			
+			this.setState({open1:false})
+			var user = firebase.auth().currentUser;
+			let item = this.props.itemSuiviList
+			var myname = user.displayName+this.props.chantierName+"Materiel"+this.props.semaine+"/";
+			console.log(myname,"delete item");
+			var account = "Materiel"+index;
+					db.ref(myname).child(account).remove().then(() => {
+
+	
+		
+			let allNotes = [];
+			db.ref(myname).once("value", snapshot => {
+				
+				snapshot.forEach(snap => {
+					allNotes.push(snap.val());
+				});
+			}).then(() => {
+				
+				console.log(allNotes, "after remove");
+				this.AddMaterialSuivi(allNotes);
+				let longueur = allNotes.length;
+				for(let i = 0 ; i < allNotes.length ; i++){
+					var faccount = "Materiel"+i;
+					var idnumber = i;
+					var intitule = allNotes[i].intitule;
+					var fournisseur = allNotes[i].fournisseur;
+					var montant_unite = allNotes[i].montant_unite
+					var quantite = allNotes[i].quantite;
+					db.ref(myname).child(faccount).set({idnumber,intitule,fournisseur,montant_unite,quantite});
+					
+				}
+				
+				var Laccount = "Materiel"+longueur
+				db.ref(myname).child(Laccount).remove()
+				
+			});
+		/*	let a = i+ 1;
+			var account2 = "Equipement"+a;
+			var newValue = "Equipement"+i;
+			db.ref(myname2).child(account2).set(newValue);
+			*/
+		
+		
+		
+	
+  });
+			
+			
+			
+			
+			
+			
+		}
+			
+			
+			
+			
+			
+			
+			
+		
+		
 		
 	}
 	suiviChantier(){
@@ -218,6 +389,46 @@ class AcceuilChantier extends Component {
 							</ul>
 						</Card.Description>
 					</Card.Content>
+					<Card.Content extra>
+									
+										<Button
+											onClick={() => this.handleModifSuivi(1,index)}
+											positive>
+											Modifier
+										</Button>
+<Modal
+											size = "mini"
+											onClose={() => this.setState({open2:false})}
+											onOpen={() => this.setState({open2:true})}
+											open={this.state.open2}
+										trigger={<Button
+											negative>
+											Supprimer
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer cette location ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setState({open2:false})}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.handleDelete(1,index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>
+
+									
+					</Card.Content>					
 				</Card>
 			))}
 							
@@ -262,6 +473,7 @@ class AcceuilChantier extends Component {
 										</Button>
 									</div>
 								</Card.Content>
+			
 							</Card>
 						
 						
@@ -281,6 +493,48 @@ class AcceuilChantier extends Component {
 							</ul>
 						</Card.Description>
 					</Card.Content>
+											<Card.Content extra>
+									
+										<Button
+											onClick={() => this.handleModifSuivi(2,index)}
+											positive>
+											Modifier
+										</Button>
+<Modal
+											size = "mini"
+											onClose={() => this.setState({open1:false})}
+											onOpen={() => this.setState({open1:true})}
+											open={this.state.open1}
+										trigger={<Button
+											negative>
+											Supprimer
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer ce Matériel ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setState({open1:false})}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.handleDelete(2,index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>										
+										
+									
+
+									
+					</Card.Content>	
 				</Card>
 			))}
 								
@@ -299,12 +553,11 @@ class AcceuilChantier extends Component {
 					<Form.Field id = "2">
 					
 						<Card.Group>
-						{teamWeek.length === 0 &&
-						 (
+						
 							<Card>
 								<Card.Content>
 									<Card.Description>
-										Ajouter mes Equipes
+										Ajouter mes Equipes / Refaire mes Equipes
 									</Card.Description>
 								</Card.Content>
 								<Card.Content extra>
@@ -325,7 +578,7 @@ class AcceuilChantier extends Component {
 									</div>
 								</Card.Content>
 							</Card>
-						)}
+						
 						{teamWeek.map((data,index) => (
 				
 				<Card>
@@ -369,10 +622,10 @@ class AcceuilChantier extends Component {
 		
 	}
 	handleSuivi(index){
-		
 		this.setState({indValue: index});
 		this.setState({suiviCheck: true});
 		this.ChooseChantier(this.props.team[index].intitule);
+		
 		
 		
 	}
@@ -459,6 +712,7 @@ class AcceuilChantier extends Component {
 			this.AddTeam(vide);
 			
 		}
+		this.setOpen(false)
 		console.log(this.props.team,"TEAM SUPPR");
 		
 		
@@ -549,6 +803,7 @@ class AcceuilChantier extends Component {
         </Grid.Column>
       </Grid>
     )
+	
 		
 		
 		
@@ -560,7 +815,7 @@ class AcceuilChantier extends Component {
 	
 	
 	render() {
-
+		
 		let team = this.props.team;
 		let currentTeam = this.props.currentTeam;
 		console.log(team,"bubblegum");
@@ -605,8 +860,8 @@ class AcceuilChantier extends Component {
 									<Card.Description>
 										<p>Date de début de chantier : {data.dateDebut}</p>
 										<p>Date de fin de chantier : {data.dateFin}</p>
-										<p>Coût total du chantier : {data.total} € </p>
-										<p> Prix de vente du chantier : {data.pdv} € </p>
+										<p>Coût total du chantier : {Math.round(data.total*100)/100} € </p>
+										<p> Prix de vente du chantier : {Math.round(data.pdv*100)/100} € </p>
 									</Card.Description>
 								</Card.Content>
 									<Card.Content extra>
@@ -617,11 +872,37 @@ class AcceuilChantier extends Component {
 											Modifier le chantier
 										</Button>
 										<Button.Or />
-										<Button
-											onClick={() => this.handleSuppr(index)}
+										<Modal
+											size = "mini"
+											onClose={() => this.setOpen(false)}
+											onOpen={() => this.setOpen(true)}
+											open={this.state.open}
+										trigger={<Button
 											negative>
 											Supprimer
-										</Button>
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer ce chantier ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setOpen(false)}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.handleSuppr(index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>	
+										
 										
 									</Button.Group>
 									
@@ -645,7 +926,12 @@ class AcceuilChantier extends Component {
 							
 							
 							
-							
+
+      
+
+
+
+	
 						</Card.Group>
 		
 		) : this.addWeeks() }

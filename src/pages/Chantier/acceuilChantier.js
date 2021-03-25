@@ -784,7 +784,7 @@ class AcceuilChantier extends Component {
 		<Menu.Item>
 				<Button 
 					onClick={this.handleValidate}
-					primary>Valider</Button>
+					primary>RETOUR</Button>
 		</Menu.Item>
           </Menu>
         </Grid.Column>

@@ -362,7 +362,7 @@ const data3 = [
       <Container style={{ margin: 20 }}>
 	  <Divider horizontal>Mes dépenses prévues pour le chantier : {team[indValue].intitule} sans les Coûts indirects et autre(s)</Divider>
 	  
-	   <Divider horizontal>Comparaison de mes dépenses entre le coût des Matériaux en prévisionnels et en suivis</Divider>
+	   <Divider horizontal>Comparaison de mes dépenses entre le coût des Matériaux en prévisionnel et en suivi</Divider>
         <BarChart
           width={500}
           height={300}
@@ -381,7 +381,7 @@ const data3 = [
           <Legend />
           <Bar name="Coût en €" dataKey="Coût" fill="#82ca9d" />
         </BarChart>
-		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipes en prévisionnels et en suivis</Divider>
+		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipes en prévisionnel et en suivi</Divider>
         <BarChart
           width={500}
           height={300}
@@ -400,7 +400,7 @@ const data3 = [
           <Legend />
           <Bar name="Coût en €" dataKey="Coût" fill="#82ca9d" />
         </BarChart>
-		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipements en prévisionnels et en suivis</Divider>
+		 <Divider horizontal>Comparaison de mes dépenses entre le coût des équipements en prévisionnel et en suivi</Divider>
         <BarChart
           width={500}
           height={300}
@@ -454,7 +454,9 @@ const data3 = [
 		<div>
 		<p>Vous n'avez pas encore dépassé les dépenses prévues pour votre chantier !  </p>
 		<p>Votre chantier côute actuellement {prixTotalCum} € et son prix de vente est de {pdvChantier} € </p>
+		<br/>
 		<p>Vous êtes en bénifice de {def} % </p>
+		<br/>
 		</div>
 		
 		)}

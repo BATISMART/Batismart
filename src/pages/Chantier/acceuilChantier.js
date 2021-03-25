@@ -117,6 +117,7 @@ class AcceuilChantier extends Component {
 		this.suiviChantier = this.suiviChantier.bind(this);
 		this.handleModif = this.handleModif.bind(this);
 		this.setOpen = this.setOpen.bind(this);
+		this.displayNumb = this.displayNumb.bind(this);
 		this.handleModifSuivi = this.handleModifSuivi.bind(this);
 		let activeItem;
 		this.state = { 	
@@ -812,7 +813,52 @@ class AcceuilChantier extends Component {
 	
 	
 	
-	
+	displayNumb(number){
+		
+		
+		console.log(number,"number");
+		
+		var num = number;
+var n = num.toString();
+
+const str = num.toString();
+
+const words = str.split('.');
+let words1 = words[0]
+// expected output: "fox"
+let a = 0;
+let tab = []
+for(let i = words1.length - 1 ; i > -1 ; i--){
+  
+  tab.push(words1[i])
+  a++;
+  if(a == 3){
+    
+   	tab.push(" ");
+    a = 0;
+  }
+  
+}
+let str2 = "";
+for(let i = tab.length - 1 ; i > -1 ; i--){
+  
+ 	str2 += tab[i]
+  
+}
+	if(words[1] !== undefined){
+	str2 += "."+words[1]
+	}
+// expected output: "k"
+
+// expected output: Array ["The quick brown fox jumps over the lazy dog."]
+
+		
+		
+		
+		
+		return str2;
+		
+	}
 	
 	render() {
 		
@@ -860,8 +906,8 @@ class AcceuilChantier extends Component {
 									<Card.Description>
 										<p>Date de début de chantier : {data.dateDebut}</p>
 										<p>Date de fin de chantier : {data.dateFin}</p>
-										<p>Coût total du chantier : {Math.round(data.total*100)/100} € </p>
-										<p> Prix de vente du chantier : {Math.round(data.pdv*100)/100} € </p>
+										<p>Coût total du chantier : {this.displayNumb(Math.round(data.total*100)/100)} € </p>
+										<p> Prix de vente du chantier : {this.displayNumb(Math.round(data.pdv*100)/100)} € </p>
 									</Card.Description>
 								</Card.Content>
 									<Card.Content extra>

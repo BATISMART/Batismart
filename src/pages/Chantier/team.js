@@ -501,20 +501,21 @@ class Team extends React.Component {
 						<Card.Description>
 							{data.values.map((item) => (
 							
-							<ul>
-									
+							<div>
+									<br/>
 									<p>Prenom: {item.name}</p>
 									<p>Nom : {item.surname}</p>
 										
 									
 									
 								
-							</ul>
+							</div>
 							))}
 							
 							
-								<ul>
-									
+								<div>
+									<br/>
+									<br/>
 									<p>Tarif Journalier : {data.salaire} €/Jour</p>
 									<p>Nombre de personne : {data.nombre} </p>
 									
@@ -522,7 +523,7 @@ class Team extends React.Component {
 									
 									
 								
-								</ul>
+								</div>
 							
 						</Card.Description>
 						
@@ -556,7 +557,7 @@ class Team extends React.Component {
 			onClick={this.handleClick}>
 							TERMINER
 						</Button>
-		<Divider vertical>Selected</Divider>
+		<Divider vertical>séléctionées</Divider>
 	
 
 	</Segment>

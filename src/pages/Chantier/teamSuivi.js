@@ -542,7 +542,7 @@ class TeamSuivi extends React.Component {
 			onClick={this.handleClick}>
 							TERMINER
 						</Button>
-		<Divider vertical>Equipes sélectionnées</Divider>
+		<Divider vertical>sélectionnées</Divider>
 	
 
 	</Segment>

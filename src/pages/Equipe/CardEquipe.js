@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Card, Icon, Form,Input } from 'semantic-ui-react'
+import { Button, Card, Icon, Form,Input,Modal  } from 'semantic-ui-react'
 import firebase from "firebase/app";
 import $ from "jquery";
 import { db} from "../config"
@@ -24,6 +24,7 @@ class CardEquipe extends Component {
 		let id = 0;
 		let etat = false;
 		let modState = false;
+		let open2 = false;
 		let modIndex = 0;
 		this.state = {
 			teammate : 0,
@@ -37,7 +38,8 @@ class CardEquipe extends Component {
 			modIndex,
 			modState,
 			memberListNom,
-			memberListPrenom
+			memberListPrenom,
+			open2
 		};
 		
 	}
@@ -251,10 +253,10 @@ class CardEquipe extends Component {
 		
 		currentSize = currentSize + 2;
 		this.setState({size:currentSize});
-		tform.append("<label>First name</label>");
-		tform.append("<Input placeholder='First name'/>");
-		tform2.append("<label>Last Name</label>");
-		tform2.append("<Input placeholder='Last name'/>");
+		tform.append("<label>Prénom</label>");
+		tform.append("<Input placeholder='Prénom'/>");
+		tform2.append("<label>Nom</label>");
+		tform2.append("<Input placeholder='Nom'/>");
 		$("#namefield").append(tform);
 		$("#namefield").append(tform2);
 		
@@ -264,7 +266,7 @@ class CardEquipe extends Component {
 	
 	supprTeam(index){
 		
-		
+			this.setState({open2: false});
 			let tempTeam = [];
 		let yay = this.state.EquipeList[index];
 		console.log(yay.values.length, "supr");
@@ -601,27 +603,30 @@ if(this.state.EquipeList.length > 0){
 							{data.values.map((item,index) => (
 							
 							
-							<ul>
+								<div>
+									<br/>
 									<p>Membre {index+1} </p>
 									<p>Prénom: {item.name}</p>
 									<p>Nom : {item.surname}</p>
-										
+								</div>		
 									
 									
 								
-							</ul>
+							
 							))}
 							
 							
-								<ul>
-									
+								
+								<div>
+									<br/>
+									<br/>
 									<p>Tarif journalier : {data.salaire} €/jour</p>
 									<p>Nombre de personne dans l'équipe : {data.nombre} </p>
 										
-									
+								</div>	
 									
 								
-								</ul>
+								
 							
 						</Card.Description>
 						
@@ -635,13 +640,40 @@ if(this.state.EquipeList.length > 0){
 			MODIFIER	
          </Button>
 		 
-		           <Button
-				   negative
-			onClick={() => this.supprTeam(index)}
-			>
 
-			SUPPRIMER	
-         </Button>
+		 
+										<Modal
+											size = "mini"
+											onClose={() => this.setState({open2:false})}
+											onOpen={() => this.setState({open2:true})}
+											open={this.state.open2}
+										trigger={<Button
+											negative>
+											Supprimer
+										</Button>}
+										>
+										<Modal.Content>
+											<Modal.Description>
+												<p>
+													Voulez-vous vraiment supprimer cette équipe ?
+												</p>
+											</Modal.Description>
+										</Modal.Content>
+										<Modal.Actions>
+											<Button color='black' onClick={() => this.setState({open2:false})}>
+												Non
+											</Button>
+											<Button
+												content="Oui"
+												labelPosition='right'
+												icon='checkmark'
+												onClick={() => this.supprTeam(index)}
+												positive
+											/>
+										</Modal.Actions>
+										</Modal>		 
+		 
+		 
         </div>
       </Card.Content>
 				</Card>			
@@ -751,7 +783,7 @@ else{
 			<Button.Group vertical>
 				<Button
 				onClick={this.handleClick2}>
-					cliquer sur ici pour spécifier un membre de l’équipe
+					cliquer pour spécifier un membre de l’équipe
 				</Button>
 				<Button.Or />
 					<Button positive

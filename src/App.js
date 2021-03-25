@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import Sidebar from './components/Sidebar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route,Redirect } from 'react-router-dom';
 import Accueil from './pages/Accueil';
 import Dashboard from './pages/Dashboard/Dashboard'
 import Equipe from './pages/Equipe/Equipe'
@@ -50,11 +50,12 @@ class App extends React.Component{
 }
 
   render() {
-	  
+ 	  
   if(this.state.test){
 		console.log("mynameis : "+	this.state.test.displayName);
   return (
   <div className="page-container">
+  
   <div className="content-wrap">
 	
     <Router>
@@ -62,6 +63,7 @@ class App extends React.Component{
           <Sidebar username={this.state.test.displayName} user={this.state.test}/>
 		 
           <Switch>
+		  
           <Route path='/accueil' exact component={Accueil}/>
           <Route path='/dashboard' exact component={Dashboard}/>
           <Route path='/equipe' exact component={Equipe}/>    
@@ -70,14 +72,22 @@ class App extends React.Component{
           <Route path='/support' exact component={Support}/>  
           <Route path='/connexion' exact component={Connexion}/>
           <Route path='/inscription' exact component={Inscription}/>
+		  <Redirect to="/accueil" />
           </Switch>
 		 
 		
     </Router>
+	
+
+
+
+
     </div>
 		
      <Footer />
+	
     </div>
+	
 
     
   
@@ -93,6 +103,7 @@ class App extends React.Component{
           <Sidebar username={""} user={null}/>
 		 
           <Switch>
+		  
           <Route path='/accueil' exact component={Accueil}/>
           <Route path='/dashboard' exact component={Dashboard}/>
           <Route path='/equipe' exact component={Equipe}/>    
@@ -101,6 +112,7 @@ class App extends React.Component{
           <Route path='/support' exact component={Support}/>  
           <Route path='/connexion' exact component={Connexion}/>
           <Route path='/inscription' exact component={Inscription}/>
+		  <Redirect to="/accueil" />
           </Switch>
 		 
 		
